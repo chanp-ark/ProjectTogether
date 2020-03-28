@@ -1,0 +1,63 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2em auto;
+    max-width: 250px;
+    box-shadow: 0 1px 4px 1.5px rgba(100,100,100,0.2);
+    padding: 1.5em;
+    border-radius: 5px;
+    line-height: 2em;
+}
+
+.login-header {
+    display: flex;
+    flex-direction: column;
+    margin: 1em auto 0.3em auto;
+    border: 2px solid gainsboro;
+    padding: 0.2em 0.8em;
+}
+
+.login-label {
+    display: flex;
+    margin: 0.5em;
+    justify-content: center;
+    font-weight: 600;
+
+}
+
+.login-input {
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid lightgrey;
+    padding: 0.3em 1em;
+
+}
+
+.login-button {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0;
+}
+
+.submit-login {
+    display: flex;
+    justify-content: center;
+    padding: 0.3em 3em;
+    margin: 2em auto;
+    background-color: #0077FF;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.link-to-signup {
+    display: flex;
+    justify-content: center;
+    font-size: 5%;
+    color: blue;
+    text-decoration: none;
+    font-weight: 400;
+}

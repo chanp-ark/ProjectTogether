@@ -1,0 +1,12 @@
+html {
+    overflow:   scroll;
+}  
+
+::-webkit-scrollbar {
+      width: 0px;
+      background: transparent; /* make scrollbar transparent */
+}
+
+.router-component {
+    margin-top: 100px;
+}

@@ -1,0 +1,33 @@
+.button-container {
+    margin: 0;
+    text-align: center;
+}
+
+.button-submit {
+    padding: 1em 0.8em;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.button-submit:focus {
+    outline: none;
+}
+
+.button-submit:hover {
+    background-color:#0077FF;
+    transition: all ease-in-out 200ms;
+    border: 1px solid white;
+}
+
+.button-submit a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    padding: 1em;
+}
+
+.button-submit a:hover {
+    color: white;
+}
+
+
