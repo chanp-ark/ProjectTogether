@@ -25,6 +25,8 @@ router.get(
     }
 )
 
+// if app ever goes big, add in a refresh token
+
 // @ method: POST
 // @ param: /signup
 // @ description: User Sign Up
