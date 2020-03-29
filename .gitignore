@@ -27,7 +27,7 @@ yarn.lock
 
 # configs
 backend/configs/
-backend/routes/
+
 
 # misc
 .DS_Store
