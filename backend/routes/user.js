@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require("../models/User");
+const auth = require("../middleware/auth")
 
 // to see users, delete this later
     // @ method: GET
@@ -22,8 +23,7 @@ router.get(
                 message: "Error in getting users"
             })
         }
-    }
-)
+    })
 
 // if app ever goes big, add in a refresh token
 
@@ -63,7 +63,7 @@ router.post(
                 }
             }
             jwt.sign(
-                payload, 'cha$hmon3y', { expiresIn: 10000 },
+                payload, 'ch4$hm0n3y', { expiresIn: '10h' },
                 (err, token) => {
                     if (err) {
                         return handleError(err)
@@ -100,17 +100,12 @@ router.post(
                 return res.status(500).json({
                     message: "User does not exist!"
                 })
-            } else {
-// ***** ERASE THIS CONSOLE.LOG LATER ***************
-                console.log(user)
-            }
+            } 
             // if user is not found, return res.json with error message
             // compare password with bcrypt and wait
             const passwordMatch = await bcrypt.compare(password, user.password)
             // if compare evaluates to false, handle error
-            if (!passwordMatch) {
-                return res.status(400).json({message: "Email/Password is not correct"})
-            }
+            if (!passwordMatch) return res.status(400).json({message: "Email/Password is not correct"})
             // create payload
             const payload = {
                 user: {
@@ -119,15 +114,14 @@ router.post(
             }
             // create jwt
             jwt.sign(
-                payload, 'y0ungw0n33',  { expiresIn: 10000 },
+                payload, 'ch4$hm0n3y',  { expiresIn: '10h'},
                 (err, token) => {
                     if (err) throw err
                     res.status(200).json({
                         message: "You have successfully logged in",
-                        token
+                        token: token
                     })
-                }
-            )
+                })
         } catch(err) {
             console.error(err.message)
             // return res.json with error message
@@ -135,10 +129,28 @@ router.post(
                 message: "Server Error"
             })
         }
-        
-        
     }
-    
 )
+
+
+// @ method: GET
+// @ param: /:username
+// @ description: get logged in user
+
+
+router.get("/profile/edit", auth, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      const {username, email} = user
+      res.json({
+          username: username,
+          email: email
+      });
+    } catch (err) {
+      res.send({ message: err });
+    }
+  });
+
+
 
 module.exports = router;
