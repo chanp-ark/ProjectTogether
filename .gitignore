@@ -25,10 +25,6 @@ yarn.lock
 # production
 /build
 
-# configs
-backend/configs/
-
-
 # misc
 .DS_Store
 .env
