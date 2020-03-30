@@ -17,9 +17,7 @@ const Navbar = () => {
   const toggleToTrue = () => {
     if (toggle === false) setToggle(!toggle)
   }
-  
-  console.log(toggle)
-  
+    
   return (
     <header>
       <div className="navbar-container">

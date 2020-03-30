@@ -6,6 +6,16 @@ import "./project.css"
 
 const Projects = ({projects}) => {
 
+    // GET projects
+    /* this gets all users
+    fetch('http://18.216.121.242:4000/user')
+            .then(async response => {
+                const data = await response.json();
+                if(response) console.log(data)
+            })
+    */
+    
+    
     return (
         <div className="project-container">
             <div className="project-title">Projects</div>

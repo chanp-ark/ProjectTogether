@@ -8,13 +8,13 @@ const SignUp = () => {
     const initialState = {
         username: '',
         email: '',
-        pw: '',
+        password: '',
         confirmPw: '',
     }
     
     const [userInfo, setUserInfo] = React.useState(initialState)
     
-    const { username, email, pw, confirmPw } = userInfo
+    const { username, email, password, confirmPw } = userInfo
     
     const handleChange = e => {
         e.preventDefault()
@@ -23,22 +23,41 @@ const SignUp = () => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        if (pw !== confirmPw) {
+        if (password !== confirmPw) {
             alert("Passwords do not match!")
             setUserInfo({
                 ...userInfo,
-                pw: '',
-                confirmPw: ''
-            })
-        } else {
-            setUserInfo({
-                username: '',
-                email: '',
-                pw: '',
+                password: '',
                 confirmPw: ''
             })
         }
-        console.log(userInfo)
+        // POST
+            // server IP 'http://18.216.121.242:4000/user/signup'
+        fetch('http://localhost:4000/user/signup', {
+            method:'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({username, email, password})
+        })
+            .then(response => response.json(response))
+            .then(data => {
+                console.log("Success: ", data)
+            })
+            .catch(err => {
+                console.error("Error: ", err)
+            })
+        
+    
+        setUserInfo({
+            username: '',
+            email: '',
+            password: '',
+            confirmPw: ''
+        })
+        
     }
     
     return (
@@ -68,8 +87,8 @@ const SignUp = () => {
                 <label className="signup-label">Password</label>
                 <input 
                     className="signup-input"
-                    name="pw"
-                    value={pw}
+                    name="password"
+                    value={password}
                     type="password"
                     placeholder="password"
                     onChange={handleChange}
