@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-
 // Format of token
     // authorization: Bearer [access_token]
 
@@ -11,7 +10,7 @@ module.exports = function(req, res, next) {
         const bearer = bearerHeader.split(' ');
         const token = bearer[1];
         // synchronous function returns the payload decoded if valid
-        const decoded = jwt.verify(token, 'ch4$hm0n3y');
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decoded.user;
         next()
     } else {

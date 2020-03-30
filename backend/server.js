@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const StartMongoServer = require("./configs/db");
-
+require('dotenv').config();
+ 
 const user = require("./routes/user");
 
 StartMongoServer();
@@ -20,12 +21,6 @@ app.get("/", (req, res) => {
 
 
 app.use("/user", user)
-
-
-
-
-
-
 
 app.listen(PORT, (req, res) => {
     console.log(`Server started at port ${PORT}`)

@@ -63,7 +63,7 @@ router.post(
                 }
             }
             jwt.sign(
-                payload, 'ch4$hm0n3y', { expiresIn: '10h' },
+                payload, process.env.SECRET_KEY, { expiresIn: '10h' },
                 (err, token) => {
                     if (err) {
                         return handleError(err)
@@ -114,7 +114,7 @@ router.post(
             }
             // create jwt
             jwt.sign(
-                payload, 'ch4$hm0n3y',  { expiresIn: '10h'},
+                payload, process.env.SECRET_KEY,  { expiresIn: '10h'},
                 (err, token) => {
                     if (err) throw err
                     res.status(200).json({
