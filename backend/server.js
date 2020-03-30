@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+
 const StartMongoServer = require("./configs/db");
 require('dotenv').config();
  
@@ -7,6 +9,8 @@ const user = require("./routes/user");
 
 StartMongoServer();
 const app = express();
+
+app.use(cors())
 
 // PORT
 const PORT = process.env.PORT || 4000;

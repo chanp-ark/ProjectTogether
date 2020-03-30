@@ -34,6 +34,7 @@ router.get(
 router.post(
     "/signup", 
     async (req, res) => {
+        console.log(req)
         const {username, email, password} = req.body;
         try {
             // create a variable 'user' equal to the finding one User in database
@@ -42,18 +43,15 @@ router.post(
             if (user) return res.status(400).json({ message: "User already exists" })
             // reassign user a new User model with username, email, and password
             user = new User ({ username, email, password })
-            
             // *** bcrypt ***
             // generate salt and wait
             let salt = await bcrypt.genSalt(10)
             // hash password using bcrypt and wait
             user.password = await bcrypt.hash(password, salt)
-            
             // save user 
             await user.save(err => {
                 if (err) return handleError(err)
             })
-            
             // create jwt 
                 // jwt.sign(payload, secret, [options, callback])
             // create a variable called pay load with the user's id
@@ -77,7 +75,7 @@ router.post(
                 }
             )
         } catch (err) {
-            console.error(err.message)
+            console.error(err)
             res.status(500).json({message: err})
         }
     }
