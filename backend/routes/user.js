@@ -34,7 +34,6 @@ router.get(
 router.post(
     "/signup", 
     async (req, res) => {
-        console.log(req)
         const {username, email, password} = req.body;
         try {
             // create a variable 'user' equal to the finding one User in database
