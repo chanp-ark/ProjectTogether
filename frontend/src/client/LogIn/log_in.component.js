@@ -19,14 +19,9 @@ const LogIn = () => {
         setLogin({...login, [e.target.name]: e.target.value})
     }
     const handleSubmit = e => {
-        console.log('clicked handlesubmit')
         e.preventDefault()
         // connect to backend
-        setLogin({
-            username: '',
-            password: ''
-        })
-        console.log(login)
+        
     }
         
     return (

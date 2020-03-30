@@ -1,13 +1,17 @@
 import React from 'react';
 
-import SignUp from "../SignUp/sign_up.component"
-
-// for now, go directly to login
+import './home.styles.css'
 
 const Home = () => {
     return (
-        <div>
-           <SignUp /> 
+        <div className="home-container">
+           <div className="home-title">
+               <h1>This is the Home Page</h1>
+           </div>
+           <div className="home-content">
+                <p>Just adding some dummy content until I figure out what I want to put on the home page</p>
+
+           </div>
         </div>
         
     )
