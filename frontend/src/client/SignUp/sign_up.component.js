@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import "./sign_up.styles.css"
 
-const SignUp = () => {
+const SignUp = ({routeProps}) => {
     
     const initialState = {
         username: '',
@@ -35,7 +35,6 @@ const SignUp = () => {
             // server IP 'http://18.216.121.242:4000/user/signup'
         fetch('http://localhost:4000/user/signup', {
             method:'POST',
-            mode: 'cors',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -43,21 +42,11 @@ const SignUp = () => {
             body: JSON.stringify({username, email, password})
         })
             .then(response => response.json(response))
-            .then(data => {
-                console.log("Success: ", data)
-            })
-            .catch(err => {
-                console.error("Error: ", err)
-            })
-        
-    
-        setUserInfo({
-            username: '',
-            email: '',
-            password: '',
-            confirmPw: ''
-        })
-        
+            .then(() => alert("Your account has been created"))
+            .then(() => routeProps.history.push("/about"))
+            .catch(() => alert('Your account could not be created. Please try again'))
+        // redirect
+       
     }
     
     return (

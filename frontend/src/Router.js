@@ -53,7 +53,15 @@ const Main = () => {
         <main>
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route exact path='/about' component={About} />
+                <Route 
+                    exact 
+                    path='/about' 
+                    render={ routeProps => 
+                        < About
+                            routeProps={routeProps} 
+                        />  
+                    }
+                />
                 <Route 
                     exact 
                     path='/projects' 
@@ -76,7 +84,15 @@ const Main = () => {
                         /> 
                     }
                 />
-                <Route exact path='/signup' component={SignUp} />
+                <Route 
+                    exact 
+                    path='/signup' 
+                    render= { routeProps => 
+                        <SignUp 
+                            routeProps={routeProps}
+                        />
+                    } 
+                />
                 <Route exact path='/login' component={LogIn} />
             </Switch>
         </main>
