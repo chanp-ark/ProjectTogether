@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import "./edit.styles.css"
 
 const EditProfile = () => {
-    // check if user matches token. if false, send to their own profile edit
+    // type in password if want to edit
+    
     return (
         <div className="edituser-container">
             <div className="edituser-title">

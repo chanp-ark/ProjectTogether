@@ -1,8 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+
 import "./log_in.styles.css"
 
-const LogIn = ({routeProps}) => {
+const LogIn = ({routeProps, token, setToken}) => {
     
     const initialState = {
         email: '',
@@ -14,14 +15,19 @@ const LogIn = ({routeProps}) => {
     // pull email and password out
     const {email, password} = login
     
+    // state for token
+    
+    
     const handleChange = e => {
         e.preventDefault()
         setLogin({...login, [e.target.name]: e.target.value})
     }
+    
+    
     const handleSubmit = e => {
         e.preventDefault()
         // connect to backend
-        fetch('http://18.222.188.107:4000/user/login', {
+        fetch('http://localhost:4000/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,15 +40,20 @@ const LogIn = ({routeProps}) => {
                 if (!data.token) {
                     alert("Email/Password is not correct")
                 } else {
-                    //save token in cookie
+                    //save data to local or cookie
+                    localStorage.setItem("token", data.token)
+                    setToken(true)
+                    // redirect
                     routeProps.history.push("/user/profile/edit")
-
                 }
             })
-            .catch(()=>alert("Log In has failed!"))
-        // reset state
+            .then(() => {
+                console.log(localStorage.getItem("token"))
+            })
+            .catch((err) => console.error(err))
     }
-        
+      
+    
     return (
         <div className="login-container" >
             <h2 className="login-header">WELCOME</h2>

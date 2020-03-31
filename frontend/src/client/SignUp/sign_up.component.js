@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import "./sign_up.styles.css"
 
-const SignUp = ({routeProps}) => {
+const SignUp = ({routeProps, token, setToken}) => {
     
     const initialState = {
         username: '',
@@ -32,7 +32,7 @@ const SignUp = ({routeProps}) => {
             })
         }
         // POST
-        fetch('http://18.216.121.242:4000/user/signup', {
+        fetch('http://localhost:4000/user/signup', {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,13 +46,16 @@ const SignUp = ({routeProps}) => {
                     alert('Your account could not be created. Please try again')
                 } else {
                     //save data to local or cookie
-                    
+                    localStorage.setItem("token", data.token)
+                    setToken(true)
                     // redirect
-                    routeProps.history.push("/profile/edit")
+                    routeProps.history.push("/user/profile/edit")
                 }
             })
+            .then(() => {
+                console.log(localStorage.getItem("token"))
+            })
             .catch((err) => console.error(err))
-       
     }
     
     return (

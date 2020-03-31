@@ -11,7 +11,7 @@ import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
-const Main = () => {
+const Main = ({token, setToken}) => {
     
        // fill initialState with projects in database
        const initialProjects = [
@@ -51,7 +51,6 @@ const Main = () => {
     
     const [projects, setProjects] = React.useState(initialProjects)
     
-    
     return (
         <main>
             <Switch>
@@ -82,17 +81,35 @@ const Main = () => {
                             setProjects={setProjects}
                         /> 
                     } />
-                <Route 
-                    exact 
-                    path='/signup' 
-                    render= { routeProps => 
-                        <SignUp routeProps={routeProps} />
-                    } />
+                
+                { !token ?
+                    <Route 
+                        exact 
+                        path='/signup' 
+                        render= { routeProps => 
+                            <SignUp 
+                                routeProps={routeProps}
+                                token={token}
+                                setToken={setToken} />
+                        } />
+                    :
+                    <Route 
+                        exact 
+                        path='/signup' 
+                        render= { routeProps => 
+                            <Home />
+                        } />
+                }
+                
                 <Route 
                     exact 
                     path='/login' 
                     render={ routeProps => 
-                        <LogIn routeProps={routeProps}/>
+                        <LogIn 
+                            routeProps={routeProps}
+                            token={token}
+                            setToken={setToken}
+                            />
                     } />
                 <Route 
                     exact 
@@ -103,6 +120,8 @@ const Main = () => {
                     // need to replace profile with username
                     path='/user/profile' 
                     render={ routeProps =>  <Profile routeProps={routeProps}/> } />
+                }
+                
                 <Route 
                     exact 
                     path='/user/profile/edit' 
