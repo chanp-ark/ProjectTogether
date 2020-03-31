@@ -49,7 +49,7 @@ router.post(
             user.password = await bcrypt.hash(password, salt)
             // save user 
             await user.save(err => {
-                if (err) return handleError(err)
+                if (err) console.error(err)
             })
             // create jwt 
                 // jwt.sign(payload, secret, [options, callback])
@@ -60,10 +60,10 @@ router.post(
                 }
             }
             jwt.sign(
-                payload, process.env.SECRET_KEY, { expiresIn: '10h' },
+                payload, process.env.SECRET_KEY, { expiresIn: '3h' },
                 (err, token) => {
                     if (err) {
-                        return handleError(err)
+                        console.error(err)
                     } else {
                         res.status(200).json({
                             message: "User saved!",
@@ -111,7 +111,7 @@ router.post(
             }
             // create jwt
             jwt.sign(
-                payload, process.env.SECRET_KEY,  { expiresIn: '10h'},
+                payload, process.env.SECRET_KEY,  { expiresIn: '3h'},
                 (err, token) => {
                     if (err) throw err
                     res.status(200).json({
