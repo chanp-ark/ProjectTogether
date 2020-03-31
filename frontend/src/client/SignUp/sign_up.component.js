@@ -32,27 +32,33 @@ const SignUp = ({routeProps}) => {
             })
         }
         // POST
-            // server IP 'http://18.216.121.242:4000/user/signup'
-        fetch('http://localhost:4000/user/signup', {
+        fetch('http://18.216.121.242:4000/user/signup', {
             method:'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({username, email, password})
         })
             .then(response => response.json(response))
-            .then(() => alert("Your account has been created"))
-            .then(() => routeProps.history.push("/about"))
-            .catch(() => alert('Your account could not be created. Please try again'))
-        // redirect
+            .then(data => {
+                // token is in this data
+                if (!data.token) {
+                    alert('Your account could not be created. Please try again')
+                } else {
+                    //save data to local or cookie
+                    
+                    // redirect
+                    routeProps.history.push("/profile/edit")
+                }
+            })
+            .catch((err) => console.error(err))
        
     }
     
     return (
         <div className="signup-container" elevation={3}>
             <h2 className="signup-header">SIGN UP</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e=>handleSubmit(e)}>
                 <label className="signup-label">Username</label>
                 <input 
                     className="signup-input"

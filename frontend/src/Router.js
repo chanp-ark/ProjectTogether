@@ -7,6 +7,9 @@ import LogIn from "./client/LogIn/log_in.component"
 import About from "./client/About/about";
 import Projects from "./client/Projects/projects"
 import MultiStepForm from './client/Projects/CreateProject/multistep-form.component';
+import User from './client/User/user.component';
+import Profile from './client/User/Profile/profile.component';
+import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
 const Main = () => {
     
@@ -57,11 +60,8 @@ const Main = () => {
                     exact 
                     path='/about' 
                     render={ routeProps => 
-                        < About
-                            routeProps={routeProps} 
-                        />  
-                    }
-                />
+                        <About routeProps={routeProps} />  
+                    } />
                 <Route 
                     exact 
                     path='/projects' 
@@ -71,29 +71,42 @@ const Main = () => {
                             projects={projects}
                             setProjects={setProjects}
                         />
-                    } 
-                />
+                    } />
                 <Route 
                     exact 
                     path='/projects/new' 
                     render={ routeProps => 
-                        < MultiStepForm 
+                        <MultiStepForm 
                             routeProps={routeProps} 
                             projects={projects}
                             setProjects={setProjects}
                         /> 
-                    }
-                />
+                    } />
                 <Route 
                     exact 
                     path='/signup' 
                     render= { routeProps => 
-                        <SignUp 
-                            routeProps={routeProps}
-                        />
-                    } 
-                />
-                <Route exact path='/login' component={LogIn} />
+                        <SignUp routeProps={routeProps} />
+                    } />
+                <Route 
+                    exact 
+                    path='/login' 
+                    render={ routeProps => 
+                        <LogIn routeProps={routeProps}/>
+                    } />
+                <Route 
+                    exact 
+                    path='/user' 
+                    render={ routeProps => <User routeProps={routeProps}/> } />
+                <Route 
+                    exact 
+                    // need to replace profile with username
+                    path='/user/profile' 
+                    render={ routeProps =>  <Profile routeProps={routeProps}/> } />
+                <Route 
+                    exact 
+                    path='/user/profile/edit' 
+                    component={EditProfile} />
             </Switch>
         </main>
     )
