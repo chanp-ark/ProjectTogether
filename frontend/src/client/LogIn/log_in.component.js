@@ -27,32 +27,37 @@ const LogIn = ({routeProps, token, setToken}) => {
     const handleSubmit = e => {
         e.preventDefault()
         // connect to backend
-        fetch('http://localhost:4000/user/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password}) 
-        })
-            .then(response => response.json())
-            .then(data => {
-                // data has token info
-                if (!data.token) {
-                    alert("Email/Password is not correct")
-                } else {
-                    //save data to local or cookie
-                    localStorage.setItem("token", data.token)
-                    setToken(true)
-                    // redirect
-                    routeProps.history.push("/user/profile/edit")
-                }
+        if (!(email && password)) {
+            alert("You must enter all fields")
+        } else {
+            fetch('http://localhost:4000/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password}) 
             })
-            .then(() => {
-                console.log(localStorage.getItem("token"))
-            })
-            .catch((err) => console.error(err))
+                .then(response => response.json())
+                .then(data => {
+                    // data has token info
+                    if (!data.token) {
+                        alert(data.message)
+                    } else {
+                        //save data to local or cookie
+                        localStorage.setItem("token", data.token)
+                        setToken(true)
+                        // redirect
+                        routeProps.history.push("/users/profile/edit")
+                    }
+                })
+                .catch((err) => console.error(err))
+        }
     }
-      
+    
+    React.useEffect(()=> {
+        if(token) routeProps.history.push("/users/profile/edit")
+    }, [token, routeProps.history])
+    
     
     return (
         <div className="login-container" >
@@ -81,7 +86,7 @@ const LogIn = ({routeProps, token, setToken}) => {
                     value="Log In"
                     type="submit"
                 />
-                <Link className="link-to-signup" to="/signup">Not registered? Click here to sign up</Link>
+                <Link className="link-to-signup" to="/users/signup">Not registered? Click here to sign up</Link>
             </form>
         </div>
     )

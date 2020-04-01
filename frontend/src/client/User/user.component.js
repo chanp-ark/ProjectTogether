@@ -4,14 +4,39 @@ import "./user.styles.css"
 
 const User = () => {
     
+    const [allUsers, setAllUsers] = React.useState([])
+    
+    fetch("http://localhost:4000/users",
+        {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => data['usernames'])
+        .then(users => {
+            if (users.length > allUsers) setAllUsers(allUsers.concat(users))
+        })
+        .catch(err=> {
+            console.error(err)
+        })
+
+
+
     return (
-        <div className="user-container">
+        <div>
             <div className="user-title">
-                <h1>THIS IS THE USERS PAGE</h1>
+                <div>Collaborators</div>
+                <div className="subtitle">Curious about who is interested in building something with you?</div>
             </div>
-            <div className='user-content'>
-                <p>some user content blah blah lorem ipsum</p>
+            <div className="user-container">
+                { allUsers.map( (user, i) => (
+                    <div key={i} className="user-content">
+                        <p>{user}</p>    
+                    </div>  
+                ))}
             </div>
+            
+            
+            
         </div>
     )
 }

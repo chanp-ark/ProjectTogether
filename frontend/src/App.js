@@ -3,9 +3,9 @@ import Navbar from "./client/Navbar/Navbar.component"
 import Router from "./Router"
 import './App.css';
 
+
 function App() {
   // for token
-  
   const [token, setToken] = React.useState(false)
   console.log("token :", token, "(app.js)")
   

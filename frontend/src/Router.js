@@ -51,6 +51,8 @@ const Main = ({token, setToken}) => {
     
     const [projects, setProjects] = React.useState(initialProjects)
     
+    
+    
     return (
         <main>
             <Switch>
@@ -81,29 +83,18 @@ const Main = ({token, setToken}) => {
                             setProjects={setProjects}
                         /> 
                     } />
-                
-                { !token ?
-                    <Route 
-                        exact 
-                        path='/signup' 
-                        render= { routeProps => 
-                            <SignUp 
-                                routeProps={routeProps}
-                                token={token}
-                                setToken={setToken} />
-                        } />
-                    :
-                    <Route 
-                        exact 
-                        path='/signup' 
-                        render= { routeProps => 
-                            <Home />
-                        } />
-                }
-                
                 <Route 
                     exact 
-                    path='/login' 
+                    path='/users/signup' 
+                    render= { routeProps => 
+                        <SignUp 
+                            routeProps={routeProps}
+                            token={token}
+                            setToken={setToken} />
+                    } />
+                <Route 
+                    exact 
+                    path='/users/login' 
                     render={ routeProps => 
                         <LogIn 
                             routeProps={routeProps}
@@ -113,19 +104,20 @@ const Main = ({token, setToken}) => {
                     } />
                 <Route 
                     exact 
-                    path='/user' 
+                    path='/users' 
                     render={ routeProps => <User routeProps={routeProps}/> } />
                 <Route 
                     exact 
-                    // need to replace profile with username
-                    path='/user/profile' 
-                    render={ routeProps =>  <Profile routeProps={routeProps}/> } />
-                }
+                    path='/users/profile/:id' 
+                    render={ routeProps => <Profile routeProps={routeProps} />}
+                / >
+                
                 
                 <Route 
                     exact 
-                    path='/user/profile/edit' 
-                    component={EditProfile} />
+                    path='/users/profile/edit' 
+                    render={ routeProps => 
+                        <EditProfile routeProps={routeProps} token={token}/>} />
             </Switch>
         </main>
     )

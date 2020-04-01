@@ -23,40 +23,46 @@ const SignUp = ({routeProps, token, setToken}) => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        if (password !== confirmPw) {
+        if (!(username && email && password)) {
+            alert("You must enter all fields")
+            routeProps.history.push('/users/signup')
+        } else if (password !== confirmPw) {
             alert("Passwords do not match!")
             setUserInfo({
                 ...userInfo,
                 password: '',
                 confirmPw: ''
             })
-        }
-        // POST
-        fetch('http://localhost:4000/user/signup', {
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({username, email, password})
-        })
-            .then(response => response.json(response))
-            .then(data => {
-                // token is in this data
-                if (!data.token) {
-                    alert('Your account could not be created. Please try again')
-                } else {
-                    //save data to local or cookie
-                    localStorage.setItem("token", data.token)
-                    setToken(true)
-                    // redirect
-                    routeProps.history.push("/user/profile/edit")
-                }
+            routeProps.history.push('/users/signup')
+            return false
+        } else { 
+            fetch('http://localhost:4000/users/signup', 
+            {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username, email, password})
             })
-            .then(() => {
-                console.log(localStorage.getItem("token"))
-            })
-            .catch((err) => console.error(err))
-    }
+                .then(response => response.json(response))
+                .then(data => {
+                    // token is in this data
+                    if (data.message !== "User saved!") {
+                        alert(data.message)
+                    } else if (!data.token) {
+                        alert(data.message)
+                    } else {
+                        localStorage.setItem("token", data.token)
+                        setToken(true)
+                        routeProps.history.push("/user/profile/edit")
+                    }
+                })
+                .catch((err) => console.error(err))
+    }}
+    
+    React.useEffect(()=> {
+        if(token) routeProps.history.push("/users/profile/edit")
+    }, [token, routeProps.history])
     
     return (
         <div className="signup-container" elevation={3}>
@@ -107,7 +113,7 @@ const SignUp = ({routeProps, token, setToken}) => {
                     type='submit'
                     onSubmit={handleSubmit}
                 />
-                <Link className="link-to-login" to="/login">Already registered? Click here to log in</Link>
+                <Link className="link-to-login" to="/users/login">Already registered? Click here to log in</Link>
             </form>
         </div>
     )

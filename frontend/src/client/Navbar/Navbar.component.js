@@ -1,12 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 
 import "./navbar.styles.css"
 
 const Navbar = ({token, setToken}) => {
-  
-    
+
   const [toggle, setToggle] = React.useState(true)
   
   const handleToggle = e => {
@@ -18,32 +17,52 @@ const Navbar = ({token, setToken}) => {
     if (toggle === false) setToggle(!toggle)
   }
   
+  let curRoute = useParams()
+  let pathToProfile = `users/profile/${curRoute['username']}`
+  
   const logout = () => {
     localStorage.removeItem("token")
     setToken(false)
     toggleToTrue()
   }
+  
+  const loggedInTabs = [
+    <li key="logout" ><Link onClick={logout} to='/users/login'>Log Out</Link></li>, 
+    <li key="profile"><Link onClick={toggleToTrue} to={pathToProfile} >Profile</Link></li>
+  ]
+  
+  const alwaysInTabs = [
+    <li key="projects"><Link onClick={toggleToTrue} to='/projects'>Projects</Link></li>,
+    <li key="allusers"><Link onClick={toggleToTrue} to='/users'>Users</Link></li>,
+    <li key="about"><Link onClick={toggleToTrue} to='/about'>About</Link></li>
+  ]
+  
+  let iconImage = "https://img.icons8.com/android/22/FFFFFF/plus.png"
+  !toggle && (iconImage = "https://img.icons8.com/ios/26/FFFFFF/circled-x.png") 
+  
+  const dropIconTab = [
+    <li key="dropdownicon" className="dropdown-icon">
+      <Link to="/" onClick={e=>handleToggle(e)}>
+        <img alt="responsive navbar icon" samesite='none' secure="true" src={iconImage}/>
+      </Link>
+    </li>
+  ]
+
     
   return (
     <header>
       <div className="navbar-container">
-        <Link className="home-icon" to='/' 
-          onClick={toggleToTrue}> <div>P \ T</div></Link>
+        <Link className="home-icon" to='/' onClick={toggleToTrue}> <div>P \ T</div></Link>
         <nav className="navbar-nav">
           <ul className="navbar-ul">
-            <li className="dropdown-icon">
-              <Link to="/" onClick={e=>handleToggle(e)}>
-                <img alt="responsive navbar icon" samesite='none' secure='true' src="https://img.icons8.com/android/24/FFFFFF/plus.png"/>
-              </Link>
-            </li>
+            { dropIconTab }
             <div className={toggle ? "navbar-others" : "dropdown-navbar"}>
               { !token ?
-                  <li><Link onClick={toggleToTrue} to='/login'>Login</Link></li>
+                  <li key="login"><Link onClick={toggleToTrue} to='/users/login'>Login</Link></li>
                   :
-                  <li><Link onClick={logout} to='/login'>Log Out</Link></li>
+                  loggedInTabs
               }
-              <li><Link onClick={toggleToTrue} to='/projects'>Projects</Link></li>
-              <li><Link onClick={toggleToTrue} to='/about'>About</Link></li>
+              { alwaysInTabs }
             </div>
           </ul>
         </nav>

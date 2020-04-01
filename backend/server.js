@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 })
 
 
-app.use("/user", user)
+app.use("/users", user)
 
 app.listen(PORT, (req, res) => {
     console.log(`Server started at port ${PORT}`)
