@@ -14,8 +14,9 @@ router.get(
     async (req, res) => {
         try {
             users = await User.find()
-            let usernames = users.map(user => user.username)
-            res.status(200).json({usernames})
+            
+            let profile = users.map(user => user.profile)
+            res.status(200).json({users})
         } catch {
             return res.status(500).json({
                 message: "Error in getting users"
@@ -35,7 +36,13 @@ router.post(
         try {
             let user = await User.findOne({email})
             if (user) return res.status(400).json({ message: "User already exists" })
-            user = new User ({ username, email, password })
+            user = new User ({ 
+                email: email, 
+                password: password, 
+                profile: {
+                    username 
+                }
+            })
             // *** bcrypt ***
             let salt = await bcrypt.genSalt(10)
             user.password = await bcrypt.hash(password, salt)
@@ -55,11 +62,13 @@ router.post(
                     } else {
                         res.status(200).json({
                             message: "User saved!",
-                            token
+                            token,
+                            user
                         })
                     }
                 }
             )
+
         } catch (err) {
             console.error("catch", err)
             res.status(500).json({message: err})
@@ -125,22 +134,31 @@ router.get("/profile/:id", async (req, res) => {
 // @ method: GET
 // @ param: /:username/edit
 // @ description: get logged in user
-router.get("/profile/:id/edit", auth, async (req, res) => {
-    if (req.user.id === undefined) {
-        res.json({ message: 'Unauthorized' })
-    }
+// router.get("/profile/:id/edit", auth, async (req, res) => {
+//     if (req.user.id === undefined) {
+//         res.json({ message: 'Unauthorized' })
+//     }
+//     try {
+//       const user = await User.findById(req.user.id);
+//       const {username, email} = user
+//       res.json({
+//           username: username,
+//           email: email
+//       });
+//     } catch (err) {
+//       res.status(500).send({ message: err });
+//     }
+//   });
+
+// @method: PUT
+// @ param: /:username/edit
+// @ description: edit user info
+router.put("/profile/:username/edit", async(req, res) => {
     try {
-      const user = await User.findById(req.user.id);
-      const {username, email} = user
-      res.json({
-          username: username,
-          email: email
-      });
-    } catch (err) {
-      res.status(500).send({ message: err });
+        res.send({message: "PUT request"})
+    } catch {
+        res.send({message: "error"})
     }
-  });
-
-
+})
 
 module.exports = router;

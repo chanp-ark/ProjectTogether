@@ -13,11 +13,10 @@ const app = express();
 app.use(cors())
 
 // PORT
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
     res.status(400).json({ message: "API Working"})
