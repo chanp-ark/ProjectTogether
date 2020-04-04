@@ -19,6 +19,9 @@ const UserSchema = new mongoose.Schema({
         iLike: String,
         iAppreciate: String,
     },
+    groups: {
+        type: Object
+    },
     createdAt: {
         type: Date,
         default: Date.now()
