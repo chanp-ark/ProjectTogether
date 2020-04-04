@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken, id}) => {
+const Navbar = ({token, setToken, id, setId}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -19,7 +19,9 @@ const Navbar = ({token, setToken, id}) => {
     
   const logout = () => {
     localStorage.removeItem("token")
+    localStorage.removeItem("id")
     setToken(false)
+    setId(false)
     toggleToTrue()
   }
   

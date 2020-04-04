@@ -42,7 +42,7 @@ const LogIn = ({routeProps, token, setToken, id, setId}) => {
                         localStorage.setItem("token", data.token)
                         localStorage.setItem("id", data.username)
                         setId(data.username)
-                        setToken(true)
+                        setToken(data.token)
                     }
                 })
                 .then(() => {

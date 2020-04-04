@@ -14,7 +14,7 @@ import EditProfile from './client/User/Profile/EditProfile/edit.component';
 const Main = ({token, setToken, id, setId}) => {
     // groups
     const [groups, setGroups] = React.useState([])
-        
+    console.log(groups)
     React.useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
@@ -53,8 +53,10 @@ const Main = ({token, setToken, id, setId}) => {
                     render={ routeProps => 
                         <MultiStepForm 
                             routeProps={routeProps} 
+                            token={token}
                             groups={groups}
                             setGroups={setGroups}
+                            id={id}
                         /> 
                     } />
                 <Route 

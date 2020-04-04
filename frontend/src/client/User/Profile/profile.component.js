@@ -12,11 +12,7 @@ const Profile = ({routeProps, id}) => {
     const {username} = userInfo
        
     React.useEffect( () => {
-        fetch(`http://localhost:5000/users/profile/${id}`,
-            {
-                method: 'GET'
-
-            })
+        fetch(`http://localhost:5000/users/profile/${id}`, {method: 'GET'})
             .then(response => response.json())
             .then(data => {
                 if (!data['failure']) {

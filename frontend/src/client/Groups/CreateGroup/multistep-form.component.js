@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({routeProps, groups, setGroups}) => {
+const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
     
     const initialState = {
         name: '',
@@ -10,7 +10,7 @@ const MultiStepForm = ({routeProps, groups, setGroups}) => {
         description: '',
         curCap: 1,
         maxCap: '',
-        users: 'current user',
+        users: id,
     }
 
     const [ groupInfo, setGroupInfo ] = React.useState(initialState)
@@ -40,12 +40,20 @@ const MultiStepForm = ({routeProps, groups, setGroups}) => {
         fetch("http://localhost:5000/groups", {
             method: "POST",
             headers: {
-                
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(groupInfo)
         })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            setGroups(groups.concat(groupInfo))
+            routeProps.history.push("/groups")
 
-        routeProps.history.push("/groups")
+        })        
     }
+    
     
     // form components
     const fields = [
