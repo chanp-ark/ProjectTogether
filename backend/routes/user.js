@@ -14,9 +14,8 @@ router.get(
     async (req, res) => {
         try {
             users = await User.find()
-            
-            let profile = users.map(user => user.profile)
-            res.status(200).json({users})
+            let profile = users.map(user => user['profile'])
+            res.status(200).json({profile})
         } catch {
             return res.status(500).json({
                 message: "Error in getting users"
@@ -63,7 +62,6 @@ router.post(
                         res.status(200).json({
                             message: "User saved!",
                             token,
-                            user
                         })
                     }
                 }

@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
             type: String, 
             required: true
         },
+        skills: String,
         iAm: String,
         iLike: String,
         iAppreciate: String,
@@ -22,16 +23,7 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-    /*
-    
-    *** for Profile page ***
-    
-    skills: String,
-    hobbies: String,
-    groups: String,
-    
-    
-    */
+
 });
 // mongoose.model(modelName, schema)
     // modelName is used in collections in db
