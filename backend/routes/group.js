@@ -10,14 +10,11 @@ const Group = require("../models/Group")
 router.get("/", async(req, res) => {
     try {
         // find all groups in db
-        const group = Group.find();
-        // send name, skills, description, maxCap
-        const { name, skills, description, maxCap } = group
-        return res.status(400).json({
+        const groups = await Group.find();
+        return res.status(200).json({
             message: "Success",
-            name, skills, description, maxCap
+            groups
         })
-        
     } catch {
         res.send({message: "Failure"})
     }

@@ -99,7 +99,8 @@ router.post(
                 (err, token) => {
                     if (err) throw err
                     res.status(200).json({
-                        token: token
+                        token: token,
+                        username: user.profile.username
                     })
                 })
         } catch(err) {
@@ -116,14 +117,11 @@ router.post(
 router.get("/profile/:id", async (req, res) => {
     try {
         const name = req.params.id;
-        console.log('name', name)
-        await User.findOne({'username': name})
-            .then(foundUser => {
-                // will need this to change to return the info we want
-                return foundUser['username']})
-            .then(gotUsername => {
-                res.status(200).json({user: gotUsername})
-            })
+        await User.findOne({
+            profile: {
+                username: name
+            }})
+            .then(foundUser => res.status(200).json(foundUser.profile))
     } catch {
         return res.status(500).json({failure: "User does not exist"})
     }
@@ -132,6 +130,7 @@ router.get("/profile/:id", async (req, res) => {
 // @ method: GET
 // @ param: /:username/edit
 // @ description: get logged in user
+
 // router.get("/profile/:id/edit", auth, async (req, res) => {
 //     if (req.user.id === undefined) {
 //         res.json({ message: 'Unauthorized' })
