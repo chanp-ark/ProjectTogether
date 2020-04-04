@@ -9,6 +9,8 @@ function App() {
   const [token, setToken] = React.useState(false)
   console.log("token :", token, "(app.js)")
   
+  // later, fetch user profile to here and use that profile - no need to keep in storage
+    // verify this request with jwt token. fetch only if token is true
   const [ id, setId ] = React.useState(null)
   console.log("id :", id, "(app.js")
   
