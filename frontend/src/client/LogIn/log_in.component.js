@@ -1,9 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import "./log_in.styles.css"
 
-const LogIn = ({routeProps, token, setToken}) => {
+const LogIn = ({routeProps, token, setToken, id, setId}) => {
     
     const initialState = {
         email: '',
@@ -14,9 +14,6 @@ const LogIn = ({routeProps, token, setToken}) => {
     
     // pull email and password out
     const {email, password} = login
-    
-    // state for token
-    
     
     const handleChange = e => {
         e.preventDefault()
@@ -30,7 +27,7 @@ const LogIn = ({routeProps, token, setToken}) => {
         if (!(email && password)) {
             alert("You must enter all fields")
         } else {
-            fetch('http://localhost:4000/users/login', {
+            fetch('http://localhost:5000/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,24 +36,27 @@ const LogIn = ({routeProps, token, setToken}) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // data has token info
                     if (!data.token) {
                         alert(data.message)
                     } else {
-                        //save data to local or cookie
                         localStorage.setItem("token", data.token)
+                        localStorage.setItem("id", data.username)
+                        setId(data.username)
                         setToken(true)
-                        // redirect
-                        routeProps.history.push("/users/profile/edit")
                     }
+                })
+                .then(() => {
+                    routeProps.history.push(`/users/profile/${id}`)
+
                 })
                 .catch((err) => console.error(err))
         }
     }
+
     
     React.useEffect(()=> {
-        if(token) routeProps.history.push("/users/profile/edit")
-    }, [token, routeProps.history])
+        if(token) routeProps.history.push(`/users/profile/${id}`)
+    }, [token, routeProps.history, id])
     
     
     return (

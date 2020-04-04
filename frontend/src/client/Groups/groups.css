@@ -1,18 +1,18 @@
-.project-container {
+.group-container {
     display: block;
     margin: 1em auto;
     text-align: center;
     width: 100%;
 }
 
-.project-title {
+.group-title {
     display: inline-block;
     font-size: 2.8em;
     font-weight: 600;
     text-transform: uppercase;
 }
 
-.project-title::after {
+.group-title::after {
     content: " ";
     display: block;
     width: 100%;
@@ -20,7 +20,7 @@
     height: 4px;
 }
 
-.project-title::before {
+.group-title::before {
     content: " ";
     display: block;
     width: 100%;
@@ -28,7 +28,7 @@
     height: 4px;
 }
 
-.projects {
+.groups {
     font-size: 1em;
     padding-top: 2em;
     text-align: center;

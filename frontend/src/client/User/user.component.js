@@ -6,21 +6,22 @@ const User = () => {
     
     const [allUsers, setAllUsers] = React.useState([])
     
-    fetch("http://localhost:4000/users",
-        {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(data => data['usernames'])
-        .then(users => {
-            if (users.length > allUsers) setAllUsers(allUsers.concat(users))
-        })
-        .catch(err=> {
-            console.error(err)
-        })
+    React.useEffect( () => {
+        fetch("http://localhost:5000/users",
+            {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => data.profile)
+            .then(users => {
+                setAllUsers(users)})
+            .catch(err=> {
+                console.error(err)
+            })
+    }, [])   
 
-
-
+    // sort users by created date, most recent first, **do this later
+    
     return (
         <div>
             <div className="user-title">
@@ -30,7 +31,7 @@ const User = () => {
             <div className="user-container">
                 { allUsers.map( (user, i) => (
                     <div key={i} className="user-content">
-                        <p>{user}</p>    
+                        <p>{user.username}</p>    
                     </div>  
                 ))}
             </div>

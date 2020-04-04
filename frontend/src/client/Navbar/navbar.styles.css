@@ -80,7 +80,7 @@ nav a:hover::after {
 
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     
     .dropdown-icon {
         display: inline-block;
@@ -96,9 +96,7 @@ nav a:hover::after {
         flex-direction: column;
         justify-content: flex-start;
      
-        /* position: relative;
-        padding: 1em;
-        margin: 1em; */
+
     }
     
     .home-icon div {

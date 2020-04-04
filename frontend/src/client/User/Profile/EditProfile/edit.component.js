@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import "./edit.styles.css"
 
 
-const EditProfile = ({routeProps, token}) => {
+const EditProfile = ({routeProps, token, id}) => {
     // type in password if want to edit
     const [userData, setUserData] = React.useState(null)
 
@@ -15,7 +15,7 @@ const EditProfile = ({routeProps, token}) => {
             if (token === false) {
                 routeProps.history.push("/")
             } else {
-                fetch("http://localhost:4000/users/profile/edit", 
+                fetch(`http://localhost:5000/users/${id}/edit`, 
                 {
                     method: "GET",
                     headers: {
@@ -32,13 +32,13 @@ const EditProfile = ({routeProps, token}) => {
                     }
                 })
                 .catch(err => {
-                    console.error("error front: ", err)
+                    console.error("error: ", err)
                 })
             }
         }
         fetchUser();
     }
-    , [userToken, token, routeProps.history])
+    , [userToken, token, routeProps.history, id])
     
     
     return (

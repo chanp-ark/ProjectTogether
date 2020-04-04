@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken}) => {
+const Navbar = ({token, setToken, id}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -16,10 +16,7 @@ const Navbar = ({token, setToken}) => {
   const toggleToTrue = () => {
     if (toggle === false) setToggle(!toggle)
   }
-  
-  let curRoute = useParams()
-  let pathToProfile = `users/profile/${curRoute['username']}`
-  
+    
   const logout = () => {
     localStorage.removeItem("token")
     setToken(false)
@@ -28,11 +25,11 @@ const Navbar = ({token, setToken}) => {
   
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/users/login'>Log Out</Link></li>, 
-    <li key="profile"><Link onClick={toggleToTrue} to={pathToProfile} >Profile</Link></li>
+    <li key="profile"><Link onClick={toggleToTrue} to={`/users/profile/${id}`} >Profile</Link></li>
   ]
   
   const alwaysInTabs = [
-    <li key="projects"><Link onClick={toggleToTrue} to='/projects'>Projects</Link></li>,
+    <li key="groups"><Link onClick={toggleToTrue} to='/groups'>Groups</Link></li>,
     <li key="allusers"><Link onClick={toggleToTrue} to='/users'>Users</Link></li>,
     <li key="about"><Link onClick={toggleToTrue} to='/about'>About</Link></li>
   ]

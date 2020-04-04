@@ -5,53 +5,27 @@ import Home from "./client/HomePage/home";
 import SignUp from "./client/SignUp/sign_up.component";
 import LogIn from "./client/LogIn/log_in.component"
 import About from "./client/About/about";
-import Projects from "./client/Projects/projects"
-import MultiStepForm from './client/Projects/CreateProject/multistep-form.component';
+import Groups from "./client/Groups/groups"
+import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
-const Main = ({token, setToken}) => {
-    
-       // fill initialState with projects in database
-       const initialProjects = [
-        {
-            projectName: "Project 1",
-            techStack: "react node",
-            description: "we gun make something cool",
-            curCap: 2,
-            maxCap: 6,
-            users: ["John", "Jane"]
-        },
-        {
-            projectName: "Project 2",
-            techStack: "angular express",
-            description: "we gun make something great",
-            curCap: 4,
-            maxCap: 5,
-            users: ["James", "Jo", "Joseph", "Jasmine"]
-        },
-        {
-            projectName: "Project 3",
-            techStack: "jQuery PHP",
-            description: "we're old",
-            curCap: 1,
-            maxCap: 3,
-            users: ["Diane"]
-        },
-        {
-            projectName: "Project 4",
-            techStack: "react node",
-            description: "we gun make something amazing",
-            curCap: 2,
-            maxCap: 4,
-            users: ["Kenzie", "Kash"]
-        }
-    ]
-    
-    const [projects, setProjects] = React.useState(initialProjects)
-    
-    
+const Main = ({token, setToken, id, setId}) => {
+    // groups
+    const [groups, setGroups] = React.useState([])
+        
+    React.useEffect( () => {
+        const result = () => {
+            fetch("http://localhost:5000/groups", {method: "GET"})
+                .then(response => response.json())
+                .then(data => setGroups(data.groups))
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+        result()
+    }, [])
     
     return (
         <main>
@@ -65,22 +39,22 @@ const Main = ({token, setToken}) => {
                     } />
                 <Route 
                     exact 
-                    path='/projects' 
+                    path='/groups' 
                     render={routeProps => 
-                        <Projects 
+                        <Groups
                             routeProps={routeProps}
-                            projects={projects}
-                            setProjects={setProjects}
+                            groups={groups}
+                            setGroups={setGroups}
                         />
                     } />
                 <Route 
                     exact 
-                    path='/projects/new' 
+                    path='/groups/new' 
                     render={ routeProps => 
                         <MultiStepForm 
                             routeProps={routeProps} 
-                            projects={projects}
-                            setProjects={setProjects}
+                            groups={groups}
+                            setGroups={setGroups}
                         /> 
                     } />
                 <Route 
@@ -100,6 +74,8 @@ const Main = ({token, setToken}) => {
                             routeProps={routeProps}
                             token={token}
                             setToken={setToken}
+                            id={id}
+                            setId={setId}
                             />
                     } />
                 <Route 
@@ -108,14 +84,14 @@ const Main = ({token, setToken}) => {
                     render={ routeProps => <User routeProps={routeProps}/> } />
                 <Route 
                     exact 
-                    path='/users/profile/:id' 
-                    render={ routeProps => <Profile routeProps={routeProps} />}
-                / >
+                    path={`/users/profile/${id}`}
+                    render={ routeProps => <Profile routeProps={routeProps} id={id}/>}
+                />
                 
                 
                 <Route 
                     exact 
-                    path='/users/profile/edit' 
+                    path={`/users/profile/${id}/edit`}
                     render={ routeProps => 
                         <EditProfile routeProps={routeProps} token={token}/>} />
             </Switch>

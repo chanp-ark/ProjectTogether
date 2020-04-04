@@ -1,18 +1,18 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import "./profile.styles.css"
 
 
-const Profile = ({routeProps}) => {
+const Profile = ({routeProps, id}) => {
     
     
-    const [userInfo, setUserInfo] = React.useState([])
+    const [userInfo, setUserInfo] = React.useState('')
     
-    let { id }  = useParams()
-   
+    const {username} = userInfo
+       
     React.useEffect( () => {
-        fetch(`http://localhost:4000/users/profile/${id}`,
+        fetch(`http://localhost:5000/users/profile/${id}`,
             {
                 method: 'GET'
 
@@ -20,7 +20,7 @@ const Profile = ({routeProps}) => {
             .then(response => response.json())
             .then(data => {
                 if (!data['failure']) {
-                    setUserInfo(data['user'])
+                    setUserInfo(data)
                 } else {
                     alert ("User does not exist")
                     routeProps.history.push("/users")
@@ -31,7 +31,7 @@ const Profile = ({routeProps}) => {
                 console.log(err)
             })
     }, [id, routeProps.history])
-    
+
     return (
     // this will display username
     <div className='userprof-container'>
@@ -41,10 +41,10 @@ const Profile = ({routeProps}) => {
         </div>
         {/* Edit button only shows if profile username matches the logged in user */}
         <div className="edit-button">
-            <Link to="/users/profile/edit">EDIT</Link>
+            <Link to={`/users/profile/${id}/edit`}>EDIT</Link>
         </div>
         <div className='userprof-content'>
-            <p>from the route param: <strong>{userInfo}</strong></p>
+            <p>from the route param: <strong>{username}</strong></p>
             <p>This is just some content to see how it would look. Prob will import user's info here</p>
         </div>
     </div>

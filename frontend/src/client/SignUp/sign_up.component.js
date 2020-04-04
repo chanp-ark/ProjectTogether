@@ -36,7 +36,7 @@ const SignUp = ({routeProps, token, setToken}) => {
             routeProps.history.push('/users/signup')
             return false
         } else { 
-            fetch('http://localhost:4000/users/signup', 
+            fetch('http://localhost:5000/users/signup', 
             {
                 method:'POST',
                 headers: {
