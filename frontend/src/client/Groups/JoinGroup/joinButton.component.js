@@ -1,13 +1,40 @@
 import React from 'react'
 
-const JoinButton = () => {
-    
+import { Link } from 'react-router-dom'
+
+import "./joinButton.styles.css"
+
+const JoinButton = ({token, id}) => {
+    const handleJoin = () => {
+        if (!token && !id) {
+            alert("You must log in to join a group")
+        } else {
+            fetch ("http://localhost:5000/groups", {
+                method: "PUT",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id})
+            })
+                .then(response => {
+                    console.log(response)
+                    let res = response.json()
+                    console.log("res", res)
+                    return res})
+                .then(data => {
+                    console.log(data)
+                    return data
+                })
+                .catch(err=>{
+                    console.error("error: ", err)
+                })
+        }
+    }
     
     return (
-        <div className="join-button-container">
-            <div>
-                <Link to="/groups">JOIN GROUP</Link>
-            </div>
+        <div className="join-button">
+            <Link onClick={() => handleJoin()} to="/groups">JOIN</Link>
         </div>
     )
 }

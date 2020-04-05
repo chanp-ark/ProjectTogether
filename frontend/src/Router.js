@@ -14,7 +14,6 @@ import EditProfile from './client/User/Profile/EditProfile/edit.component';
 const Main = ({token, setToken, id, setId}) => {
     // groups
     const [groups, setGroups] = React.useState([])
-    console.log(groups)
     React.useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
@@ -45,6 +44,8 @@ const Main = ({token, setToken, id, setId}) => {
                             routeProps={routeProps}
                             groups={groups}
                             setGroups={setGroups}
+                            token={token}
+                            id={id}
                         />
                     } />
                 <Route 

@@ -38,15 +38,18 @@ const LogIn = ({routeProps, token, setToken, id, setId}) => {
                 .then(data => {
                     if (!data.token) {
                         alert(data.message)
+                        return false
                     } else {
                         localStorage.setItem("token", data.token)
                         localStorage.setItem("id", data.username)
                         setId(data.username)
                         setToken(data.token)
+                        return true
                     }
                 })
-                .then(() => {
-                    routeProps.history.push(`/users/profile/${id}`)
+                .then( next => {
+                    if (!next) routeProps.history.push(`/users/login`)
+                    else routeProps.history.push(`/users/profile/${id}`)
 
                 })
                 .catch((err) => console.error(err))

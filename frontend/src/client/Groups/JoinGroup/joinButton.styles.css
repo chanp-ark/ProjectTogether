@@ -1,0 +1,23 @@
+.join-button {
+    display: flex;
+    justify-content: center;
+    margin: 1em 0;
+}
+
+.join-button a {
+    padding: 0 0.5em;
+    margin: 0.5em auto;
+    background-color: #0077FF;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 250ms ease-in-out
+
+}
+
+.join-button a:hover {
+    transform: scale(1.1)
+}

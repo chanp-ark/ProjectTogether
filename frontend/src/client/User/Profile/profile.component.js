@@ -24,7 +24,7 @@ const Profile = ({routeProps, id}) => {
                 // data returns an object {user: "requested username"}
             })
             .catch(err=> {
-                console.log(err)
+                console.log("error:" , err)
             })
     }, [id, routeProps.history])
 
