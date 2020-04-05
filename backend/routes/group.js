@@ -17,7 +17,7 @@ router.get("/", async(req, res) => {
             groups
         })
     } catch {
-        res.send({message: "Failure"})
+        res.send({failure: "GET Groups failed"})
     }
 })
 
@@ -29,7 +29,7 @@ router.post("/", auth, async(req, res) => {
     try {
         const { name, skills, description, curCap, maxCap, users} = req.body;
         let group = await Group.findOne({name})
-        if (group) return res.status.json({message: "Group name already in use"})
+        if (group) return res.status.json({failure: "Group name already in use"})
         group = new Group({name, skills, description, curCap, maxCap, users})
         group.save(err => {
             if (err) {
@@ -47,10 +47,11 @@ router.post("/", auth, async(req, res) => {
 // @ param: /
 // @ desc: add user into group
 router.put("/", async(req, res) => {
+    console.log(req.body)
     try {
-        res.status(200).json({message:"PUT requested"})
+        res.status(200).json({message:req.body})
     } catch {
-        res.status(500).json({message:"PUT request failed"})
+        res.status(500).json({failure:"PUT request failed"})
 
     }
 })

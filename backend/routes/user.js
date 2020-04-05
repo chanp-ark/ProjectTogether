@@ -18,7 +18,7 @@ router.get(
             res.status(200).json({profile})
         } catch {
             return res.status(500).json({
-                message: "Error in getting users"
+                failure: "Error in getting users"
             })
         }
     })
@@ -34,7 +34,7 @@ router.post(
         const {username, email, password} = req.body;
         try {
             let user = await User.findOne({email})
-            if (user) return res.status(400).json({ message: "User already exists" })
+            if (user) return res.status(400).json({ failure: "User already exists" })
             user = new User ({ 
                 email: email, 
                 password: password, 
@@ -83,10 +83,9 @@ router.post(
         const { email, password } = req.body;
         try {
             let user = await User.findOne({email: email})
-            console.log(!user)
             if (!user) {
                 return res.status(500).json({
-                    message: "User does not exist!"
+                    failure: "User does not exist!"
                 })
             } 
             const passwordMatch = await bcrypt.compare(password, user.password)
