@@ -22,7 +22,7 @@ router.get("/", async(req, res) => {
 })
 
 // @ method: POST
-// @ param: /groups/new
+// @ param: /
 // @ desc: create new group
 
 router.post("/", auth, async(req, res) => {
@@ -40,6 +40,18 @@ router.post("/", auth, async(req, res) => {
         })
     } catch {
         res.send({failure: "Something is wrong"})
+    }
+})
+
+// @method: PUT
+// @ param: /
+// @ desc: add user into group
+router.put("/", async(req, res) => {
+    try {
+        res.status(200).json({message:"PUT requested"})
+    } catch {
+        res.status(500).json({message:"PUT request failed"})
+
     }
 })
 

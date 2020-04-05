@@ -83,6 +83,7 @@ router.post(
         const { email, password } = req.body;
         try {
             let user = await User.findOne({email: email})
+            console.log(!user)
             if (!user) {
                 return res.status(500).json({
                     message: "User does not exist!"
@@ -116,11 +117,10 @@ router.post(
 // @ description: get logged in user
 router.get("/profile/:id", async (req, res) => {
     try {
-        const name = req.params.id;
-        await User.findOne({
-            profile: {
-                username: name
-            }})
+        User.findOne( 
+            {
+                'profile.username':req.params.id
+            })
             .then(foundUser => res.status(200).json(foundUser.profile))
     } catch {
         return res.status(500).json({failure: "User does not exist"})
