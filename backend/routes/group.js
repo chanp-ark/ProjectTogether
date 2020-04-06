@@ -60,11 +60,11 @@ router.put("/", async(req, res) => {
 // @param: /:id
 // desc: get group's info
 
-router.get("/:id", auth, async(req, res) => {
+router.get("/:id", async(req, res) => {
+    const groupName = req.params.id
     try {
-        res.status(200).json({
-            Success: "You GOT it"
-        })
+        let group = await Group.findOne({name: groupName})
+        res.status(200).json(group)
     } catch {
         res.status(500).json({
             failure: "Cannot get group info"
