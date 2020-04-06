@@ -10,10 +10,15 @@ import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component'
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 import EditProfile from './client/User/Profile/EditProfile/edit.component';
+import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
 const Main = ({token, setToken, id, setId}) => {
     // groups
     const [groups, setGroups] = React.useState([])
+    
+    const [ groupId, setGroupId ] = React.useState('')
+
+    
     React.useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
@@ -46,8 +51,24 @@ const Main = ({token, setToken, id, setId}) => {
                             setGroups={setGroups}
                             token={token}
                             id={id}
+                            groupId={groupId}
+                            setGroupId={setGroupId}
                         />
                     } />
+                <Route 
+                exact 
+                path={`/groups/${groupId}`} 
+                render={routeProps => 
+                    <GroupDetails
+                        routeProps={routeProps}
+                        groups={groups}
+                        token={token}
+                        id={id}
+                        groupId={groupId}
+                        setGroupId={setGroupId}
+                    />
+                } />
+               
                 <Route 
                     exact 
                     path='/groups/new' 

@@ -11,12 +11,13 @@ function App() {
   
   const [ id, setId ] = React.useState(localStorage.getItem("id"))
   console.log("id :", id, "(app.js")
+  
 
   return (  
     <div>
       <Navbar token={token} setToken={setToken} id={id} setId={setId}/>
         <div className="router-component">
-          <Router token={token}setToken={setToken} id={id} setId={setId}/> 
+          <Router token={token}setToken={setToken} id={id} setId={setId}  /> 
         </div>
     </div>
   );
