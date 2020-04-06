@@ -12,6 +12,7 @@ module.exports = function(req, res, next) {
         // synchronous function returns the payload decoded if valid
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decoded.user;
+        console.log("User is authorized")
         next()
     } else {
         return res.status(401).json({ message: "Auth Error" });

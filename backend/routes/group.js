@@ -56,4 +56,20 @@ router.put("/", async(req, res) => {
     }
 })
 
+// @method: GET
+// @param: /:id
+// desc: get group's info
+
+router.get("/:id", auth, async(req, res) => {
+    try {
+        res.status(200).json({
+            Success: "You GOT it"
+        })
+    } catch {
+        res.status(500).json({
+            failure: "Cannot get group info"
+        })
+    }
+})
+
 module.exports = router;
