@@ -20,12 +20,13 @@
     padding: 0.3em 1em;
     transition: all 200ms ease-in-out;
     color: #000000;
+    padding: 0.3em 2.2em;
 }
 
 .thmnl-name:hover {
     color: white;
     background-color: #0077FF;
-    transform: scale(1.1)
+    border: 1px solid white;
 }
 
 .thmnl-name:focus{

@@ -11,10 +11,9 @@ const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
         <div className="group-container">
             <div className="group-title">Groups</div>
             <div className="groups">
-                <CreateGroup />
+                <CreateGroup token={token} id={id}/>
                 {groups.map( (group, i) => {
                     const {name, skills, description, curCap, maxCap} = group
-                    const groupId = name.split(' ').join('').toLowerCase()
                     return(
                         <Thumbnail
                             name={name}

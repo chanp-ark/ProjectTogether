@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import "./joinButton.styles.css"
 
-const JoinButton = ({token, id}) => {
+const JoinButton = ({token, id, groupId}) => {
     const handleJoin = () => {
         if (!token && !id) {
             alert("You must log in to join a group")
@@ -34,7 +34,7 @@ const JoinButton = ({token, id}) => {
     
     return (
         <div className="join-button">
-            <Link onClick={() => handleJoin()} to="/groups">JOIN</Link>
+            <Link onClick={() => handleJoin()} to={`/groups/${groupId}`}>JOIN</Link>
         </div>
     )
 }

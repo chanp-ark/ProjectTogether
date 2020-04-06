@@ -19,5 +19,9 @@
 }
 
 .join-button a:hover {
-    transform: scale(1.1)
+    transform: scale(1.1);    
+}
+
+.join-button a:hover.pointer{
+    cursor:pointer;
 }

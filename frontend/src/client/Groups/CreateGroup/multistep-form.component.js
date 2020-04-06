@@ -36,6 +36,8 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
                 return false
             }
         }
+        groupInfo.name = name.split(' ').join('').toLowerCase()
+
         // update db
         fetch("http://localhost:5000/groups", {
             method: "POST",

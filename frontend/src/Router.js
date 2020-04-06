@@ -16,7 +16,7 @@ const Main = ({token, setToken, id, setId}) => {
     // groups
     const [groups, setGroups] = React.useState([])
     
-    const [ groupId, setGroupId ] = React.useState('')
+    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
 
     
     React.useEffect( () => {

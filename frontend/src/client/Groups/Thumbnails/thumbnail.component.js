@@ -1,20 +1,20 @@
 import React from 'react'
-import JoinButton from "../JoinGroup/joinButton.component"
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {routeProps, name, skills, description, curCap, maxCap, token, id, groupId, setGroupId} ) => {
+const Thumbnail = ( {routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId} ) => {
     
-    const handleClick= async () => {
+    const handleClick= async (e) => {
+        e.preventDefault()
         setGroupId(groupId)
+        localStorage.setItem("groupId", groupId)
         routeProps.history.push(`/groups/${groupId}`)
     }
     
     return (
         <div className="thmnl-container">
             <div className="thmnl-project">
-                <div onClick={handleClick} className="thmnl-name">{name}</div>
-                <div><JoinButton id={id} token={token}/></div>
+                <button onClick={handleClick} className="thmnl-name">{name}</button>
                 <div className="thmnl-title">Skills</div>
                     <p>{skills}</p>
                 <div className="thmnl-title">Description</div>
