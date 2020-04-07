@@ -35,7 +35,7 @@ router.post("/", auth, async(req, res) => {
             if (err) {
                 console.error(err)
             } else {
-                res.status(200).json({message: `Group ${name} created!`})
+                res.status(200).json({message: `Group ${name} created!`, group})
             }
         })
     } catch {
@@ -52,8 +52,11 @@ router.put("/", auth, async(req, res) => {
             {'profile.username': req.body.id}, 
             {$addToSet: {'profile.groups':req.body.groupId} })
         await Group.updateOne(
-            {name: req.body.groupID}, 
-            {$addToSet: {users : req.body.id} })
+            {name: req.body.groupId}, 
+            {   $addToSet: {users : req.body.id},
+                $inc: {curCap: 1}
+            }
+        )
         let user = await User.find({'profile.username': req.body.id})
         console.log("user: ", user)
         let group = await Group.find({name: req.body.groupId})

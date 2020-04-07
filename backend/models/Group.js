@@ -14,11 +14,11 @@ const GroupSchema = new mongoose.Schema({
        required: true
    },
    curCap: {
-       type: String,
+       type: Number,
        required: true
    },
    maxCap: {
-       type: String,
+       type: Number,
        required: true
    },
    users: {

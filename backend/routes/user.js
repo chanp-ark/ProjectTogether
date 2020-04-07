@@ -149,7 +149,7 @@ router.get("/profile/:id", async (req, res) => {
 // @method: PUT
 // @ param: /:username/edit
 // @ description: edit user info
-router.put("/profile/:username/edit", async(req, res) => {
+router.put("/profile/:username/edit", auth, async(req, res) => {
     try {
         res.send({message: "PUT request"})
     } catch {
