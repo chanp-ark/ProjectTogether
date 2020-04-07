@@ -1,8 +1,10 @@
 import React from 'react'
 
+import JoinButton from "../JoinGroup/joinButton.component"
+
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId} ) => {
+const Thumbnail = ( {id, token, routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId} ) => {
     
     const handleClick= async (e) => {
         e.preventDefault()
@@ -15,6 +17,8 @@ const Thumbnail = ( {routeProps, name, skills, description, curCap, maxCap, grou
         <div className="thmnl-container">
             <div className="thmnl-project">
                 <button onClick={handleClick} className="thmnl-name">{name}</button>
+                <JoinButton id={id} token={token} groupId={groupId} routeProps={routeProps}/>
+
                 <div className="thmnl-title">Skills</div>
                     <p>{skills}</p>
                 <div className="thmnl-title">Description</div>

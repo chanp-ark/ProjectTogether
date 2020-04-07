@@ -22,7 +22,7 @@ const GroupSchema = new mongoose.Schema({
        required: true
    },
    users: {
-       type: Array,
+       type: [String],
        required: true
    }
 })

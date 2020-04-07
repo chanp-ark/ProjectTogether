@@ -46,10 +46,19 @@ router.post("/", auth, async(req, res) => {
 // @method: PUT
 // @ param: /
 // @ desc: add user into group
-router.put("/", async(req, res) => {
-    console.log(req.body)
+router.put("/", auth, async(req, res) => {
     try {
-        res.status(200).json({message:req.body})
+        await User.updateOne(
+            {'profile.username': req.body.id}, 
+            {$addToSet: {'profile.groups':req.body.groupId} })
+        await Group.updateOne(
+            {name: req.body.groupID}, 
+            {$addToSet: {users : req.body.id} })
+        let user = await User.find({'profile.username': req.body.id})
+        console.log("user: ", user)
+        let group = await Group.find({name: req.body.groupId})
+        console.log("group: ", group)
+        res.status(200).json({user, group})
     } catch {
         res.status(500).json({failure:"PUT request failed"})
 

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import JoinButton from "../JoinGroup/joinButton.component"
 
 import "./groupDetails.styles.css"
 
@@ -24,7 +23,6 @@ const GroupDetails = ({id, token, groupId, setGroupId, routeProps}) => {
     return (
         <div className="details-container">
             <div className="details-title">{name}</div>
-            <JoinButton id={id} token={token} groupId={groupId}/>
             <div className="details-content">
                 {description}
             </div>

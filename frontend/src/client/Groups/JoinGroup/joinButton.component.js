@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 import "./joinButton.styles.css"
 
 const JoinButton = ({token, id, groupId}) => {
-    const handleJoin = () => {
+    const handleJoin = e => {
+        e.preventDefault();
         if (!token && !id) {
             alert("You must log in to join a group")
         } else {
@@ -15,15 +16,11 @@ const JoinButton = ({token, id, groupId}) => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id})
+                body: JSON.stringify({id, groupId})
             })
-                .then(response => {
-                    console.log(response)
-                    let res = response.json()
-                    console.log("res", res)
-                    return res})
+                .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    console.log("data", data)
                     return data
                 })
                 .catch(err=>{
@@ -34,7 +31,7 @@ const JoinButton = ({token, id, groupId}) => {
     
     return (
         <div className="join-button">
-            <Link onClick={() => handleJoin()} to={`/groups/${groupId}`}>JOIN</Link>
+            <button onClick={handleJoin} to={`/groups/${groupId}`}>JOIN</button>
         </div>
     )
 }

@@ -4,8 +4,8 @@
     margin: 1em 0;
 }
 
-.join-button a {
-    padding: 0 0.5em;
+.join-button button {
+    padding: 0.5em 1em;
     margin: 0.5em auto;
     background-color: #0077FF;
     border-radius: 5px;
@@ -18,10 +18,11 @@
 
 }
 
-.join-button a:hover {
+.join-button button:hover {
     transform: scale(1.1);    
 }
 
-.join-button a:hover.pointer{
-    cursor:pointer;
+.join-button button:focus{
+    outline: none;    
 }
+
