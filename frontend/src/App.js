@@ -12,12 +12,15 @@ function App() {
   const [ id, setId ] = React.useState(localStorage.getItem("id"))
   console.log("id :", id, "(app.js")
   
+  const [profileName, setProfileName] = React.useState('')
+  console.log("profileName :", profileName, "(app.js")
+  
 
   return (  
     <div>
       <Navbar token={token} setToken={setToken} id={id} setId={setId}/>
         <div className="router-component">
-          <Router token={token}setToken={setToken} id={id} setId={setId}  /> 
+          <Router token={token}setToken={setToken} id={id} setId={setId} profileName={profileName} setProfileName={setProfileName} /> 
         </div>
     </div>
   );

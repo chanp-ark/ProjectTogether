@@ -7,13 +7,15 @@ import "./groups.css"
 
 const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
 
+    const [refresh, setRefresh] = React.useState("")
+    console.log(refresh)
     return (
         <div className="group-container">
             <div className="group-title">Groups</div>
             <div className="groups">
                 <CreateGroup token={token} id={id}/>
                 {groups.map( (group, i) => {
-                    const {name, skills, description, curCap, maxCap} = group
+                    const {name, skills, description, curCap, maxCap, users} = group
                     return(
                         <Thumbnail
                             name={name}
@@ -22,11 +24,13 @@ const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
                             description={description}
                             curCap={curCap}
                             maxCap={maxCap}
+                            users={users}
                             token={token}
                             id={id}
                             routeProps={routeProps}
                             groupId={groupId}
                             setGroupId={setGroupId}
+                            setRefresh={setRefresh}
                         />
                     )
                 })} 

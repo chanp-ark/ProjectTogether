@@ -4,26 +4,27 @@ import JoinButton from "../JoinGroup/joinButton.component"
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {id, token, routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId} ) => {
+const Thumbnail = ( {id, token, routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId, setRefresh} ) => {
     
-    const handleClick= async (e) => {
+    const handleClick= e => {
         e.preventDefault()
-        setGroupId(groupId)
-        localStorage.setItem("groupId", groupId)
-        routeProps.history.push(`/groups/${groupId}`)
+        setGroupId(name)
+        routeProps.history.push(`/groups/${name}`)
     }
+    
+    console.log(groupId, "currentCap", curCap, "maxCap", maxCap)
     
     return (
         <div className="thmnl-container">
             <div className="thmnl-project">
                 <button onClick={handleClick} className="thmnl-name">{name}</button>
-                <JoinButton id={id} token={token} groupId={groupId} routeProps={routeProps}/>
+                {curCap < maxCap && <JoinButton setRefresh={setRefresh} id={id} curCap={curCap} maxCap={maxCap} token={token} groupId={name} setGroupId={setGroupId} routeProps={routeProps}/> }
 
                 <div className="thmnl-title">Skills</div>
                     <p>{skills}</p>
                 <div className="thmnl-title">Description</div>
                     <p>{description}</p>
-                <div className="thmnl-title">Current Number of Collaborators</div>
+                <div className="thmnl-title">Current Number of Members</div>
                     <p>{curCap}</p>
                 <div className="thmnl-title">Maximum Capacity</div>
                     <p>{maxCap}</p>

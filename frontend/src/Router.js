@@ -12,13 +12,12 @@ import Profile from './client/User/Profile/profile.component';
 import EditProfile from './client/User/Profile/EditProfile/edit.component';
 import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
-const Main = ({token, setToken, id, setId}) => {
+const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
     // groups
     const [groups, setGroups] = React.useState([])
     
     const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
-
-    
+        
     React.useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
@@ -29,7 +28,7 @@ const Main = ({token, setToken, id, setId}) => {
                 })
             }
         result()
-    }, [])
+    }, [groupId])
     
     return (
         <main>
@@ -105,11 +104,11 @@ const Main = ({token, setToken, id, setId}) => {
                 <Route 
                     exact 
                     path='/users' 
-                    render={ routeProps => <User routeProps={routeProps}/> } />
+                    render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} id={id} /> } />
                 <Route 
                     exact 
-                    path={`/users/profile/${id}`}
-                    render={ routeProps => <Profile routeProps={routeProps} id={id}/>}
+                    path={`/users/${profileName}`}
+                    render={ routeProps => <Profile profileName={profileName} routeProps={routeProps} id={id}/>}
                 />
                 
                 

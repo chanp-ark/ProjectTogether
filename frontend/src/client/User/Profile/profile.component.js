@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'
 import "./profile.styles.css"
 
 
-const Profile = ({routeProps, id}) => {
+const Profile = ({routeProps, id, name}) => {
     
     
     const [userInfo, setUserInfo] = React.useState('')
     
     const {username} = userInfo
-       
+    
     React.useEffect( () => {
-        fetch(`http://localhost:5000/users/profile/${id}`, {method: 'GET'})
+        fetch(`http://localhost:5000/users/${name}`, {method: 'GET'})
             .then(response => response.json())
             .then(data => {
                 if (!data['failure']) {
@@ -37,10 +37,10 @@ const Profile = ({routeProps, id}) => {
         </div>
         {/* Edit button only shows if profile username matches the logged in user */}
         <div className="edit-button">
-            <Link to={`/users/profile/${id}/edit`}>EDIT</Link>
+        { id === username && <Link to={`/users/profile/${id}/edit`}>EDIT</Link> }
         </div>
         <div className='userprof-content'>
-            <p>from the route param: <strong>{username}</strong></p>
+            <p>from the fetch: <strong>{username}</strong></p>
             <p>This is just some content to see how it would look. Prob will import user's info here</p>
         </div>
     </div>

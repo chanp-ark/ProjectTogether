@@ -9,7 +9,7 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
         skills: '',
         description: '',
         curCap: 1,
-        maxCap: '',
+        maxCap: 1,
         users: id,
     }
 
@@ -55,6 +55,8 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
 
         })        
     }
+    
+    const maxCapVals = [2,3,4,5,6]
     
     
     // form components
@@ -108,12 +110,7 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
                 onKeyPress={ e => {
                     if (e.key === "Enter") next()
                     }}> 
-                <option value="0">-</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
+                {maxCapVals.map(num => <option key={num} value={num}>{num}</option>)}
             </select>
         </div>
     ]

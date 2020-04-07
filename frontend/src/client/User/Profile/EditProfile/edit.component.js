@@ -10,35 +10,31 @@ const EditProfile = ({routeProps, token, id}) => {
 
     const userToken = localStorage.getItem("token");
 
-    React.useEffect ( () => {
-        const fetchUser = () => {
-            if (token === false) {
-                routeProps.history.push("/")
-            } else {
-                fetch(`http://localhost:5000/users/${id}/edit`, 
-                {
-                    method: "GET",
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                    }
-                })
-                .then(response => response.json())
-                .then(userData => {
-                    if (userData.message === 'Unauthorized') {
-                        alert("Unauthorized Access")
-                        return false
-                    } else {
-                        setUserData(userData)
-                    }
-                })
-                .catch(err => {
-                    console.error("error: ", err)
-                })
-            }
+    const handleSave = () => {
+        if (token === false) {
+            routeProps.history.push("/")
+        } else {
+            fetch(`http://localhost:5000/users/${id}/edit`, 
+            {
+                method: "PUT",
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                }
+            })
+            .then(response => response.json())
+            .then(userData => {
+                if (userData.message === 'Unauthorized') {
+                    alert("Unauthorized Access")
+                    return false
+                } else {
+                    setUserData(userData)
+                }
+            })
+            .catch(err => {
+                console.error("error: ", err)
+            })
         }
-        fetchUser();
     }
-    , [userToken, token, routeProps.history, id])
     
     
     return (
@@ -52,7 +48,7 @@ const EditProfile = ({routeProps, token, id}) => {
             </div>
             <div className="save-button">
                 {/* needs an onclick to save info */}
-                <Link to="/users/profile">Save</Link>
+                <Link onClick={handleSave} to="/users/profile">Save</Link>
             </div>
         </div>
     )

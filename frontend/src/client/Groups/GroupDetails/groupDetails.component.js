@@ -5,7 +5,7 @@ import "./groupDetails.styles.css"
 
 const GroupDetails = ({id, token, groupId, setGroupId, routeProps}) => {
     
-    const [details, setDetails] = React.useState('')
+    const [details, setDetails] = React.useState(groupId)
     
     React.useEffect( ()=>{
         fetch(`http://localhost:5000/groups/${groupId}`, {
