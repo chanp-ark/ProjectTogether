@@ -1,17 +1,52 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = () => {
+const User = ({profileName, setProfileName, id}) => {
+    
+    const [allUsers, setAllUsers] = React.useState([])
+    
+    React.useEffect( () => {
+        fetch("http://localhost:5000/users",
+            {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => data.profile)
+            .then(users => {
+                setAllUsers(users)})
+            .catch(err=> {
+                console.error(err)
+            })
+    }, [])   
+    
+
+
+    // sort users by created date, most recent first, **do this later
     
     return (
-        <div className="user-container">
+        <div>
             <div className="user-title">
-                <h1>THIS IS THE USERS PAGE</h1>
+                <div>Collaborators</div>
+                <div className="subtitle">Curious about who is interested in building something with you?</div>
             </div>
-            <div className='user-content'>
-                <p>some user content blah blah lorem ipsum</p>
+            <div className="user-container">
+                { allUsers.map( (user, i) => {
+                     const handleClick = () =>{
+                        setProfileName(user.username)
+                    }
+                    return(
+                        <div key={i} className="user-content">
+                            {profileName !== id && <Link onClick={handleClick} to={`/users/${user.username}`}>{user.username}</Link>}    
+                        </div>  
+                        
+                    )
+                } )}
             </div>
+            
+            
+            
         </div>
     )
 }

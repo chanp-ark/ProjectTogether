@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-    username: {
-        type: String, 
-        required: true
-    },
     email: {
         type: String,
         required: true
@@ -13,20 +9,22 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profile: {
+        username: {
+            type: String, 
+            required: true
+        },
+        skills: String,
+        iAm: String,
+        iLike: String,
+        iAppreciate: String,
+        groups: [String]
+    },
     createdAt: {
         type: Date,
         default: Date.now()
     }
-    /*
-    
-    *** for Profile page ***
-    
-    skills: String,
-    hobbies: String,
-    groups: String,
-    
-    
-    */
+
 });
 // mongoose.model(modelName, schema)
     // modelName is used in collections in db

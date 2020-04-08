@@ -5,52 +5,30 @@ import Home from "./client/HomePage/home";
 import SignUp from "./client/SignUp/sign_up.component";
 import LogIn from "./client/LogIn/log_in.component"
 import About from "./client/About/about";
-import Projects from "./client/Projects/projects"
-import MultiStepForm from './client/Projects/CreateProject/multistep-form.component';
+import Groups from "./client/Groups/groups"
+import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 import EditProfile from './client/User/Profile/EditProfile/edit.component';
+import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
-const Main = () => {
+const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
+    // groups
+    const [groups, setGroups] = React.useState([])
     
-       // fill initialState with projects in database
-       const initialProjects = [
-        {
-            projectName: "Project 1",
-            techStack: "react node",
-            description: "we gun make something cool",
-            curCap: 2,
-            maxCap: 6,
-            users: ["John", "Jane"]
-        },
-        {
-            projectName: "Project 2",
-            techStack: "angular express",
-            description: "we gun make something great",
-            curCap: 4,
-            maxCap: 5,
-            users: ["James", "Jo", "Joseph", "Jasmine"]
-        },
-        {
-            projectName: "Project 3",
-            techStack: "jQuery PHP",
-            description: "we're old",
-            curCap: 1,
-            maxCap: 3,
-            users: ["Diane"]
-        },
-        {
-            projectName: "Project 4",
-            techStack: "react node",
-            description: "we gun make something amazing",
-            curCap: 2,
-            maxCap: 4,
-            users: ["Kenzie", "Kash"]
-        }
-    ]
-    
-    const [projects, setProjects] = React.useState(initialProjects)
-    
+    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
+        
+    React.useEffect( () => {
+        const result = () => {
+            fetch("http://localhost:5000/groups", {method: "GET"})
+                .then(response => response.json())
+                .then(data => setGroups(data.groups))
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+        result()
+    }, [groupId])
     
     return (
         <main>
@@ -64,49 +42,81 @@ const Main = () => {
                     } />
                 <Route 
                     exact 
-                    path='/projects' 
+                    path='/groups' 
                     render={routeProps => 
-                        <Projects 
+                        <Groups
                             routeProps={routeProps}
-                            projects={projects}
-                            setProjects={setProjects}
+                            groups={groups}
+                            setGroups={setGroups}
+                            token={token}
+                            id={id}
+                            groupId={groupId}
+                            setGroupId={setGroupId}
                         />
                     } />
                 <Route 
+                exact 
+                path={`/groups/${groupId}`} 
+                render={routeProps => 
+                    <GroupDetails
+                        routeProps={routeProps}
+                        groups={groups}
+                        token={token}
+                        id={id}
+                        groupId={groupId}
+                        setGroupId={setGroupId}
+                    />
+                } />
+               
+                <Route 
                     exact 
-                    path='/projects/new' 
+                    path='/groups/new' 
                     render={ routeProps => 
                         <MultiStepForm 
                             routeProps={routeProps} 
-                            projects={projects}
-                            setProjects={setProjects}
+                            token={token}
+                            groups={groups}
+                            setGroups={setGroups}
+                            id={id}
                         /> 
                     } />
                 <Route 
                     exact 
-                    path='/signup' 
+                    path='/users/signup' 
                     render= { routeProps => 
-                        <SignUp routeProps={routeProps} />
+                        <SignUp 
+                            routeProps={routeProps}
+                            token={token}
+                            setToken={setToken} />
                     } />
                 <Route 
                     exact 
-                    path='/login' 
+                    path='/users/login' 
                     render={ routeProps => 
-                        <LogIn routeProps={routeProps}/>
+                        <LogIn 
+                            routeProps={routeProps}
+                            token={token}
+                            setToken={setToken}
+                            id={id}
+                            setId={setId}
+                            />
                     } />
                 <Route 
                     exact 
-                    path='/user' 
-                    render={ routeProps => <User routeProps={routeProps}/> } />
+                    path='/users' 
+                    render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} id={id} /> } />
                 <Route 
                     exact 
-                    // need to replace profile with username
-                    path='/user/profile' 
-                    render={ routeProps =>  <Profile routeProps={routeProps}/> } />
+                    path={`/users/${profileName}`}
+                    render={ routeProps => <Profile profileName={profileName} routeProps={routeProps} id={id}/>}
+                />
+                
+                
                 <Route 
                     exact 
-                    path='/user/profile/edit' 
-                    component={EditProfile} />
+                    path={`/users/profile/${id}/edit`}
+                    render={ routeProps => 
+                        <EditProfile routeProps={routeProps} token={token}/>} />
             </Switch>
         </main>
     )

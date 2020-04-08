@@ -2,82 +2,93 @@ import React from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({routeProps, projects, setProjects}) => {
+const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
     
-    // state of form
     const initialState = {
-        projectName: '',
-        techStack: '',
+        name: '',
+        skills: '',
         description: '',
         curCap: 1,
-        maxCap: '',
-        users: ['current user']
+        maxCap: 1,
+        users: id,
     }
 
-    const [ projectInfo, setProjectInfo ] = React.useState(initialState)
+    const [ groupInfo, setGroupInfo ] = React.useState(initialState)
     
-    const {projectName, techStack, description, maxCap} = projectInfo
+    const { name, skills, description, maxCap} = groupInfo
     
     // tracker for this form
     const [trackStep, setTrackStep] = React.useState(0)
     
     const handleChange = e => {
         e.preventDefault()
-        setProjectInfo({
-            ...projectInfo,
+        setGroupInfo({
+            ...groupInfo,
             [e.target.name]: e.target.value
         })
     }
     
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(projectInfo)
-        for (let i in projectInfo) {
-            if (projectInfo[i] === '') {
+        for (let i in groupInfo) {
+            if (groupInfo[i] === '') {
                 alert (`${i} is required`)
                 return false
             }
         }
+        groupInfo.name = name.split(' ').join('').toLowerCase()
+
         // update db
-        
-        // update state
-        setProjects([
-            ...projects,
-            projectInfo
-        ])
-        routeProps.history.push("/projects")
+        fetch("http://localhost:5000/groups", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(groupInfo)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            setGroups(groups.concat(groupInfo))
+            routeProps.history.push("/groups")
+
+        })        
     }
+    
+    const maxCapVals = [2,3,4,5,6]
+    
     
     // form components
     const fields = [
-        <div className="tab" key="projectName">
-            <label className="tab-label">Project Name</label>
+        <div className="tab" key="groupName">
+            <label className="tab-label">Group Name</label>
             <input 
                 type="text"
                 autoFocus={true}
-                name="projectName"
-                value={projectName}
+                name="name"
+                value={name}
                 onChange={handleChange}
-                placeholder="name of project"
+                placeholder="name of group"
             />
         </div>
         ,
-        <div className="tab" key="techStack">
+        <div className="tab" key="skills">
             <label className="tab-label">Tech Stack</label>
             <input 
                 type="text"
                 autoFocus={true}
-                name="techStack"
-                value={techStack}
+                name="skills"
+                value={skills}
                 onChange={handleChange}
                 onKeyPress={ e => {
                     if (e.key === "Enter") next()
                     }}
-                placeholder="tech stack"
+                placeholder="skills"
             />
         </div>
         ,
-        <div className="tab" key="project-description">
+        <div className="tab" key="group-description">
             <label className="tab-label">Description</label>
             <input 
                 type="text"
@@ -89,22 +100,17 @@ const MultiStepForm = ({routeProps, projects, setProjects}) => {
                 onKeyPress={ e => {
                     if (e.key === "Enter") next()
                     }}
-                placeholder="brief description of your project"
+                placeholder="brief description of your group"
             />
         </div>
         ,
         <div className="tab" key="maxCap">
-            <label className="tab-label">Max Number of Collaborators</label>
+            <label className="tab-label">Max Number of Members</label>
             <select id="maxCap" name="maxCap" onChange={handleChange} 
                 onKeyPress={ e => {
                     if (e.key === "Enter") next()
                     }}> 
-                <option value="0">-</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
+                {maxCapVals.map(num => <option key={num} value={num}>{num}</option>)}
             </select>
         </div>
     ]
@@ -112,7 +118,7 @@ const MultiStepForm = ({routeProps, projects, setProjects}) => {
     // next and previous buttons
     const next = () => {
         if (trackStep < fields.length) {
-            setProjectInfo({...projectInfo})
+            setGroupInfo({...groupInfo})
             setTrackStep(trackStep+1)
             let curStep = document.getElementById(`${trackStep+1}`)
             let classes = curStep.classList;
@@ -122,7 +128,7 @@ const MultiStepForm = ({routeProps, projects, setProjects}) => {
         
     const prev = () => {
         if (trackStep <= fields.length && trackStep > 0) {
-            setProjectInfo({...projectInfo})
+            setGroupInfo({...groupInfo})
             setTrackStep(trackStep-1)
         }
         let curStep = document.getElementById(`${trackStep}`)
@@ -162,14 +168,14 @@ const MultiStepForm = ({routeProps, projects, setProjects}) => {
                 {
                     trackStep === fields.length &&
                         <div className='multi-review'>
-                            <label className="multi-review-label">Project Name</label>
+                            <label className="multi-review-label">Group Name</label>
                             <div className="signup-review">
-                                {projectName}
+                                {name}
                             </div>
 
-                            <label className="multi-review-label">Tech Stack</label>
+                            <label className="multi-review-label">Skills</label>
                             <div className="signup-review">
-                                {techStack}
+                                {skills}
                             </div>
 
                             <label className="multi-review-label">Description</label>
@@ -177,7 +183,7 @@ const MultiStepForm = ({routeProps, projects, setProjects}) => {
                                 {description}
                             </div>
 
-                            <label className="multi-review-label">Max Number of Collaborators</label>
+                            <label className="multi-review-label">Max Number of Members</label>
                             <div className="signup-review">
                                 {maxCap}
                             </div>

@@ -1,8 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
 import "./log_in.styles.css"
 
-const LogIn = ({routeProps}) => {
+const LogIn = ({routeProps, token, setToken, id, setId}) => {
     
     const initialState = {
         email: '',
@@ -18,31 +19,49 @@ const LogIn = ({routeProps}) => {
         e.preventDefault()
         setLogin({...login, [e.target.name]: e.target.value})
     }
+    
+    
     const handleSubmit = e => {
         e.preventDefault()
         // connect to backend
-        fetch('http://18.222.188.107:4000/user/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password}) 
-        })
-            .then(response => response.json())
-            .then(data => {
-                // data has token info
-                if (!data.token) {
-                    alert("Email/Password is not correct")
-                } else {
-                    //save token in cookie
-                    routeProps.history.push("/user/profile/edit")
-
-                }
+        if (!(email && password)) {
+            alert("You must enter all fields")
+        } else {
+            fetch('http://localhost:5000/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password}) 
             })
-            .catch(()=>alert("Log In has failed!"))
-        // reset state
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.token) {
+                        alert(data.message)
+                        return false
+                    } else {
+                        localStorage.setItem("token", data.token)
+                        localStorage.setItem("id", data.username)
+                        setId(data.username)
+                        setToken(data.token)
+                        return true
+                    }
+                })
+                .then( next => {
+                    if (!next) routeProps.history.push(`/users/login`)
+                    else routeProps.history.push(`/users/profile/${id}`)
+
+                })
+                .catch((err) => console.error(err))
+        }
     }
-        
+
+    
+    React.useEffect(()=> {
+        if(token) routeProps.history.push(`/users/profile/${id}`)
+    }, [token, routeProps.history, id])
+    
+    
     return (
         <div className="login-container" >
             <h2 className="login-header">WELCOME</h2>
@@ -70,7 +89,7 @@ const LogIn = ({routeProps}) => {
                     value="Log In"
                     type="submit"
                 />
-                <Link className="link-to-signup" to="/signup">Not registered? Click here to sign up</Link>
+                <Link className="link-to-signup" to="/users/signup">Not registered? Click here to sign up</Link>
             </form>
         </div>
     )
