@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import FormInput from "../FormInput/formInput.component"
+
 import "./log_in.styles.css"
 
 const LogIn = ({routeProps, token, setToken, id, setId}) => {
@@ -20,76 +22,61 @@ const LogIn = ({routeProps, token, setToken, id, setId}) => {
         setLogin({...login, [e.target.name]: e.target.value})
     }
     
-    
     const handleSubmit = e => {
         e.preventDefault()
-        // connect to backend
-        if (!(email && password)) {
-            alert("You must enter all fields")
-        } else {
-            fetch('http://localhost:5000/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({email, password}) 
+        // validate function
+        fetch('http://localhost:5000/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password}) 
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.token) {
+                    alert(data.message)
+                    return false
+                } else {
+                    localStorage.setItem("token", data.token)
+                    localStorage.setItem("id", data.username)
+                    setId(data.username)
+                    setToken(data.token)
+                    return true
+                }
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.token) {
-                        alert(data.message)
-                        return false
-                    } else {
-                        localStorage.setItem("token", data.token)
-                        localStorage.setItem("id", data.username)
-                        setId(data.username)
-                        setToken(data.token)
-                        return true
-                    }
-                })
-                .then( next => {
-                    if (!next) routeProps.history.push(`/users/login`)
-                    else routeProps.history.push(`/users/profile/${id}`)
+            .then( next => {
+                if (!next) routeProps.history.push(`/users/login`)
+                else routeProps.history.push(`/users/profile/${id}`)
 
-                })
-                .catch((err) => console.error(err))
-        }
+            })
+            .catch((err) => console.error(err))
     }
-
-    
-    React.useEffect(()=> {
-        if(token) routeProps.history.push(`/users/profile/${id}`)
-    }, [token, routeProps.history, id])
-    
     
     return (
         <div className="login-container" >
-            <h2 className="login-header">WELCOME</h2>
-            <form onSubmit={e=>handleSubmit(e)}>
-                <label className="login-label">Email</label>
-                <input 
-                    name="email"
-                    className="login-input"
+            <form onSubmit={handleSubmit}>
+                <FormInput 
+                    label="Email"
                     type="text"
-                    value={email}
-                    onChange={handleChange}
+                    name="email"
                     placeholder="email"
+                    handleChange={handleChange}
+                    value={email}
                 />
-                <label className="login-label">Password</label>
-                <input 
-                    name="password"
-                    className="login-input"
+                <FormInput 
+                    label="Password"
                     type="password"
-                    value={password}
-                    onChange={handleChange}
+                    name="password"
                     placeholder="password"
+                    handleChange={handleChange}
+                    value={password}
                 />
-                <input
+                <button
                     className="submit-login"
                     value="Log In"
                     type="submit"
-                />
-                <Link className="link-to-signup" to="/users/signup">Not registered? Click here to sign up</Link>
+                >Log In</button>
             </form>
         </div>
     )

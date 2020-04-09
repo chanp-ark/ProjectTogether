@@ -1,0 +1,13 @@
+
+
+.form-label {
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 20px;
+    margin-right: 5px;
+}
+
+.form-input {
+    line-height: 15px;
+    padding: 5px;
+}

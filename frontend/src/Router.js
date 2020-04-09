@@ -2,39 +2,26 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
-import SignUp from "./client/SignUp/sign_up.component";
-import LogIn from "./client/LogIn/log_in.component"
-import About from "./client/About/about";
-import Groups from "./client/Groups/groups"
-import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
-import User from './client/User/user.component';
-import Profile from './client/User/Profile/profile.component';
-import EditProfile from './client/User/Profile/EditProfile/edit.component';
-import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
+// import About from "./client/About/about";
+// import Groups from "./client/Groups/groups"
+// import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
+// import User from './client/User/user.component';
+// import Profile from './client/User/Profile/profile.component';
+// import EditProfile from './client/User/Profile/EditProfile/edit.component';
+// import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
-const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
-    // groups
-    const [groups, setGroups] = React.useState([])
+const Main = ({token, setToken, userId, setUserId, profileId, setProfileId}) => {
     
-    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
-        
-    React.useEffect( () => {
-        const result = () => {
-            fetch("http://localhost:5000/groups", {method: "GET"})
-                .then(response => response.json())
-                .then(data => setGroups(data.groups))
-                .catch(err => {
-                    console.error(err)
-                })
-            }
-        result()
-    }, [groupId])
+    // if token and userId is set to true, fetch logged in user's info
+    // OR JUST PUT HANDLE LOGIN AND SIGN UP IN APP.jS
     
     return (
         <main>
             <Switch>
-                <Route exact path='/' component={Home} />
-                <Route 
+                {/* HOME PAGE */}
+                <Route exact path='/' render={routeProps => <Home routeProps={routeProps} token={token} userId={userId} setToken={setToken} setUserId={setUserId} />} />
+                {/* ABOUT PAGE */}
+                {/* <Route 
                     exact 
                     path='/about' 
                     render={ routeProps => 
@@ -67,7 +54,7 @@ const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
                         setGroupId={setGroupId}
                     />
                 } />
-               
+                
                 <Route 
                     exact 
                     path='/groups/new' 
@@ -82,32 +69,11 @@ const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
                     } />
                 <Route 
                     exact 
-                    path='/users/signup' 
-                    render= { routeProps => 
-                        <SignUp 
-                            routeProps={routeProps}
-                            token={token}
-                            setToken={setToken} />
-                    } />
-                <Route 
-                    exact 
-                    path='/users/login' 
-                    render={ routeProps => 
-                        <LogIn 
-                            routeProps={routeProps}
-                            token={token}
-                            setToken={setToken}
-                            id={id}
-                            setId={setId}
-                            />
-                    } />
-                <Route 
-                    exact 
                     path='/users' 
                     render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} id={id} /> } />
                 <Route 
                     exact 
-                    path={`/users/${profileName}`}
+                    path={`/users/${id}`}
                     render={ routeProps => <Profile profileName={profileName} routeProps={routeProps} id={id}/>}
                 />
                 
@@ -116,7 +82,7 @@ const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
                     exact 
                     path={`/users/profile/${id}/edit`}
                     render={ routeProps => 
-                        <EditProfile routeProps={routeProps} token={token}/>} />
+                        <EditProfile routeProps={routeProps} token={token}/>} /> */}
             </Switch>
         </main>
     )

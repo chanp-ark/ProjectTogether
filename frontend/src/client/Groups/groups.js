@@ -8,7 +8,26 @@ import "./groups.css"
 const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
 
     const [refresh, setRefresh] = React.useState("")
+    
     console.log(refresh)
+    
+    const [ groups, setGroups ] = React.useState([])
+    
+    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
+        
+    React.useEffect( () => {
+        const result = () => {
+            fetch("http://localhost:5000/groups", {method: "GET"})
+                .then(response => response.json())
+                .then(data => setGroups(data.groups))
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+            result()
+        }, [groupId])
+    
+    
     return (
         <div className="group-container">
             <div className="group-title">Groups</div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({profileName, setProfileName, id}) => {
+const User = ({profileName, setProfileName, iddo }) => {
     
     const [allUsers, setAllUsers] = React.useState([])
     

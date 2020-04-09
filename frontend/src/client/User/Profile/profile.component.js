@@ -26,8 +26,10 @@ const Profile = ({routeProps, id, name}) => {
             .catch(err=> {
                 console.log("error:" , err)
             })
-    }, [id, routeProps.history])
-
+    }, [id, routeProps.history, name])
+    
+    console.log(id, username)
+    
     return (
     // this will display username
     <div className='userprof-container'>
