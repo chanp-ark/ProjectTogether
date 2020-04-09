@@ -114,7 +114,7 @@ router.post(
 // @ method: GET
 // @ param: /:username
 // @ description: get logged in user
-router.get("/profile/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
         User.findOne( 
             {

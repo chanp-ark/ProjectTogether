@@ -38,6 +38,9 @@ router.post("/", auth, async(req, res) => {
                 res.status(200).json({message: `Group ${name} created!`, group})
             }
         })
+        await User.updateOne(
+            {'profile.username': req.body.id}, 
+            {$addToSet: {'profile.groups':group.name} })
     } catch {
         res.send({failure: "Something is wrong"})
     }
