@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({token, groups, setGroups, userId, validate, setMulti}) => {
+const MultiStepForm = ({token, userId, validate, setMulti}) => {
 
     const initialState = {
         name: '',
@@ -14,7 +14,6 @@ const MultiStepForm = ({token, groups, setGroups, userId, validate, setMulti}) =
     }
 
     const [ groupInfo, setGroupInfo ] = useState(initialState)
-    console.log(groupInfo)
     
     const { name, skills, description, maxCap} = groupInfo
     
@@ -44,7 +43,6 @@ const MultiStepForm = ({token, groups, setGroups, userId, validate, setMulti}) =
             })
             .then(response => response.json())
             .then(data => {
-                setGroups(groups.concat(groupInfo))
                 setMulti(false)
             })        
         }
@@ -146,15 +144,10 @@ const MultiStepForm = ({token, groups, setGroups, userId, validate, setMulti}) =
     return (
         <form className="multi-container" onSubmit={handleSubmit}>                 
             <div className="multi-tracker">
-                {
-                    stepTracker
-                }
-
+                { stepTracker }
             </div>
             
-            {
-                fields.filter( (curTab, i) => i === trackStep)
-            }
+            { fields.filter( (curTab, i) => i === trackStep) }
             
             {
                 trackStep === fields.length &&

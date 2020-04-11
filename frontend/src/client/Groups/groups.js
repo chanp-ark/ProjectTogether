@@ -10,7 +10,7 @@ const Groups = ({token, userId, routeProps, validate}) => {
     const [refresh, setRefresh] = useState("")
     
     const [ multi, setMulti ] = useState(false)
-    console.log(multi)
+
     const [ groups, setGroups ] = useState([])
     
     const [ groupId, setGroupId ] = useState(localStorage.getItem("groupId"))
@@ -25,7 +25,7 @@ const Groups = ({token, userId, routeProps, validate}) => {
                 })
             }
             result()
-        }, [groupId])
+        }, [groupId, multi])
         
     const createGroup= e => {
         e.preventDefault()

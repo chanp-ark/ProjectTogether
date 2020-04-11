@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {Redirect} from "react-router-dom"
 
 import FormInput from "../FormInput/formInput.component"
 
@@ -33,7 +32,7 @@ const LogIn = ({routeProps, setToken, setUserId, validate}) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    console.log("in fetch:", data)
                     if (!data.token) {
                         alert(data.message)
                         return false
@@ -41,8 +40,8 @@ const LogIn = ({routeProps, setToken, setUserId, validate}) => {
                         const {token, username} = data
                         localStorage.setItem("token", token)
                         localStorage.setItem("userId", username)
-                        setUserId({username})
-                        setToken({token})
+                        setUserId(username)
+                        setToken(token)
                         return true
                     }
                 })

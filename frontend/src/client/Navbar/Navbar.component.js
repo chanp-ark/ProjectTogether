@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken, id, setId}) => {
+const Navbar = ({token, setToken, userId, setUserId}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -19,15 +19,15 @@ const Navbar = ({token, setToken, id, setId}) => {
     
   const logout = () => {
     localStorage.removeItem("token")
-    localStorage.removeItem("id")
+    localStorage.removeItem("userId")
     setToken(false)
-    setId(false)
+    setUserId(false)
     toggleToTrue()
   }
   
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
-    <li key="profile"><Link onClick={toggleToTrue} to={`/users/${id}`} >Profile</Link></li>
+    <li key="profile"><Link onClick={toggleToTrue} to={`/users/${userId}`} >Profile</Link></li>
   ]
   
   const alwaysInTabs = [
