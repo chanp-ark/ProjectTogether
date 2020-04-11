@@ -2,26 +2,47 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
-// import About from "./client/About/about";
-// import Groups from "./client/Groups/groups"
+import About from "./client/About/about";
+import Groups from "./client/Groups/groups"
 // import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
 // import User from './client/User/user.component';
 // import Profile from './client/User/Profile/profile.component';
 // import EditProfile from './client/User/Profile/EditProfile/edit.component';
 // import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
-const Main = ({token, setToken, userId, setUserId, profileId, setProfileId}) => {
+const Main = ({token, setToken, userId, setUserId}) => {
     
     // if token and userId is set to true, fetch logged in user's info
-    // OR JUST PUT HANDLE LOGIN AND SIGN UP IN APP.jS
+
+    // send logged in user to group
+    
+    // Validation
+    const validate = (obj) => {
+        for (let i in obj) {
+            console.log(i, obj[i])
+            if (!obj[i]) return alert ("You must enter all fields")
+            if (i === 'username') {
+                if (obj['username'].match(' ')) return alert("Username must be one word")
+                // check for punctuation
+            }     
+            if (i === 'password') {
+                if (obj['password'].length < 6) return alert("Password must be at least 6 characters")
+                if (obj['confirmPw'] && obj['password'] !== obj['confirmPw']) return alert("Passwords do not match")
+            }
+            if (i === 'name') {
+                // check for punctuation
+            }
+        }
+        return true
+    }
     
     return (
         <main>
             <Switch>
                 {/* HOME PAGE */}
-                <Route exact path='/' render={routeProps => <Home routeProps={routeProps} token={token} userId={userId} setToken={setToken} setUserId={setUserId} />} />
+                <Route exact path='/' render={routeProps => <Home routeProps={routeProps} token={token} userId={userId} setToken={setToken} setUserId={setUserId} validate={validate}/>} />
                 {/* ABOUT PAGE */}
-                {/* <Route 
+                <Route 
                     exact 
                     path='/about' 
                     render={ routeProps => 
@@ -33,14 +54,13 @@ const Main = ({token, setToken, userId, setUserId, profileId, setProfileId}) => 
                     render={routeProps => 
                         <Groups
                             routeProps={routeProps}
-                            groups={groups}
-                            setGroups={setGroups}
+                            validate={validate}
                             token={token}
-                            id={id}
-                            groupId={groupId}
-                            setGroupId={setGroupId}
+                            userId={userId}
+                            
                         />
                     } />
+                    {/* 
                 <Route 
                 exact 
                 path={`/groups/${groupId}`} 
@@ -70,7 +90,7 @@ const Main = ({token, setToken, userId, setUserId, profileId, setProfileId}) => 
                 <Route 
                     exact 
                     path='/users' 
-                    render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} id={id} /> } />
+                    render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} userId={userId} token={token} /> } />
                 <Route 
                     exact 
                     path={`/users/${id}`}

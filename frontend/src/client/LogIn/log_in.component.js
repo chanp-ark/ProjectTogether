@@ -1,20 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState} from 'react'
+import {Redirect} from "react-router-dom"
 
 import FormInput from "../FormInput/formInput.component"
 
 import "./log_in.styles.css"
 
-const LogIn = ({routeProps, token, setToken, id, setId}) => {
+const LogIn = ({routeProps, setToken, setUserId, validate}) => {
     
     const initialState = {
         email: '',
         password: ''
     }
     
-    const [login, setLogin] = React.useState(initialState)
-    
-    // pull email and password out
+    const [login, setLogin] = useState(initialState)
+
     const {email, password} = login
     
     const handleChange = e => {
@@ -24,33 +23,32 @@ const LogIn = ({routeProps, token, setToken, id, setId}) => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        // validate function
-        fetch('http://localhost:5000/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password}) 
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.token) {
-                    alert(data.message)
-                    return false
-                } else {
-                    localStorage.setItem("token", data.token)
-                    localStorage.setItem("id", data.username)
-                    setId(data.username)
-                    setToken(data.token)
-                    return true
-                }
+        if(validate(login)) {
+            fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password}) 
             })
-            .then( next => {
-                if (!next) routeProps.history.push(`/users/login`)
-                else routeProps.history.push(`/users/profile/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (!data.token) {
+                        alert(data.message)
+                        return false
+                    } else {
+                        const {token, username} = data
+                        localStorage.setItem("token", token)
+                        localStorage.setItem("userId", username)
+                        setUserId({username})
+                        setToken({token})
+                        return true
+                    }
+                })
 
-            })
-            .catch((err) => console.error(err))
+                .catch((err) => console.error(err))
+        }
     }
     
     return (

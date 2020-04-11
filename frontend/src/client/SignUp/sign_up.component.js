@@ -1,11 +1,10 @@
-import React from 'react'
-import { Link } from "react-router-dom"
+import React, {useState} from 'react'
 
 import FormInput from "../FormInput/formInput.component"
 
 import "./sign_up.styles.css"
 
-const SignUp = ({routeProps, token, setToken, setId, setProfileName}) => {
+const SignUp = ({routeProps, setToken, setUserId, setProfileId, validate}) => {
     
     const initialState = {
         username: '',
@@ -14,7 +13,7 @@ const SignUp = ({routeProps, token, setToken, setId, setProfileName}) => {
         confirmPw: '',
     }
     
-    const [userInfo, setUserInfo] = React.useState(initialState)
+    const [userInfo, setUserInfo] = useState(initialState)
     
     const { username, email, password, confirmPw } = userInfo
     
@@ -26,31 +25,32 @@ const SignUp = ({routeProps, token, setToken, setId, setProfileName}) => {
     const handleSubmit = e => {
         e.preventDefault()
         // validate function
-        fetch('http://localhost:5000/users/signup', 
-            {
-                method:'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username, email, password})
-            })
-                .then(response => response.json(response))
-                .then(data => {
-                    // token is in this data
-                    if (data.message !== "User saved!") {
-                        alert(data.message)
-                    } else if (!data.token) {
-                        alert(data.message)
-                    } else {
-                        localStorage.setItem("token", data.token)
-                        localStorage.setItem("id", username)
-                        setToken(true)
-                        setId(username)
-                        setProfileName(username)
-                        routeProps.history.push(`/user/${username}`)
-                    }
+        if(validate(userInfo)) {
+            fetch('http://localhost:5000/signup', 
+                {
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({username, email, password})
                 })
-                .catch((err) => console.error(err))
+                    .then(response => response.json(response))
+                    .then(data => {
+                        console.log(data)
+                        if (data.message !== "User saved!") {
+                            alert(data.message)
+                        } else if (!data.token) {
+                            alert(data.message)
+                        } else {
+                            localStorage.setItem("token", data.token)
+                            localStorage.setItem("id", data.username)
+                            setToken(true)
+                            setUserId(data.username)
+                            setProfileId(data.username)
+                        }
+                    })
+                    .catch((err) => console.error(err))
+        }
     }
     
     return (

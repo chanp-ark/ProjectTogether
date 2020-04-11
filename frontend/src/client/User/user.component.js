@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({profileName, setProfileName, iddo }) => {
+const User = ({profileName, setProfileName, userId, token}) => {
     
     const [allUsers, setAllUsers] = React.useState([])
     
@@ -21,6 +21,22 @@ const User = ({profileName, setProfileName, iddo }) => {
             })
     }, [])   
     
+    if (token && userId) {
+        fetch(`http://localhost:5000/users/${userId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(err => {
+                console.error("FETCH ERROR: ", err)
+            })
+    }
 
 
     // sort users by created date, most recent first, **do this later

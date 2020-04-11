@@ -33,12 +33,24 @@
 }
 
 .signup-submit {
-    display: flex;
     padding: 0.3em 3em;
     margin: 1em 0;
-    background-color: #0077FF;
+    background-color: #265CFF;
     border: none;
     border-radius: 5px;
     color: white;
     font-weight: 600;
 }
+.signup-submit:hover {
+    background-color: #0036B3;
+    border: none;
+}
+
+.signup-submit:focus {
+    outline: none
+}
+
+
+
+
+

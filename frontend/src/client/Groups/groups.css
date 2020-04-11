@@ -1,3 +1,7 @@
+.no-groups {
+    display: none
+}
+
 .group-container {
     display: block;
     margin: 1em auto;
@@ -6,10 +10,37 @@
 }
 
 .group-title {
-    display: inline-block;
+    display: block;
     font-size: 2.8em;
+    width: 20%;
+    margin: 0 auto;
     font-weight: 600;
     text-transform: uppercase;
+    background-color: #FFFFFF;
+    padding: 0.2em 1em;
+}
+
+.create-group-button {
+    margin-top: 50px;
+    padding: 1em 0.8em;
+    border-radius: 10px;
+    border: 1px solid black;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    padding: 1em;
+}
+
+.create-group-button:focus {
+    outline: none;
+}
+
+.create-group-button:hover {
+    background-color:#0077FF;
+    transition: all ease-in-out 200ms;
+    border: 1px solid white;
+    color: white;
+
 }
 
 .group-title::after {

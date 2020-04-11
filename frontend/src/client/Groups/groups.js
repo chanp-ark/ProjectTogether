@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
+import MultiStepForm from "./CreateGroup/multistep-form.component"
 
 import Thumbnail from "./Thumbnails/thumbnail.component"
-import CreateGroup from "./CreateGroup/create-button.component"
 import "./groups.css"
 
-const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
+const Groups = ({token, userId, routeProps, validate}) => {
 
-    const [refresh, setRefresh] = React.useState("")
+    const [refresh, setRefresh] = useState("")
     
-    console.log(refresh)
+    const [ multi, setMulti ] = useState(false)
+    console.log(multi)
+    const [ groups, setGroups ] = useState([])
     
-    const [ groups, setGroups ] = React.useState([])
-    
-    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
+    const [ groupId, setGroupId ] = useState(localStorage.getItem("groupId"))
         
-    React.useEffect( () => {
+    useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
                 .then(response => response.json())
@@ -26,13 +26,21 @@ const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
             }
             result()
         }, [groupId])
+        
+    const createGroup= e => {
+        e.preventDefault()
+        if (!token || !userId) {
+            return alert("You must be logged in to create a group")
+        }
+        setMulti(true)
+    }    
     
     
     return (
         <div className="group-container">
             <div className="group-title">Groups</div>
-            <div className="groups">
-                <CreateGroup token={token} id={id}/>
+            { !multi ? <button className="create-group-button" onClick={createGroup}>+ Create Group</button> : <MultiStepForm groups={groups} token={token} setMulti={setMulti} validate={validate} userId={userId}/> }
+            <div className={multi ? "no-groups":"groups"}>
                 {groups.map( (group, i) => {
                     const {name, skills, description, curCap, maxCap, users} = group
                     return(
@@ -45,7 +53,7 @@ const Groups = ({groups, token, id, routeProps, groupId, setGroupId}) => {
                             maxCap={maxCap}
                             users={users}
                             token={token}
-                            id={id}
+                            userId={userId}
                             routeProps={routeProps}
                             groupId={groupId}
                             setGroupId={setGroupId}

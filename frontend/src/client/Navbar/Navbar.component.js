@@ -26,7 +26,7 @@ const Navbar = ({token, setToken, id, setId}) => {
   }
   
   const loggedInTabs = [
-    <li key="logout" ><Link onClick={logout} to='/users/login'>Log Out</Link></li>, 
+    <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
     <li key="profile"><Link onClick={toggleToTrue} to={`/users/${id}`} >Profile</Link></li>
   ]
   
@@ -58,7 +58,7 @@ const Navbar = ({token, setToken, id, setId}) => {
             <div className={toggle ? "navbar-others" : "dropdown-navbar"}>
               { 
                 !token ?
-                  <li key="login"><Link onClick={toggleToTrue} to='/login'>Login</Link></li>
+                  <li key="login"><Link onClick={toggleToTrue} to='/'>Login</Link></li>
                 : loggedInTabs
               }
               { alwaysInTabs }
