@@ -1,21 +1,22 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
 import About from "./client/About/about";
 import Groups from "./client/Groups/groups"
+import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 // import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
 // import User from './client/User/user.component';
 // import Profile from './client/User/Profile/profile.component';
 // import EditProfile from './client/User/Profile/EditProfile/edit.component';
-// import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 
-const Main = ({token, setToken, userId, setUserId}) => {
+const Main = ({token, setToken, userId, setUserId, groupId, setGroupId}) => {
     
     // if token and userId is set to true, fetch logged in user's info
 
     // send logged in user to group
     
+console.log("router", groupId)
     // Validation
     const validate = (obj) => {
         for (let i in obj) {
@@ -57,24 +58,18 @@ const Main = ({token, setToken, userId, setUserId}) => {
                             validate={validate}
                             token={token}
                             userId={userId}
+                            groupId={groupId}
+                            setGroupId={setGroupId}
                             
                         />
                     } />
-                    {/* 
+                  
                 <Route 
-                exact 
-                path={`/groups/${groupId}`} 
-                render={routeProps => 
-                    <GroupDetails
-                        routeProps={routeProps}
-                        groups={groups}
-                        token={token}
-                        id={id}
-                        groupId={groupId}
-                        setGroupId={setGroupId}
-                    />
-                } />
+                    exact 
+                    path={`/groups/${groupId}`} 
+                    render={routeProps => <GroupDetails groupId={groupId} routeProps={routeProps} userId={userId} token={token} />} />
                 
+                  {/* 
                 <Route 
                     exact 
                     path='/groups/new' 
@@ -103,6 +98,7 @@ const Main = ({token, setToken, userId, setUserId}) => {
                     path={`/users/profile/${id}/edit`}
                     render={ routeProps => 
                         <EditProfile routeProps={routeProps} token={token}/>} /> */}
+                <Redirect to="/" />
             </Switch>
         </main>
     )

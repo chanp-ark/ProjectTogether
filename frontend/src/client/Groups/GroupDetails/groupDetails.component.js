@@ -1,42 +1,52 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 
 import "./groupDetails.styles.css"
 
-const GroupDetails = ({id, token, groupId, setGroupId, routeProps}) => {
+const GroupDetails = ({userId, token, groupId}) => {
     
-    const [details, setDetails] = React.useState(groupId)
+    const [details, setDetails] = useState('')
+        
+    useEffect(()=> {    
+        const returnGroup = () => {
+            fetch(`http://localhost:5000/groups/${groupId}`, {
+                method: "GET",
+                header: {
+                    "Authorization": `Bearer ${token}`
+                },
     
-    React.useEffect( ()=>{
-        fetch(`http://localhost:5000/groups/${groupId}`, {
-            method: "GET",
-        })
-            .then(response => response.json())
-            .then(data => setDetails(data))
-            .catch(err=>{
-                console.log("ERROR:", err)
             })
+                .then(response=>response.json())
+                .then(data=> {
+                    console.log(data)
+                    setDetails(data)
+                    })
+                .catch(err=> {
+                    console.error("error:", err)
+                })
+        }
+        returnGroup()
     }, [groupId, token])
     
-    const { users, name, skills, description, curCap, maxCap } = details
-    
+    const { name, skills, description, curCap, maxCap, users } = details 
+
     return (
         <div className="details-container">
-            <div className="details-title">{name}</div>
+            <div className="details-title">Group {name} </div>
             <div className="details-content">
-                {description}
+                Description: {description}
             </div>
             <div className="details-content">
-                {skills}
+                Skills: {skills}
             </div>
             <div className="details-content">
-                {curCap}
+                {curCap} / {maxCap}
             </div>
             <div className="details-content">
-                {maxCap}
+                All Users: {users}
             </div>
             <div className="details-content">
-                {users}
+                Current User: {userId}
             </div>
         </div>
     )
