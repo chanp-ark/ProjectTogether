@@ -1,13 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({profileName, setProfileName, userId, token}) => {
+const User = ({profileId, setProfileId, userId }) => {
     
+
     const [allUsers, setAllUsers] = React.useState([])
     
-    React.useEffect( () => {
+    useEffect( () => {
         fetch("http://localhost:5000/users",
             {
                 method: 'GET',
@@ -19,24 +20,26 @@ const User = ({profileName, setProfileName, userId, token}) => {
             .catch(err=> {
                 console.error(err)
             })
-    }, [])   
+    }, []) 
     
-    if (token && userId) {
-        fetch(`http://localhost:5000/users/${userId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-            })
-            .catch(err => {
-                console.error("FETCH ERROR: ", err)
-            })
-    }
+
+    
+    // if (token && userId) {
+    //     fetch(`http://localhost:5000/users/${userId}`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Authorization": `Bearer ${token}`,
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //         })
+    //         .catch(err => {
+    //             console.error("FETCH ERROR: ", err)
+    //         })
+    // }
 
 
     // sort users by created date, most recent first, **do this later
@@ -49,12 +52,13 @@ const User = ({profileName, setProfileName, userId, token}) => {
             </div>
             <div className="user-container">
                 { allUsers.map( (user, i) => {
-                     const handleClick = () =>{
-                        setProfileName(user.username)
-                    }
+                    console.log(user)
                     return(
                         <div key={i} className="user-content">
-                            {profileName !== id && <Link onClick={handleClick} to={`/users/${user.username}`}>{user.username}</Link>}    
+                            {profileId !== userId && <Link to={{
+                                pathname: `/users/${user.username}`,
+                                state: { user }
+                                }}>{user.username}</Link>}    
                         </div>  
                         
                     )

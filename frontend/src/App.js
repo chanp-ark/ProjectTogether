@@ -12,14 +12,26 @@ function App() {
   const [ userId, setUserId ] = useState(localStorage.getItem("userId"))
   console.log("userId :", userId, "(app.js")
   
-    // groupId to read group details
-    const [groupId, setGroupId ] = useState('')
+  // groupId to read group details
+  const [groupId, setGroupId ] = useState('')
+  
+  const [profileId, setProfileId] = useState('')
+  console.log("profileId: ", profileId, "(app.js)")
+  
 
   return (  
     <div>
       <Navbar token={token} setToken={setToken} userId={userId} setUserId={setUserId}/>
       <div className="router-component">
-        <Main token={token} setToken={setToken} userId={userId} setUserId={setUserId} groupId={groupId} setGroupId={setGroupId} /> 
+        <Main 
+          token={token} 
+          setToken={setToken} 
+          userId={userId} 
+          setUserId={setUserId} 
+          groupId={groupId} 
+          setGroupId={setGroupId}
+          profileId={profileId}
+          setProfileId={setProfileId} /> 
       </div>
     </div>
   );
