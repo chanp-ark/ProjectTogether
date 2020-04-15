@@ -16,7 +16,7 @@ const Thumbnail = ( {userId, token, routeProps, name, skills, description, curCa
                 {curCap < maxCap &&  <Link onClick={handleJoin} className="join-group" to={{
                                             pathname: `/groups`,
                                             state: {name, skills, description, curCap, maxCap, users}
-                                        }}>Join</Link> }
+                                        }}>JOIN</Link> }
             </div>
             <div className="thmnl-content">
                 <div>Skills</div>

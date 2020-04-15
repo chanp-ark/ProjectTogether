@@ -14,7 +14,7 @@ const Profile = ({reactProps, userId}) => {
         <div className='userprof-title'>
             <h1>User Profile</h1>  
             <p> {username} </p>
-            <p> {groups} </p>
+            <p> Groups: {groups} </p>
         </div>
         {/* Edit button only shows if profile username matches the logged in user */}
         <div className="edit-button">

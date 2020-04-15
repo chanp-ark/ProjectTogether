@@ -9,6 +9,8 @@
     background-color: #FFFFFF;
 }
 
+
+
 .detail{
     text-align: center;
     font-size: 1.5em;
@@ -35,20 +37,20 @@
     outline:none;
 }
 
+.thmnl-content {
+    margin-top: 30px;
+}
+
 .thmnl-content div {
     text-align: center;
     font-weight: 600;
     font-size: 1.1em;
 }
 
-.join-button {
+.join-group {
     display: flex;
     justify-content: center;
     margin: 30px auto;
-
-}
-
-.join-button a {
     padding: 1px 8px;
     background-color: #265CFF;
     border-radius: 5px;
@@ -56,6 +58,7 @@
     color: white;
     font-size: 12px;
     font-weight: 600;
+    width: 30px;
     text-decoration: none;
     transition: all 250ms ease-in-out
 }
