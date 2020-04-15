@@ -1,48 +1,11 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({profileId, setProfileId, userId }) => {
+const User = ({allUsers, profileId, userId }) => {
     
 
-    const [allUsers, setAllUsers] = React.useState([])
-    
-    useEffect( () => {
-        fetch("http://localhost:5000/users",
-            {
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => data.profile)
-            .then(users => {
-                setAllUsers(users)})
-            .catch(err=> {
-                console.error(err)
-            })
-    }, []) 
-    
-
-    
-    // if (token && userId) {
-    //     fetch(`http://localhost:5000/users/${userId}`, {
-    //         method: "GET",
-    //         headers: {
-    //             "Authorization": `Bearer ${token}`,
-    //             "Content-Type": "application/json"
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //         })
-    //         .catch(err => {
-    //             console.error("FETCH ERROR: ", err)
-    //         })
-    // }
-
-
-    // sort users by created date, most recent first, **do this later
     
     return (
         <div>
@@ -52,7 +15,6 @@ const User = ({profileId, setProfileId, userId }) => {
             </div>
             <div className="user-container">
                 { allUsers.map( (user, i) => {
-                    console.log(user)
                     return(
                         <div key={i} className="user-content">
                             {profileId !== userId && <Link to={{

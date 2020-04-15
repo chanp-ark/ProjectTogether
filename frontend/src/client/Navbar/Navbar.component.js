@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 
@@ -25,9 +25,26 @@ const Navbar = ({token, setToken, userId, setUserId}) => {
     toggleToTrue()
   }
   
+  // logged in user Profile Info
+  const [ loggedInUser, setLoggedInUser ] = useState('')
+  // get userId profile Info
+  useEffect( () => {
+    fetch(`http://localhost:5000/users/${userId}`, { method: "GET",})
+      .then(response => response.json())
+      .then(data => {setLoggedInUser(data)})
+  }, [userId])
+  
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
-    <li key="profile"><Link onClick={toggleToTrue} to={`/users/${userId}`} >Profile</Link></li>
+    <li key="profile">
+      <Link onClick={toggleToTrue} 
+        to={{
+          pathname: `/users/${userId}`,
+          state: {user: loggedInUser}
+          }} >
+        Profile
+      </Link>
+    </li>
   ]
   
   const alwaysInTabs = [
@@ -46,7 +63,7 @@ const Navbar = ({token, setToken, userId, setUserId}) => {
       </Link>
     </li>
   ]
-
+  
     
   return (
     <header>

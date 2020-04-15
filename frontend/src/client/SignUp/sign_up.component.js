@@ -42,11 +42,11 @@ const SignUp = ({routeProps, setToken, setUserId, setProfileId, validate}) => {
                         } else if (!data.token) {
                             alert(data.message)
                         } else {
-                            localStorage.setItem("token", data.token)
-                            localStorage.setItem("id", data.username)
+                            const {token, userProfile} = data
+                            localStorage.setItem("token", token)
+                            localStorage.setItem("id", userProfile.username)
                             setToken(true)
-                            setUserId(data.username)
-                            setProfileId(data.username)
+                            setUserId(userProfile.username)
                         }
                     })
                     .catch((err) => console.error(err))

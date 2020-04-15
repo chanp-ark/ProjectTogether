@@ -5,7 +5,7 @@ import SignUp from "../SignUp/sign_up.component"
 
 import './home.styles.css'
 
-const Home = ({token, setToken, userId, setUserId, routeProps, validate}) => {
+const Home = ({token, setToken, userId, setUserId, routeProps, validate, setLoggedInUser}) => {
     
     // if logged in
     React.useEffect(()=> {
@@ -14,7 +14,7 @@ const Home = ({token, setToken, userId, setUserId, routeProps, validate}) => {
     
     return (
         <>
-            <LogIn routeProps={routeProps} setToken={setToken} setUserId={setUserId} validate={validate}/>
+            <LogIn setLoggedInUser={setLoggedInUser} routeProps={routeProps} setToken={setToken} setUserId={setUserId} validate={validate}/>
             <div className="home-container">
                 <div className="home-title">
                     <h1>project together</h1>

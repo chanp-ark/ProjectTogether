@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Switch, Route} from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
@@ -10,14 +10,43 @@ import Profile from './client/User/Profile/profile.component';
 // import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
 
-const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, profileId, setProfileId}) => {
+const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
     
     // if token and userId is set to true, fetch logged in user's info
 
-    // send logged in user to group
-
-  
- 
+    // all users
+        // sort users by created date, most recent first, **do this later
+    const [allUsers, setAllUsers] = useState([])
+    
+    useEffect( () => {
+        fetch("http://localhost:5000/users",
+            {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => data.profile)
+            .then(users => {
+                if(users.username !== userId) setAllUsers(users)})
+            .catch(err=> {
+                console.error(err)
+            })
+    }, [userId]) 
+    
+    // all groups
+    const [ groups, setGroups ] = useState([])
+            
+    useEffect( () => {
+        const result = () => {
+            fetch("http://localhost:5000/groups", {method: "GET"})
+                .then(response => response.json())
+                .then(data => setGroups(data.groups))
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+            result()
+    }, [groupId])
+    
     // Validation
     const validate = (obj) => {
         for (let i in obj) {
@@ -42,7 +71,15 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, profileI
         <main>
             <Switch>
                 {/* HOME PAGE */}
-                <Route exact path='/' render={routeProps => <Home routeProps={routeProps} token={token} userId={userId} setToken={setToken} setUserId={setUserId} validate={validate}/>} />
+                <Route exact path='/' render={routeProps =>
+                     <Home 
+                        routeProps={routeProps} 
+                        token={token} 
+                        userId={userId} 
+                        setToken={setToken} 
+                        setUserId={setUserId} 
+                        validate={validate} />
+                    } />
                 {/* ABOUT PAGE */}
                 <Route 
                     exact 
@@ -57,6 +94,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, profileI
                         <Groups
                             routeProps={routeProps}
                             validate={validate}
+                            groups={groups}
                             token={token}
                             userId={userId}
                             groupId={groupId}
@@ -65,19 +103,23 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, profileI
                   
                 <Route 
                     exact 
-                    path={`/groups/${groupId}`} 
+                    path={`/groups/:slug`} 
                     render={routeProps => <GroupDetails groupId={groupId} routeProps={routeProps} userId={userId} token={token} />} />
                 
                 
                 <Route 
                     exact 
                     path='/users' 
-                    render={ routeProps => <User userId={userId} token={token} profileId={profileId} setProfileId={setProfileId}/> } />
+                    render={ routeProps => 
+                        <User 
+                            userId={userId} 
+                            token={token} 
+                            allUsers={allUsers} /> } />
                 
                 <Route 
                     exact 
                     path={`/users/:slug`}
-                    render={ routeProps => <Profile profileId={profileId}  reactProps={routeProps} userId={userId}/>}
+                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} />}
                 />
                 
                  {/*

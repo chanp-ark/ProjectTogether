@@ -1,38 +1,15 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 
 
 import "./groupDetails.styles.css"
 
-const GroupDetails = ({userId, token, groupId}) => {
+const GroupDetails = ({routeProps, userId }) => {
     
-    const [details, setDetails] = useState('')
-        
-    useEffect(()=> {    
-        const returnGroup = () => {
-            fetch(`http://localhost:5000/groups/${groupId}`, {
-                method: "GET",
-                header: {
-                    "Authorization": `Bearer ${token}`
-                },
-    
-            })
-                .then(response=>response.json())
-                .then(data=> {
-                    console.log(data)
-                    setDetails(data)
-                    })
-                .catch(err=> {
-                    console.error("error:", err)
-                })
-        }
-        returnGroup()
-    }, [groupId, token])
-    
-    const { name, skills, description, curCap, maxCap, users } = details 
+    const { name, skills, description, curCap, maxCap, users } = routeProps.location.state
 
     return (
         <div className="details-container">
-            <div className="details-title">Group {name} </div>
+            <div className="details-title">Group {name}</div>
             <div className="details-content">
                 Description: {description}
             </div>

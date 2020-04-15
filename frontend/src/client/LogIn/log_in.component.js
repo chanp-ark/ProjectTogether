@@ -4,7 +4,7 @@ import FormInput from "../FormInput/formInput.component"
 
 import "./log_in.styles.css"
 
-const LogIn = ({routeProps, setToken, setUserId, validate}) => {
+const LogIn = ({setLoggedInUser, setToken, setUserId, validate}) => {
     
     const initialState = {
         email: '',
@@ -37,11 +37,13 @@ const LogIn = ({routeProps, setToken, setUserId, validate}) => {
                         alert(data.message)
                         return false
                     } else {
-                        const {token, username} = data
+                        const {token, userProfile} = data
+                        console.log("userprofile at login: ", userProfile, "(login.js)")
                         localStorage.setItem("token", token)
-                        localStorage.setItem("userId", username)
-                        setUserId(username)
+                        localStorage.setItem("userId", userProfile.username)
+                        setUserId(userProfile.username)
                         setToken(token)
+                        setLoggedInUser(userProfile)
                         return true
                     }
                 })

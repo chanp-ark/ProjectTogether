@@ -10,15 +10,11 @@ function App() {
   console.log("token :", token, "(app.js)")
   
   const [ userId, setUserId ] = useState(localStorage.getItem("userId"))
-  console.log("userId :", userId, "(app.js")
+  console.log("userId :", userId, "(app.js)")
   
   // groupId to read group details
   const [groupId, setGroupId ] = useState('')
-  
-  const [profileId, setProfileId] = useState('')
-  console.log("profileId: ", profileId, "(app.js)")
-  
-
+ 
   return (  
     <div>
       <Navbar token={token} setToken={setToken} userId={userId} setUserId={setUserId}/>
@@ -29,9 +25,7 @@ function App() {
           userId={userId} 
           setUserId={setUserId} 
           groupId={groupId} 
-          setGroupId={setGroupId}
-          profileId={profileId}
-          setProfileId={setProfileId} /> 
+          setGroupId={setGroupId} /> 
       </div>
     </div>
   );

@@ -58,6 +58,7 @@ app.post(
                         res.status(200).json({
                             message: "User saved!",
                             token,
+                            userProfile: user.profile
                         })
                     }
                 }
@@ -93,7 +94,7 @@ app.post(
                     if (err) throw err
                     res.status(200).json({
                         token: token,
-                        username: user.profile.username
+                        userProfile: user.profile
                     })
                 })
         } catch(err) {
