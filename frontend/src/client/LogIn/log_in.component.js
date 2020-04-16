@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import FormInput from "../FormInput/formInput.component"
+import FormInput from "../Form/FormInput/formInput.component"
 
 import "./log_in.styles.css"
 
