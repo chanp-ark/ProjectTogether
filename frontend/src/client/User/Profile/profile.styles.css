@@ -39,3 +39,39 @@
     font-size: 1.2em;
     padding: 1em;
 }
+
+.editprof-container {
+    text-align: center;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 800;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 0.3em 1em;
+    color: #000000;
+    padding: 0.3em 2.2em;
+    margin: 20px;
+    background-color: white;
+}
+
+.editprof-container form button {
+    padding: 0.4em 0.8em;
+    background-color: #265CFF;
+    border-radius: 5px;
+    border: none;
+    line-height: 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.editprof-container form button:focus{
+    outline:none;
+}
+.editprof-container form button:hover{
+    background-color: #0036B3;
+    border-radius: 5px;
+    border: none;
+}
+    

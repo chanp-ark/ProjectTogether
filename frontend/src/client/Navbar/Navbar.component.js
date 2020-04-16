@@ -22,6 +22,7 @@ const Navbar = ({token, setToken, userId, setUserId}) => {
     localStorage.removeItem("userId")
     setToken(false)
     setUserId(false)
+    setLoggedInUser('')
     toggleToTrue()
   }
   
@@ -29,11 +30,15 @@ const Navbar = ({token, setToken, userId, setUserId}) => {
   const [ loggedInUser, setLoggedInUser ] = useState('')
   // get userId profile Info
   useEffect( () => {
-    fetch(`http://localhost:5000/users/${userId}`, { method: "GET",})
+    if (userId) {fetch(`http://localhost:5000/users/${userId}`, { method: "GET",})
       .then(response => response.json())
-      .then(data => {setLoggedInUser(data)})
+      .then(data => {
+          setLoggedInUser(data)})
+      .catch(err=> {
+        console.error("Error in Navbar: ", err)
+      })}
   }, [userId])
-  
+    
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
     <li key="profile">

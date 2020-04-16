@@ -76,7 +76,7 @@ app.post(
     async (req, res) => {
         const { email, password } = req.body;
         try {
-            let user = await User.findOne({email: email})
+            const user = await User.findOne({email: email})
             if (!user) {
                 return res.status(500).json({
                     failure: "User does not exist!"
@@ -98,6 +98,7 @@ app.post(
                     })
                 })
         } catch(err) {
+            console.error(err)
             return res.status(500).json({
                 message: "Server Error"
             })
