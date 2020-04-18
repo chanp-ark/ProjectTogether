@@ -8,10 +8,9 @@ const CustomForm = ({state, handleSubmit, buttonLabel, ...otherProps}) => {
 
     // initial state is passed down prop
     // onChange, setFormState with user input
-    const handleChange = (e, ind, state ) => {
+    const handleChange = e => {
         e.preventDefault()
-        console.log(e.target)
-        const newState = formState.map((obj, i) => {
+        const newState = formState.map( obj => {
             for (let key in obj) {
               if (e.target.name === key) {
                   const newObj = {
@@ -23,7 +22,7 @@ const CustomForm = ({state, handleSubmit, buttonLabel, ...otherProps}) => {
               return obj
             }
         })
-=        setFormState(newState)
+        setFormState(newState)
     }
 
     // onSubmit, post formState
@@ -38,7 +37,7 @@ const CustomForm = ({state, handleSubmit, buttonLabel, ...otherProps}) => {
                             key={i}
                             name={key}
                             value={obj[key]}
-                            handleChange={(e) => handleChange(e, i, obj)}
+                            handleChange={handleChange}
                         />
                     )
                 }
