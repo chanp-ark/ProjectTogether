@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import FormInput from './FormInput/formInput.component'
 
-const CustomForm = ({state, handleSubmit, buttonLabel, ...otherProps}) => {
+const CustomForm = ({state, setArrProp, saveProfile, buttonLabel, ...otherProps}) => {
     
     const [ formState, setFormState ] = useState(state)
     
@@ -23,10 +23,18 @@ const CustomForm = ({state, handleSubmit, buttonLabel, ...otherProps}) => {
             }
         })
         setFormState(newState)
+        return true
     }
 
     // onSubmit, post formState
-    console.log("formState", formState)
+        // in profile.component.js
+    const handleSubmit = e => {
+        e.preventDefault()
+        setArrProp(formState)
+        saveProfile(formState)
+        return true
+    }
+    
     return (
         <form onSubmit={handleSubmit}>
             { formState.map((obj, i) => {                

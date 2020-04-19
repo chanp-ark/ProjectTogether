@@ -119,7 +119,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
                 <Route 
                     exact 
                     path={`/users/:slug`}
-                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} />}
+                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token}/>}
                 />
                 
                  {/*
