@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 app.post(
     "/signup", 
     async (req, res) => {
-        const {username, email, password} = req.body;
+        const {email, password, username, skills, iAm, iLike, iAppreciate} = req.body;
         try {
             let user = await User.findOne({email})
             if (user) return res.status(400).json({ failure: "User already exists" })
@@ -35,14 +35,18 @@ app.post(
                 email: email, 
                 password: password, 
                 profile: {
-                    username 
+                    username,
+                    skills,
+                    iAm,
+                    iLike,
+                    iAppreciate
                 }
             })
             // *** bcrypt ***
             let salt = await bcrypt.genSalt(10)
             user.password = await bcrypt.hash(password, salt)
             await user.save(err => {
-                if (err) console.error("at user save:", err)
+                if (err) console.error("at user save:", err.message)
             })
             const payload = {
                 user: {
@@ -65,8 +69,8 @@ app.post(
             )
 
         } catch (err) {
-            console.error("catch", err)
-            res.status(500).json({message: err})
+            console.error("catch", err.message)
+            res.status(500).json({message: err.message})
         }
     }
 )

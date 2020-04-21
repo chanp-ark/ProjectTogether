@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {userId, token, routeProps, name, skills, description, curCap, maxCap, users, setGroupId, handleJoin} ) => {
+const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, handleJoin} ) => {
+    
+    console.log(name, curCap<maxCap,!users.includes(userId) )
     
     return (
         <div className="thmnl-container">
@@ -13,7 +15,7 @@ const Thumbnail = ( {userId, token, routeProps, name, skills, description, curCa
                     pathname: `/groups/${name}`,
                     state: {name, skills, description, curCap, maxCap, users}
                 }}>{name}</Link>
-                {curCap < maxCap &&  <Link onClick={handleJoin} className="join-group" to={{
+                {(curCap < maxCap && !users.includes(userId)) &&  <Link onClick={handleJoin} className="join-group" to={{
                                             pathname: `/groups`,
                                             state: {name, skills, description, curCap, maxCap, users}
                                         }}>JOIN</Link> }

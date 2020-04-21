@@ -5,7 +5,7 @@ import MultiStepForm from "./CreateGroup/multistep-form.component"
 import Thumbnail from "./Thumbnails/thumbnail.component"
 import "./groups.css"
 
-const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupId}) => {
+const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupId, refresh, setRefresh}) => {
     
     const [ multi, setMulti ] = useState(false)
 
@@ -40,7 +40,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                             })
                                 .then(response => response.json())
                                 .then(data => {
-                                    console.log(data)              
+                                    setRefresh(!refresh)         
                                 })
                                 .catch(err=>{
                                     console.error("error: ", err)

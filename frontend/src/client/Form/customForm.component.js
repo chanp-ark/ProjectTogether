@@ -4,7 +4,7 @@ import FormInput from './FormInput/formInput.component'
 const CustomForm = ({state, setArrProp, saveProfile, buttonLabel, ...otherProps}) => {
     
     const [ formState, setFormState ] = useState(state)
-    
+
 
     // initial state is passed down prop
     // onChange, setFormState with user input
@@ -21,9 +21,9 @@ const CustomForm = ({state, setArrProp, saveProfile, buttonLabel, ...otherProps}
               }
               return obj
             }
+            return null
         })
         setFormState(newState)
-        return true
     }
 
     // onSubmit, post formState
@@ -32,23 +32,29 @@ const CustomForm = ({state, setArrProp, saveProfile, buttonLabel, ...otherProps}
         e.preventDefault()
         setArrProp(formState)
         saveProfile(formState)
-        return true
     }
     
     return (
         <form onSubmit={handleSubmit}>
             { formState.map((obj, i) => {                
                 for (let key in obj) {
-                    return(
-                        <FormInput 
-                            label={key}
-                            key={i}
-                            name={key}
-                            value={obj[key]}
-                            handleChange={handleChange}
-                        />
-                    )
+                    if (key !== 'groups') {
+                        return(
+                            <FormInput 
+                                label={key}
+                                key={i}
+                                name={key}
+                                value={obj[key]}
+                                handleChange={handleChange}
+                            />
+                        )  
+                    } else {
+                        return (
+                            <p key={key}>{key}: {obj[key]}</p>
+                        )
+                    }
                 }
+                return null
             })
             }
             <button>{buttonLabel}</button>

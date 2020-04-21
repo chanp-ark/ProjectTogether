@@ -5,8 +5,6 @@ import "./user.styles.css"
 
 const User = ({allUsers, profileId, userId }) => {
     
-
-    
     return (
         <div>
             <div className="user-title">

@@ -4,13 +4,17 @@ import FormInput from "../Form/FormInput/formInput.component"
 
 import "./sign_up.styles.css"
 
-const SignUp = ({routeProps, setToken, setUserId, setProfileId, validate}) => {
+const SignUp = ({setToken, setUserId, validate}) => {
     
     const initialState = {
         username: '',
         email: '',
         password: '',
         confirmPw: '',
+        skills: 'update field',
+        iAm: 'update field',
+        iLike: 'update field',
+        iAppreciate: 'update field'
     }
     
     const [userInfo, setUserInfo] = useState(initialState)
@@ -32,19 +36,17 @@ const SignUp = ({routeProps, setToken, setUserId, setProfileId, validate}) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({username, email, password})
+                    body: JSON.stringify(userInfo)
                 })
                     .then(response => response.json(response))
                     .then(data => {
                         console.log(data)
-                        if (data.message !== "User saved!") {
-                            alert(data.message)
-                        } else if (!data.token) {
-                            alert(data.message)
+                        if (data.failure) {
+                            alert(data.failure)
                         } else {
                             const {token, userProfile} = data
                             localStorage.setItem("token", token)
-                            localStorage.setItem("id", userProfile.username)
+                            localStorage.setItem("userId", userProfile.username)
                             setToken(true)
                             setUserId(userProfile.username)
                         }

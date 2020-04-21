@@ -10,14 +10,12 @@ import Profile from './client/User/Profile/profile.component';
 // import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
 
-const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
-    
-    // if token and userId is set to true, fetch logged in user's info
+const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {
 
     // all users
         // sort users by created date, most recent first, **do this later
     const [allUsers, setAllUsers] = useState([])
-    
+
     useEffect( () => {
         fetch("http://localhost:5000/users",
             {
@@ -61,7 +59,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
                 if (obj['confirmPw'] && obj['password'] !== obj['confirmPw']) return alert("Passwords do not match")
             }
             if (i === 'name') {
-                // check for punctuation
+                if (i.length >= 12) return alert("Group Name cannot be more than 12 characters")
             }
         }
         return true
@@ -98,7 +96,9 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
                             token={token}
                             userId={userId}
                             groupId={groupId}
-                            setGroupId={setGroupId} />
+                            setGroupId={setGroupId}
+                            refresh={refresh}
+                            setRefresh={setRefresh} />
                     } />
                   
                 <Route 
@@ -119,7 +119,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId }) => {
                 <Route 
                     exact 
                     path={`/users/:slug`}
-                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token}/>}
+                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token} refresh={refresh} setRefresh={setRefresh}/>}
                 />
                 
                  {/*

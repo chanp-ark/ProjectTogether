@@ -38,34 +38,25 @@ router.get("/:id", async (req, res) => {
     }
 })
 
-// @ method: GET
-// @ param: /:username/edit
-// @ description: get logged in user
-
-// router.get("/profile/:id/edit", auth, async (req, res) => {
-//     if (req.user.id === undefined) {
-//         res.json({ message: 'Unauthorized' })
-//     }
-//     try {
-//       const user = await User.findById(req.user.id);
-//       const {username, email} = user
-//       res.json({
-//           username: username,
-//           email: email
-//       });
-//     } catch (err) {
-//       res.status(500).send({ message: err });
-//     }
-//   });
-
 // @method: PUT
 // @ param: /:username/edit
 // @ description: edit user info
 router.put("/:username", auth, async(req, res) => {
+
     try {
-        res.send({message: "PUT request"})
+        console.log("passed from auth: ", req.user.id, req.body)
+        const updatedUser = await User.findByIdAndUpdate(req.user.id, {
+            "profile": req.body
+        }, { returnNewDocument: true}, (err, user) => {
+            if (err) {
+                res.status(400).json({message: "Cannot update user"})
+            } else {
+                res.status(200).json({profile: user.profile})
+            }
+        })
+        console.log("updatedUser", updatedUser)
     } catch {
-        res.send({message: "error"})
+        res.status(400).json({message: "error"})
     }
 })
 

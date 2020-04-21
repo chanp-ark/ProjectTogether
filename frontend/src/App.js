@@ -12,9 +12,14 @@ function App() {
   const [ userId, setUserId ] = useState(localStorage.getItem("userId"))
   console.log("userId :", userId, "(app.js)")
   
-  // groupId to read group details
   const [groupId, setGroupId ] = useState('')
- 
+  console.log("groupId :", groupId, "(app.js)")
+  
+  
+   // to pass down updated info
+  const [ refresh, setRefresh ] = useState(false)
+  console.log("refresh :", refresh, "(app.js)")
+   
   return (  
     <div>
       <Navbar token={token} setToken={setToken} userId={userId} setUserId={setUserId}/>
@@ -25,7 +30,9 @@ function App() {
           userId={userId} 
           setUserId={setUserId} 
           groupId={groupId} 
-          setGroupId={setGroupId} /> 
+          setGroupId={setGroupId}
+          refresh={refresh}
+          setRefresh={setRefresh} /> 
       </div>
     </div>
   );

@@ -16,19 +16,19 @@ const UserSchema = new mongoose.Schema({
         },
         skills: {
             type: String, 
-            required: false
+            required: true
         },
         iAm: {
             type: String, 
-            required: false
+            required: true
         },
         iLike: {
             type: String, 
-            required: false
+            required: true
         },
         iAppreciate: {
             type: String, 
-            required: false
+            required: true
         },
         groups: {
             type: [String], 
