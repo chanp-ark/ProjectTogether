@@ -8,6 +8,16 @@ html {
 }
 
 .router-component {
-    margin-top: 100px;
+    margin-top: 4rem;
 }
 
+body {
+    background-color: #F6F3EC;
+}
+
+div p {
+    text-align: center;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+}

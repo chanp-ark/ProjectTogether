@@ -1,24 +1,39 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Switch, Route} from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
-import SignUp from "./client/SignUp/sign_up.component";
-import LogIn from "./client/LogIn/log_in.component"
 import About from "./client/About/about";
 import Groups from "./client/Groups/groups"
-import MultiStepForm from './client/Groups/CreateGroup/multistep-form.component';
+import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
-import EditProfile from './client/User/Profile/EditProfile/edit.component';
-import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
+// import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
-const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
-    // groups
-    const [groups, setGroups] = React.useState([])
+
+const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {
+
+    // all users
+        // sort users by created date, most recent first, **do this later
+    const [allUsers, setAllUsers] = useState([])
+
+    useEffect( () => {
+        fetch("http://localhost:5000/users",
+            {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => data.profile)
+            .then(users => {
+                if(users.username !== userId) setAllUsers(users)})
+            .catch(err=> {
+                console.error(err)
+            })
+    }, [userId]) 
     
-    const [ groupId, setGroupId ] = React.useState(localStorage.getItem("groupId"))
-        
-    React.useEffect( () => {
+    // all groups
+    const [ groups, setGroups ] = useState([])
+            
+    useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
                 .then(response => response.json())
@@ -27,13 +42,43 @@ const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
                     console.error(err)
                 })
             }
-        result()
+            result()
     }, [groupId])
+    
+    // Validation
+    const validate = (obj) => {
+        for (let i in obj) {
+            console.log(i, obj[i])
+            if (!obj[i]) return alert ("You must enter all fields")
+            if (i === 'username') {
+                if (obj['username'].match(' ')) return alert("Username must be one word")
+                // check for punctuation
+            }     
+            if (i === 'password') {
+                if (obj['password'].length < 4) return alert("Password must be at least 4 characters")
+                if (obj['confirmPw'] && obj['password'] !== obj['confirmPw']) return alert("Passwords do not match")
+            }
+            if (i === 'name') {
+                if (i.length >= 12) return alert("Group Name cannot be more than 12 characters")
+            }
+        }
+        return true
+    }
     
     return (
         <main>
             <Switch>
-                <Route exact path='/' component={Home} />
+                {/* HOME PAGE */}
+                <Route exact path='/' render={routeProps =>
+                     <Home 
+                        routeProps={routeProps} 
+                        token={token} 
+                        userId={userId} 
+                        setToken={setToken} 
+                        setUserId={setUserId} 
+                        validate={validate} />
+                    } />
+                {/* ABOUT PAGE */}
                 <Route 
                     exact 
                     path='/about' 
@@ -46,77 +91,43 @@ const Main = ({token, setToken, id, setId, profileName, setProfileName}) => {
                     render={routeProps => 
                         <Groups
                             routeProps={routeProps}
+                            validate={validate}
                             groups={groups}
-                            setGroups={setGroups}
                             token={token}
-                            id={id}
+                            userId={userId}
                             groupId={groupId}
                             setGroupId={setGroupId}
-                        />
+                            refresh={refresh}
+                            setRefresh={setRefresh} />
                     } />
-                <Route 
-                exact 
-                path={`/groups/${groupId}`} 
-                render={routeProps => 
-                    <GroupDetails
-                        routeProps={routeProps}
-                        groups={groups}
-                        token={token}
-                        id={id}
-                        groupId={groupId}
-                        setGroupId={setGroupId}
-                    />
-                } />
-               
+                  
                 <Route 
                     exact 
-                    path='/groups/new' 
-                    render={ routeProps => 
-                        <MultiStepForm 
-                            routeProps={routeProps} 
-                            token={token}
-                            groups={groups}
-                            setGroups={setGroups}
-                            id={id}
-                        /> 
-                    } />
-                <Route 
-                    exact 
-                    path='/users/signup' 
-                    render= { routeProps => 
-                        <SignUp 
-                            routeProps={routeProps}
-                            token={token}
-                            setToken={setToken} />
-                    } />
-                <Route 
-                    exact 
-                    path='/users/login' 
-                    render={ routeProps => 
-                        <LogIn 
-                            routeProps={routeProps}
-                            token={token}
-                            setToken={setToken}
-                            id={id}
-                            setId={setId}
-                            />
-                    } />
+                    path={`/groups/:slug`} 
+                    render={routeProps => <GroupDetails groupId={groupId} routeProps={routeProps} userId={userId} token={token} />} />
+                
+                
                 <Route 
                     exact 
                     path='/users' 
-                    render={ routeProps => <User profileName={profileName} setProfileName={setProfileName} routeProps={routeProps} id={id} /> } />
+                    render={ routeProps => 
+                        <User 
+                            userId={userId} 
+                            token={token} 
+                            allUsers={allUsers} /> } />
+                
                 <Route 
                     exact 
-                    path={`/users/${profileName}`}
-                    render={ routeProps => <Profile profileName={profileName} routeProps={routeProps} id={id}/>}
+                    path={`/users/:slug`}
+                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token} refresh={refresh} setRefresh={setRefresh}/>}
                 />
                 
-                
+                 {/*
                 <Route 
                     exact 
                     path={`/users/profile/${id}/edit`}
                     render={ routeProps => 
-                        <EditProfile routeProps={routeProps} token={token}/>} />
+                        <EditProfile routeProps={routeProps} token={token}/>} /> */}
             </Switch>
         </main>
     )

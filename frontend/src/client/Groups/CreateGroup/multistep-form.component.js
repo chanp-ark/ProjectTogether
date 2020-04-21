@@ -1,24 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
-    
+const MultiStepForm = ({token, userId, validate, setMulti}) => {
+
     const initialState = {
         name: '',
         skills: '',
         description: '',
         curCap: 1,
-        maxCap: 1,
-        users: id,
+        maxCap: 2,
+        users: userId,
     }
 
-    const [ groupInfo, setGroupInfo ] = React.useState(initialState)
+    const [ groupInfo, setGroupInfo ] = useState(initialState)
     
     const { name, skills, description, maxCap} = groupInfo
     
     // tracker for this form
-    const [trackStep, setTrackStep] = React.useState(0)
+    const [trackStep, setTrackStep] = useState(0)
     
     const handleChange = e => {
         e.preventDefault()
@@ -30,30 +30,21 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        for (let i in groupInfo) {
-            if (groupInfo[i] === '') {
-                alert (`${i} is required`)
-                return false
-            }
+        if (validate(groupInfo)){
+            groupInfo.name = name.split(' ').join('').toLowerCase()
+            fetch("http://localhost:5000/groups", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(groupInfo)
+            })
+            .then(response => response.json())
+            .then(data => {
+                setMulti(false)
+            })        
         }
-        groupInfo.name = name.split(' ').join('').toLowerCase()
-
-        // update db
-        fetch("http://localhost:5000/groups", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(groupInfo)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            setGroups(groups.concat(groupInfo))
-            routeProps.history.push("/groups")
-
-        })        
     }
     
     const maxCapVals = [2,3,4,5,6]
@@ -150,92 +141,79 @@ const MultiStepForm = ({routeProps, token, groups, setGroups, id}) => {
    ]
     
     return (
-        <form className="multi-container" onSubmit={handleSubmit}>
-            
-            <div className="multi-subcontainer">
-                 
-                <div className="multi-tracker">
-                    {
-                        stepTracker
-                    }
-
-                </div>
-                
-                {
-                   fields.filter( (curTab, i) => i === trackStep)
-                }
-                
-                {
-                    trackStep === fields.length &&
-                        <div className='multi-review'>
-                            <label className="multi-review-label">Group Name</label>
-                            <div className="signup-review">
-                                {name}
-                            </div>
-
-                            <label className="multi-review-label">Skills</label>
-                            <div className="signup-review">
-                                {skills}
-                            </div>
-
-                            <label className="multi-review-label">Description</label>
-                            <div className="signup-review">
-                                {description}
-                            </div>
-
-                            <label className="multi-review-label">Max Number of Members</label>
-                            <div className="signup-review">
-                                {maxCap}
-                            </div>
-
-                        </div>
-
-                }
-                
-                <div className="prevNext-container">
-                    
-                    {
-                        (trackStep <= fields.length && trackStep > 0) &&
-                            <button 
-                                className="prevNext" 
-                                key="prevButton"
-                                onClick={ e => {
-                                    e.preventDefault();
-                                    prev();
-                                }}>
-                                    Prev
-                            </button>
-                    }
-                    
-                    {
-                        trackStep < fields.length && 
-                            <button 
-                                className="prevNext"
-                                key="nextButton"
-                                value={trackStep}
-                                onClick={ e => {
-                                    e.preventDefault();
-                                    next()
-                                }
-                            }>
-                                Next
-                            </button>
-                    }
-                </div>
-                
-                {
-                    trackStep === fields.length &&
-                        <input
-                            className="multi-submit" 
-                            type="submit"
-                        />
-                }
-                
-                
-               
-                
+        <form className="multi-container" onSubmit={handleSubmit}>                 
+            <div className="multi-tracker">
+                { stepTracker }
             </div>
             
+            { fields.filter( (curTab, i) => i === trackStep) }
+            
+            {
+                trackStep === fields.length &&
+                    <div className='multi-review'>
+                        <label className="multi-review-label">Group Name</label>
+                        <div className="signup-review">
+                            {name}
+                        </div>
+
+                        <label className="multi-review-label">Skills</label>
+                        <div className="signup-review">
+                            {skills}
+                        </div>
+
+                        <label className="multi-review-label">Description</label>
+                        <div className="signup-review">
+                            {description}
+                        </div>
+
+                        <label className="multi-review-label">Max Number of Members</label>
+                        <div className="signup-review">
+                            {maxCap}
+                        </div>
+
+                    </div>
+
+            }
+            
+            <div className="prevNext-container">
+                
+                {
+                    (trackStep <= fields.length && trackStep > 0) &&
+                        <button 
+                            className="prevNext" 
+                            key="prevButton"
+                            onClick={ e => {
+                                e.preventDefault();
+                                prev();
+                            }}>
+                                Prev
+                        </button>
+                }
+                
+                {
+                    trackStep < fields.length && 
+                        <button 
+                            className="prevNext"
+                            key="nextButton"
+                            value={trackStep}
+                            onClick={ e => {
+                                e.preventDefault();
+                                next()
+                            }
+                        }>
+                            Next
+                        </button>
+                }
+            </div>
+            
+            {
+                trackStep === fields.length &&
+                    <input
+                        className="multi-submit" 
+                        type="submit"
+                    />
+            }
+                    
         </form>
     )
 }

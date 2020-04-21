@@ -1,33 +1,35 @@
-import React from 'react'
+import React from 'react';
 
-import JoinButton from "../JoinGroup/joinButton.component"
+import { Link } from "react-router-dom";
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {id, token, routeProps, name, skills, description, curCap, maxCap, groupId, setGroupId, setRefresh} ) => {
+const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, handleJoin} ) => {
     
-    const handleClick= e => {
-        e.preventDefault()
-        setGroupId(name)
-        routeProps.history.push(`/groups/${name}`)
-    }
-    
-    console.log(groupId, "currentCap", curCap, "maxCap", maxCap)
+    console.log(name, curCap<maxCap,!users.includes(userId) )
     
     return (
         <div className="thmnl-container">
-            <div className="thmnl-project">
-                <button onClick={handleClick} className="thmnl-name">{name}</button>
-                {curCap < maxCap && <JoinButton setRefresh={setRefresh} id={id} curCap={curCap} maxCap={maxCap} token={token} groupId={name} setGroupId={setGroupId} routeProps={routeProps}/> }
-
-                <div className="thmnl-title">Skills</div>
+            <div className="thmnl-headers">
+                <Link className="detail" to={{
+                    pathname: `/groups/${name}`,
+                    state: {name, skills, description, curCap, maxCap, users}
+                }}>{name}</Link>
+                {(curCap < maxCap && !users.includes(userId)) &&  <Link onClick={handleJoin} className="join-group" to={{
+                                            pathname: `/groups`,
+                                            state: {name, skills, description, curCap, maxCap, users}
+                                        }}>JOIN</Link> }
+            </div>
+            <div className="thmnl-content">
+                <div>Skills</div>
                     <p>{skills}</p>
-                <div className="thmnl-title">Description</div>
+                <div>Description</div>
                     <p>{description}</p>
-                <div className="thmnl-title">Current Number of Members</div>
+                <div>Current Number of Members</div>
                     <p>{curCap}</p>
-                <div className="thmnl-title">Maximum Capacity</div>
+                <div>Maximum Capacity</div>
                     <p>{maxCap}</p>
+                
             </div>
         </div>
     )

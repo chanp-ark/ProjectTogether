@@ -38,6 +38,12 @@ router.post("/", auth, async(req, res) => {
                 res.status(200).json({message: `Group ${name} created!`, group})
             }
         })
+        let foundUser = await User.findOneAndUpdate(
+            {'profile.username': users}, 
+            {$addToSet: {'profile.groups':name} },
+            { returnNewDocument: true})
+        console.log(group)
+        console.log(foundUser)
     } catch {
         res.send({failure: "Something is wrong"})
     }
@@ -48,20 +54,23 @@ router.post("/", auth, async(req, res) => {
 // @ desc: add user into group
 router.put("/", auth, async(req, res) => {
     try {
-        await User.updateOne(
-            {'profile.username': req.body.id}, 
-            {$addToSet: {'profile.groups':req.body.groupId} })
-        await Group.updateOne(
-            {name: req.body.groupId}, 
-            {   $addToSet: {users : req.body.id},
+        console.log(req.body)
+        const foundUser = await User.findOneAndUpdate(
+            { 'profile.username': req.body.userId }, 
+            { $addToSet: {'profile.groups':req.body.name} },
+            { returnNewDocument: true})
+        const foundGroup = await Group.findOneAndUpdate(
+            { name: req.body.name}, 
+            {   $addToSet: {users : req.body.userId},
                 $inc: {curCap: 1}
-            }
+            },
+            { returnNewDocument: true}
         )
-        let user = await User.find({'profile.username': req.body.id})
-        console.log("user: ", user)
-        let group = await Group.find({name: req.body.groupId})
-        console.log("group: ", group)
-        res.status(200).json({user, group})
+        console.log("foundUser: ", foundUser)
+        console.log("foundGroup: ", foundGroup)
+        console.log({user: foundUser.profile, group: foundGroup})
+
+        res.status(200).json({user: foundUser.profile, group: foundGroup})
     } catch {
         res.status(500).json({failure:"PUT request failed"})
 

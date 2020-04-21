@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 2em auto;
+    margin: 1em auto;
     max-width: 600px;
-    height: 400px;
+    height: 100%;
     box-shadow: 0 1px 4px 1.5px rgba(100,100,100,0.2);
     padding: 1.5em;
     border-radius: 5px;
+    background-color: #FFFFFF;
 }
 
 .userprof-title {
@@ -34,7 +35,43 @@
 }
 
 .userprof-content {
-    margin: 1em;
+    margin: 10px;
     font-size: 1.2em;
-    padding: 1em;
+    padding: 10px;
 }
+
+.editprof-container {
+    text-align: center;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 800;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 0.3em 1em;
+    color: #000000;
+    padding: 0.3em 2.2em;
+    margin: 20px;
+    background-color: white;
+}
+
+.editprof-container form button {
+    padding: 0.4em 0.8em;
+    background-color: #265CFF;
+    border-radius: 5px;
+    border: none;
+    line-height: 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.editprof-container form button:focus{
+    outline:none;
+}
+.editprof-container form button:hover{
+    background-color: #0036B3;
+    border-radius: 5px;
+    border: none;
+}
+    

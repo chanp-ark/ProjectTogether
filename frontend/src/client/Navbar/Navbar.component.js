@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken, id, setId}) => {
+const Navbar = ({token, setToken, userId, setUserId}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -19,15 +19,37 @@ const Navbar = ({token, setToken, id, setId}) => {
     
   const logout = () => {
     localStorage.removeItem("token")
-    localStorage.removeItem("id")
+    localStorage.removeItem("userId")
     setToken(false)
-    setId(false)
+    setUserId(false)
+    setLoggedInUser('')
     toggleToTrue()
   }
   
+  // logged in user Profile Info
+  const [ loggedInUser, setLoggedInUser ] = useState('')
+  // get userId profile Info
+  useEffect( () => {
+    if (userId) {fetch(`http://localhost:5000/users/${userId}`, { method: "GET",})
+      .then(response => response.json())
+      .then(data => {
+          setLoggedInUser(data)})
+      .catch(err=> {
+        console.error("Error in Navbar: ", err)
+      })}
+  }, [userId])
+    
   const loggedInTabs = [
-    <li key="logout" ><Link onClick={logout} to='/users/login'>Log Out</Link></li>, 
-    <li key="profile"><Link onClick={toggleToTrue} to={`/users/profile/${id}`} >Profile</Link></li>
+    <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
+    <li key="profile">
+      <Link onClick={toggleToTrue} 
+        to={{
+          pathname: `/users/${userId}`,
+          state: {user: loggedInUser}
+          }} >
+        Profile
+      </Link>
+    </li>
   ]
   
   const alwaysInTabs = [
@@ -46,7 +68,7 @@ const Navbar = ({token, setToken, id, setId}) => {
       </Link>
     </li>
   ]
-
+  
     
   return (
     <header>
@@ -56,10 +78,10 @@ const Navbar = ({token, setToken, id, setId}) => {
           <ul className="navbar-ul">
             { dropIconTab }
             <div className={toggle ? "navbar-others" : "dropdown-navbar"}>
-              { !token ?
-                  <li key="login"><Link onClick={toggleToTrue} to='/users/login'>Login</Link></li>
-                  :
-                  loggedInTabs
+              { 
+                !token ?
+                  <li key="login"><Link onClick={toggleToTrue} to='/'>Login</Link></li>
+                : loggedInTabs
               }
               { alwaysInTabs }
             </div>

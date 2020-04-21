@@ -3,27 +3,7 @@ import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({profileName, setProfileName, id}) => {
-    
-    const [allUsers, setAllUsers] = React.useState([])
-    
-    React.useEffect( () => {
-        fetch("http://localhost:5000/users",
-            {
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => data.profile)
-            .then(users => {
-                setAllUsers(users)})
-            .catch(err=> {
-                console.error(err)
-            })
-    }, [])   
-    
-
-
-    // sort users by created date, most recent first, **do this later
+const User = ({allUsers, profileId, userId }) => {
     
     return (
         <div>
@@ -33,12 +13,12 @@ const User = ({profileName, setProfileName, id}) => {
             </div>
             <div className="user-container">
                 { allUsers.map( (user, i) => {
-                     const handleClick = () =>{
-                        setProfileName(user.username)
-                    }
                     return(
                         <div key={i} className="user-content">
-                            {profileName !== id && <Link onClick={handleClick} to={`/users/${user.username}`}>{user.username}</Link>}    
+                            {profileId !== userId && <Link to={{
+                                pathname: `/users/${user.username}`,
+                                state: { user }
+                                }}>{user.username}</Link>}    
                         </div>  
                         
                     )

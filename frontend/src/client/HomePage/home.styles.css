@@ -1,24 +1,46 @@
+.home-page {
+    margin: 0;
+}
+
 .home-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    margin: 2em auto;
-    max-width: 600px;
-    height: 400px;
+    margin: 1em auto;
+    max-width: 90%;
     box-shadow: 0 1px 4px 1.5px rgba(100,100,100,0.2);
     padding: 1.5em;
     border-radius: 5px;
     line-height: 1.5em;
+    background-color: #FFFFFF;
 }
 
 .home-title {
     font-size: 1.2em;
     text-align: center;
-    margin: 2em;
+    margin: 0 auto;
     text-transform: uppercase;
+    position: absolute
 }
 
 .home-content {
-    font-size: 1.2em;
-    padding: 1em;
+    margin-top: 100px;
+    display: flex;
+    width: 100%;
+    margin-bottom: 1em;
+
+}
+
+.home-info {
+    display: block;
+    box-shadow: 0 1px 4px 1.5px rgba(100,100,100,0.2);
+    padding: 1.5em;
+    border-radius: 5px;
+    line-height: 1.5em;
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+.home-info p {
+    font-weight: 300;
+    font-size: 12px;
 }

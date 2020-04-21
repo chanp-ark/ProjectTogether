@@ -1,49 +1,72 @@
 .thmnl-container {
     display: inline-block;
-    margin: 2em;
+    margin: 1em;
     line-height:4em;
     box-shadow: 0 1px 4px 1.5px rgba(100,100,100,0.2);
     padding: 3em 5em;
     border-radius: 5px;
     line-height: 2em;
+    background-color: #FFFFFF;
 }
 
-.thmnl-name {
+
+
+.detail{
     text-align: center;
     font-size: 1.5em;
     text-transform: uppercase;
     text-decoration: none;
     font-weight: 800;
-    margin-bottom: 1em;
     border: 1px solid lightgrey;
     border-radius: 10px;
     padding: 0.3em 1em;
     transition: all 200ms ease-in-out;
     color: #000000;
     padding: 0.3em 2.2em;
+    margin-bottom: 20px;
+
 }
 
-.thmnl-name:hover {
+.detail:hover {
     color: white;
     background-color: #0077FF;
     border: 1px solid white;
 }
 
-.thmnl-name:focus{
+.detail:focus{
     outline:none;
 }
 
-.thmnl-title {
+.thmnl-content {
+    margin-top: 30px;
+}
+
+.thmnl-content div {
     text-align: center;
     font-weight: 600;
     font-size: 1.1em;
-    
 }
 
-div p {
-    text-align: center;
-    font-weight: 300;
-    padding: 0;
-    margin: 0;
-    
+.join-group {
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+    padding: 1px 8px;
+    background-color: #265CFF;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    width: 30px;
+    text-decoration: none;
+    transition: all 250ms ease-in-out
+}
+
+.join-button a:hover {
+    transform: scale(1.1);    
+}
+
+.join-button a:focus{
+    outline: none;    
 }

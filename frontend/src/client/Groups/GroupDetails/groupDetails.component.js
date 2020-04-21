@@ -3,40 +3,27 @@ import React from 'react'
 
 import "./groupDetails.styles.css"
 
-const GroupDetails = ({id, token, groupId, setGroupId, routeProps}) => {
+const GroupDetails = ({routeProps, userId }) => {
     
-    const [details, setDetails] = React.useState(groupId)
-    
-    React.useEffect( ()=>{
-        fetch(`http://localhost:5000/groups/${groupId}`, {
-            method: "GET",
-        })
-            .then(response => response.json())
-            .then(data => setDetails(data))
-            .catch(err=>{
-                console.log("ERROR:", err)
-            })
-    }, [groupId, token])
-    
-    const { users, name, skills, description, curCap, maxCap } = details
-    
+    const { name, skills, description, curCap, maxCap, users } = routeProps.location.state
+
     return (
         <div className="details-container">
-            <div className="details-title">{name}</div>
+            <div className="details-title">Group {name}</div>
             <div className="details-content">
-                {description}
+                Description: {description}
             </div>
             <div className="details-content">
-                {skills}
+                Skills: {skills}
             </div>
             <div className="details-content">
-                {curCap}
+                {curCap} / {maxCap}
             </div>
             <div className="details-content">
-                {maxCap}
+                All Users: {users}
             </div>
             <div className="details-content">
-                {users}
+                Current User: {userId}
             </div>
         </div>
     )

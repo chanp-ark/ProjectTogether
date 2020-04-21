@@ -14,11 +14,26 @@ const UserSchema = new mongoose.Schema({
             type: String, 
             required: true
         },
-        skills: String,
-        iAm: String,
-        iLike: String,
-        iAppreciate: String,
-        groups: [String]
+        skills: {
+            type: String, 
+            required: true
+        },
+        iAm: {
+            type: String, 
+            required: true
+        },
+        iLike: {
+            type: String, 
+            required: true
+        },
+        iAppreciate: {
+            type: String, 
+            required: true
+        },
+        groups: {
+            type: [String], 
+            required: false
+        }
     },
     createdAt: {
         type: Date,

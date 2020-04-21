@@ -1,28 +1,27 @@
 .join-button {
     display: flex;
     justify-content: center;
-    margin: 1em 0;
+    margin: 30px auto;
+
 }
 
-.join-button button {
-    padding: 0.5em 1em;
-    margin: 0.5em auto;
-    background-color: #0077FF;
+.join-button a {
+    padding: 1px 8px;
+    background-color: #265CFF;
     border-radius: 5px;
     border: none;
     color: white;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: none;
     transition: all 250ms ease-in-out
-
 }
 
-.join-button button:hover {
+.join-button a:hover {
     transform: scale(1.1);    
 }
 
-.join-button button:focus{
+.join-button a:focus{
     outline: none;    
 }
 
