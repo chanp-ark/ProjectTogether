@@ -21,9 +21,7 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
     // ref to scroll down to newest message
     const lastMessageRef = useRef(null)
     
-    const scrollToBottom = () => {
-        lastMessageRef.current.scrollIntoView({behavior: "smooth"})
-    }
+    const scrollToBottom = () => { lastMessageRef.current.scrollIntoView({behavior: "smooth"}) }
     
     useEffect (scrollToBottom, [chats])
     
@@ -34,8 +32,12 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
     
     const handleSubmit = e => {
         e.preventDefault();
-        setChats(chats.concat({[userId]: message}))
-        setMessage('')
+        if (!message) {
+            return null
+        } else {
+            setChats(chats.concat({[userId]: message}))
+            setMessage('')
+        }
     }
     
     return (
@@ -56,6 +58,7 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
                                     </div>
                                 )
                             }
+                            return null
                         })}
                         <div ref={lastMessageRef} />
                     </div>
