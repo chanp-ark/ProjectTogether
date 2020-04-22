@@ -1,9 +1,9 @@
 html {
-    overflow:   scroll;
+    overflow-y: scroll;
 }  
 
 ::-webkit-scrollbar {
-      width: 0px;
+      width: 0;
       background: transparent; /* make scrollbar transparent */
 }
 
@@ -20,4 +20,8 @@ div p {
     font-weight: 300;
     padding: 0;
     margin: 0;
+}
+
+div,p {
+    text-transform: none;
 }

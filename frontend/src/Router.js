@@ -4,10 +4,9 @@ import { Switch, Route} from 'react-router-dom'
 import Home from "./client/HomePage/home";
 import About from "./client/About/about";
 import Groups from "./client/Groups/groups"
-import GroupDetails from './client/Groups/GroupDetails/groupDetails.component'
+import GroupDetails from './client/GroupDetails/groupDetails.component'
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
-// import EditProfile from './client/User/Profile/EditProfile/edit.component';
 
 
 const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {
@@ -122,12 +121,6 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                     render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token} refresh={refresh} setRefresh={setRefresh}/>}
                 />
                 
-                 {/*
-                <Route 
-                    exact 
-                    path={`/users/profile/${id}/edit`}
-                    render={ routeProps => 
-                        <EditProfile routeProps={routeProps} token={token}/>} /> */}
             </Switch>
         </main>
     )
