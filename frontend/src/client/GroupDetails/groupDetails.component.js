@@ -39,9 +39,13 @@ const GroupDetails = ({routeProps, userId }) => {
                 <div className="details-content">
                     Current User: {userId}
                 </div>
-                <div className="details-content">
-                    <button onClick={openChat}>Open Chat</button>
-                </div>
+                {
+                    users.includes(userId) && (
+                        <div className="details-content">
+                            <button onClick={openChat}>Open Chat</button>
+                        </div>
+                    )
+                }
             </div>
         )
     } else {

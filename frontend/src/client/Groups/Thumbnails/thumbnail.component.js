@@ -6,8 +6,6 @@ import "./thumbnail.styles.css"
 
 const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, handleJoin} ) => {
     
-    console.log(name, curCap<maxCap,!users.includes(userId) )
-    
     return (
         <div className="thmnl-container">
             <div className="thmnl-headers">

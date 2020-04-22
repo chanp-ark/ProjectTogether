@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef } from 'react'
 
 
 import "./chatroom.styles.css"
@@ -14,12 +14,18 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
     ]
     // state for chat room
     const [ chats, setChats ] = useState(initialState) 
-    
-    const initialMessage = {
-        
-    }
+
     // state for sending chat
     const [ message, setMessage ] = useState('')
+    
+    // ref to scroll down to newest message
+    const lastMessageRef = useRef(null)
+    
+    const scrollToBottom = () => {
+        lastMessageRef.current.scrollIntoView({behavior: "smooth"})
+    }
+    
+    useEffect (scrollToBottom, [chats])
     
     // const handleChange
     const handleMessage = e => {
@@ -51,6 +57,7 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
                                 )
                             }
                         })}
+                        <div ref={lastMessageRef} />
                     </div>
                     <form className="send-container" onSubmit={handleSubmit}>
                         <textarea className="send-message" rows="2" cols="50"

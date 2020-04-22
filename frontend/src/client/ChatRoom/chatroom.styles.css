@@ -34,11 +34,15 @@
     border-bottom: 1px solid black;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+
 }
 
 .chat-message-container {
     display: flex;
     margin: 5px;
+    position: relative;
+    bottom: 0;
 }
 
 .chat-user {
