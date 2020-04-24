@@ -48,11 +48,7 @@ const CustomForm = ({state, setArrProp, saveProfile, buttonLabel, ...otherProps}
                                 handleChange={handleChange}
                             />
                         )  
-                    } else {
-                        return (
-                            <p key={key}>{key}: {obj[key]}</p>
-                        )
-                    }
+                    } 
                 }
                 return null
             })

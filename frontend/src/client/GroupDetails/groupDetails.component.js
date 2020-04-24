@@ -6,6 +6,8 @@ import "./groupDetails.styles.css"
 
 const GroupDetails = ({routeProps, userId }) => {
     
+    console.log("group detail passed state", routeProps.location.state)
+    
     const { name, skills, description, curCap, maxCap, users } = routeProps.location.state
     
     const [ chat, setChat ] = useState(false)
@@ -35,9 +37,6 @@ const GroupDetails = ({routeProps, userId }) => {
                 </div>
                 <div className="details-content">
                     All Users: {users}
-                </div>
-                <div className="details-content">
-                    Current User: {userId}
                 </div>
                 {
                     users.includes(userId) && (

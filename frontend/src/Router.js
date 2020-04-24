@@ -27,7 +27,8 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
             .catch(err=> {
                 console.error(err)
             })
-    }, [userId]) 
+    }, [userId, refresh]) 
+    
     
     // all groups
     const [ groups, setGroups ] = useState([])
@@ -42,7 +43,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                 })
             }
             result()
-    }, [groupId])
+    }, [groupId, refresh])
     
     // Validation
     const validate = (obj) => {
@@ -75,15 +76,16 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                         userId={userId} 
                         setToken={setToken} 
                         setUserId={setUserId} 
-                        validate={validate} />
-                    } />
-                {/* ABOUT PAGE */}
+                        validate={validate} /> } 
+                />
+
                 <Route 
                     exact 
                     path='/about' 
                     render={ routeProps => 
-                        <About routeProps={routeProps} />  
-                    } />
+                        <About routeProps={routeProps} /> } 
+                />
+                
                 <Route 
                     exact 
                     path='/groups' 
@@ -96,15 +98,19 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                             userId={userId}
                             groupId={groupId}
                             setGroupId={setGroupId}
-                            refresh={refresh}
-                            setRefresh={setRefresh} />
-                    } />
+                            setRefresh={setRefresh} /> } 
+                />
                   
                 <Route 
                     exact 
                     path={`/groups/:slug`} 
-                    render={routeProps => <GroupDetails groupId={groupId} routeProps={routeProps} userId={userId} token={token} />} />
-                
+                    render={routeProps => 
+                        <GroupDetails 
+                        groupId={groupId} 
+                        routeProps={routeProps} 
+                        userId={userId} 
+                        token={token} />} 
+                />
                 
                 <Route 
                     exact 
@@ -113,12 +119,20 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                         <User 
                             userId={userId} 
                             token={token} 
-                            allUsers={allUsers} /> } />
+                            allUsers={allUsers} /> } 
+                />
                 
                 <Route 
                     exact 
                     path={`/users/:slug`}
-                    render={ routeProps => <Profile reactProps={routeProps} userId={userId} token={token} refresh={refresh} setRefresh={setRefresh}/>}
+                    render={ routeProps => 
+                        <Profile 
+                            reactProps={routeProps} 
+                            userId={userId} 
+                            setUserId={setUserId} 
+                            token={token} 
+                            refresh={refresh} 
+                            setRefresh={setRefresh} /> }
                 />
                 
             </Switch>

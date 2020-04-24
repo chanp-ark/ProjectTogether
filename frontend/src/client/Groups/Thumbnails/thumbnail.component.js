@@ -13,11 +13,8 @@ const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, 
                     pathname: `/groups/${name}`,
                     state: {name, skills, description, curCap, maxCap, users}
                 }}>{name}</Link>
-                {(curCap < maxCap && !users.includes(userId)) &&  <Link onClick={handleJoin} className="join-group" to={{
-                                            pathname: `/groups`,
-                                            state: {name, skills, description, curCap, maxCap, users}
-                                        }}>JOIN</Link> }
             </div>
+            
             <div className="thmnl-content">
                 <div>Skills</div>
                     <p>{skills}</p>
@@ -29,6 +26,15 @@ const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, 
                     <p>{maxCap}</p>
                 
             </div>
+            
+             {(curCap < maxCap && !users.includes(userId)) ? 
+                <Link onClick={handleJoin} className="join-group" to={{
+                        pathname: `/groups`,
+                        state: {name, skills, description, curCap, maxCap, users}
+                    }}>JOIN</Link> 
+                : 
+                <div className='empty-div'></div>
+            }
         </div>
     )
 }

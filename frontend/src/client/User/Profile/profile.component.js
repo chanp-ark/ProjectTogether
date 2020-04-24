@@ -18,8 +18,8 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
     // prop to pass down to edit
         // modify initital state to be just what can be edited
             // for example, updating group should be in the group itself (can leave)
-    const [ arrProp, setArrProp ] = useState([ {username}, {groups}, {skills}, {iAm}, {iLike}, {iAppreciate}  ])
-
+    const [ arrProp, setArrProp ] = useState([ {username}, {skills}, {iAm}, {iLike}, {iAppreciate}, {groups} ])
+    
     const editProfile = e => {
         e.preventDefault();
         setToggleEdit(!toggleEdit)
@@ -36,6 +36,9 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
             return acc
         }, {})
         setProfileState(newState)
+        if (state.username !== username) {
+            localStorage.setItem("userId", state.username)
+        }
         // setSaved(true)
         // fetch request
         fetch(`http://localhost:5000/users/${userId}`, {
@@ -69,7 +72,7 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
             </div>
                 {arrProp.map(info => {
                     for (let key in info) {
-                        if (key !== 'username') {
+                        if (key !== 'username' && key!=='groups') {
                             return (
                                 <div key={key} className='userprof-content'>
                                     <p> <span>{key}</span> : {info[key]}</p>
@@ -77,10 +80,27 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
                             )
                         }
                         if (key === 'groups') {
+                            
                             return (
-                                <div key={key} className='userprof-content'>
-                                    <p> <span>{key}</span> : 
-                                        {info[key].map(group => <p>{group}</p>)}</p>
+                                <div key={key}>
+                                    <div className="user-group-title">GROUPS</div>
+                                    <div className='user-group'>
+                                        {info[key].map((group, i) => {
+                                            for (let key in group) {
+                                                const { name } = group
+                                                return (
+                                                    <Link key={i} 
+                                                        to={{
+                                                            pathname: `/groups/${name}`,
+                                                            state: group }}>
+                                                        {group[key]}
+                                                    </Link>
+                                                )
+                                            }
+                                            return null
+                                        })}
+                                    </div>
+                                   
                                 </div>
                             )
                         }

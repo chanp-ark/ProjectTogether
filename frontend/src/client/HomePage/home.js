@@ -1,20 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import LogIn from "../LogIn/log_in.component";
 import SignUp from "../SignUp/sign_up.component"
 
 import './home.styles.css'
 
-const Home = ({token, setToken, userId, setUserId, routeProps, validate, setLoggedInUser}) => {
+const Home = ({token, setToken, userId, setUserId, routeProps, validate}) => {
     
     // if logged in
-    React.useEffect(()=> {
+    useEffect(()=> {
         if(token) routeProps.history.push(`/groups`)
     }, [token, routeProps.history, userId])        
     
     return (
         <>
-            <LogIn setLoggedInUser={setLoggedInUser} routeProps={routeProps} setToken={setToken} setUserId={setUserId} validate={validate}/>
+            <LogIn routeProps={routeProps} setToken={setToken} setUserId={setUserId} validate={validate}/>
             <div className="home-container">
                 <div className="home-title">
                     <h1>project together</h1>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken, userId, setUserId}) => {
+const Navbar = ({token, setToken, userId, setUserId, refresh}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -37,7 +37,7 @@ const Navbar = ({token, setToken, userId, setUserId}) => {
       .catch(err=> {
         console.error("Error in Navbar: ", err)
       })}
-  }, [userId])
+  }, [userId, refresh])
     
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 

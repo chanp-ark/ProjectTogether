@@ -40,14 +40,14 @@ const SignUp = ({setToken, setUserId, validate}) => {
                 })
                     .then(response => response.json(response))
                     .then(data => {
-                        console.log(data)
+                        console.log("sign up: ", data)
                         if (data.failure) {
                             alert(data.failure)
                         } else {
                             const {token, userProfile} = data
                             localStorage.setItem("token", token)
                             localStorage.setItem("userId", userProfile.username)
-                            setToken(true)
+                            setToken(token)
                             setUserId(userProfile.username)
                         }
                     })

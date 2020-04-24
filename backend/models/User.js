@@ -30,10 +30,10 @@ const UserSchema = new mongoose.Schema({
             type: String, 
             required: true
         },
-        groups: {
-            type: [String], 
+        groups: [{
+            type: [Object],
             required: false
-        }
+        }]
     },
     createdAt: {
         type: Date,

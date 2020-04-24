@@ -7,6 +7,8 @@
     border-radius: 5px;
     line-height: 2em;
     background-color: #FFFFFF;
+    width: 300px;
+    height: 380px;
 }
 
 
@@ -47,10 +49,12 @@
     font-size: 1.1em;
 }
 
+
+
 .join-group {
     display: flex;
     justify-content: center;
-    margin: 30px auto;
+    margin: 25px auto 0 auto;
     padding: 1px 8px;
     background-color: #265CFF;
     border-radius: 5px;

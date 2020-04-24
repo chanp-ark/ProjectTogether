@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({token, userId, validate, setMulti}) => {
+const MultiStepForm = ({token, userId, validate, setMulti, setRefresh, refresh}) => {
 
     const initialState = {
         name: '',
@@ -10,7 +10,7 @@ const MultiStepForm = ({token, userId, validate, setMulti}) => {
         description: '',
         curCap: 1,
         maxCap: 2,
-        users: userId,
+        users: [userId],
     }
 
     const [ groupInfo, setGroupInfo ] = useState(initialState)
@@ -42,7 +42,9 @@ const MultiStepForm = ({token, userId, validate, setMulti}) => {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 setMulti(false)
+                setRefresh(!refresh)
             })        
         }
     }

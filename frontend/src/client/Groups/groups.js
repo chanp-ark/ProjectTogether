@@ -20,7 +20,20 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
     return (
         <div className="group-container">
             <div className="group-title">Groups</div>
-            { !multi ? <button className="create-group-button" onClick={createGroup}>+ Create Group</button> : <MultiStepForm groups={groups} token={token} setMulti={setMulti} validate={validate} userId={userId}/> }
+            { !multi ? 
+                <button className="create-group-button" 
+                    onClick={createGroup}>
+                    + Create Group
+                </button> 
+                : 
+                <MultiStepForm 
+                    groups={groups} 
+                    token={token} 
+                    setMulti={setMulti} 
+                    validate={validate} 
+                    userId={userId}
+                    refresh={refresh}
+                    setRefresh={setRefresh}/> }
             <div className={multi ? "no-groups":"groups"}>
                 {groups.map( (group, i) => {
                     const {name, skills, description, curCap, maxCap, users} = group
@@ -39,7 +52,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                                 body: JSON.stringify({userId, name})
                             })
                                 .then(response => response.json())
-                                .then(data => {
+                                .then(() => {
                                     setRefresh(!refresh)         
                                 })
                                 .catch(err=>{

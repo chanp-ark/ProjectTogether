@@ -30,20 +30,18 @@ router.post("/", auth, async(req, res) => {
         const { name, skills, description, curCap, maxCap, users} = req.body;
         let group = await Group.findOne({name})
         if (group) return res.status.json({failure: "Group name already in use"})
+        let foundUser = await User.findOneAndUpdate(
+            {'profile.username': users}, 
+            {$addToSet: {'profile.groups': req.body} },
+            { returnNewDocument: true})
         group = new Group({name, skills, description, curCap, maxCap, users})
-        group.save(err => {
+        await group.save(err => {
             if (err) {
                 console.error(err)
             } else {
-                res.status(200).json({message: `Group ${name} created!`, group})
+                res.status(200).json({message: `Group ${name} created!`, group, foundUser})
             }
         })
-        let foundUser = await User.findOneAndUpdate(
-            {'profile.username': users}, 
-            {$addToSet: {'profile.groups':name} },
-            { returnNewDocument: true})
-        console.log(group)
-        console.log(foundUser)
     } catch {
         res.send({failure: "Something is wrong"})
     }
@@ -55,10 +53,7 @@ router.post("/", auth, async(req, res) => {
 router.put("/", auth, async(req, res) => {
     try {
         console.log(req.body)
-        const foundUser = await User.findOneAndUpdate(
-            { 'profile.username': req.body.userId }, 
-            { $addToSet: {'profile.groups':req.body.name} },
-            { returnNewDocument: true})
+
         const foundGroup = await Group.findOneAndUpdate(
             { name: req.body.name}, 
             {   $addToSet: {users : req.body.userId},
@@ -66,10 +61,16 @@ router.put("/", auth, async(req, res) => {
             },
             { returnNewDocument: true}
         )
-        console.log("foundUser: ", foundUser)
+        
+        const foundUser = await User.findOneAndUpdate(
+            { 'profile.username': req.body.userId }, 
+            { $addToSet: {'profile.groups':foundGroup} },
+            { returnNewDocument: true})
+            
         console.log("foundGroup: ", foundGroup)
-        console.log({user: foundUser.profile, group: foundGroup})
+        console.log("foundUser: ", foundUser)
 
+        
         res.status(200).json({user: foundUser.profile, group: foundGroup})
     } catch {
         res.status(500).json({failure:"PUT request failed"})

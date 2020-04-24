@@ -22,7 +22,12 @@ function App() {
    
   return (  
     <div>
-      <Navbar token={token} setToken={setToken} userId={userId} setUserId={setUserId}/>
+      <Navbar 
+        token={token} 
+        setToken={setToken} 
+        userId={userId} 
+        setUserId={setUserId} 
+        refresh={refresh}/>
       <div className="router-component">
         <Main 
           token={token} 
