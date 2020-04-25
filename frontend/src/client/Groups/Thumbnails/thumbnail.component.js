@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {userId,  name, skills, description, curCap, maxCap, users, handleJoin} ) => {
-    
+const Thumbnail = ( {userId, group, handleJoin} ) => {
+        
+    const {name, skills, description, curCap, maxCap, users} = group
+
     return (
         <div className="thmnl-container">
             <div className="thmnl-headers">

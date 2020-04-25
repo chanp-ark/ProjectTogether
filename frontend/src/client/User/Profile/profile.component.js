@@ -1,18 +1,29 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import CustomForm from "../../Form/customForm.component"
 
 import "./profile.styles.css"
 
 
-const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
-                        
-    const [ profileState, setProfileState ] = useState(reactProps.location.state.user)
+const Profile = ({reactProps, userId, token, refresh, setRefresh, allUsers}) => {
+    
+    let { user } = useParams()
+    
+    const curUser = allUsers.filter(findUser => {
+        for (let key in findUser) {
+            if (key === 'username' && findUser[key] === user ) return true
+        }
+        return false
+    })
+    console.log("allUsers: ", allUsers)
+    console.log("curUser", curUser)
+    
+    const [ profileState, setProfileState ] = useState(curUser[0])
+    console.log("profileState", profileState)
+    console.log("reactProp location", reactProps.location.state)
     
     const { username, groups, skills, iAm, iLike, iAppreciate } = profileState
     //console.log(profileState)
-    
-    
     // edit profile
     const [toggleEdit, setToggleEdit ] = useState(false)
     // prop to pass down to edit
@@ -36,9 +47,7 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
             return acc
         }, {})
         setProfileState(newState)
-        if (state.username !== username) {
-            localStorage.setItem("userId", state.username)
-        }
+        console.log("STATE IN FETCH", state.username)
         // setSaved(true)
         // fetch request
         fetch(`http://localhost:5000/users/${userId}`, {
@@ -53,6 +62,7 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh}) => {
             .then(data=> {
                 console.log("IN FETCH SAVE PROFILE: ", data)
                 setToggleEdit(!toggleEdit)
+                setRefresh(!refresh)
                 
             })
             .catch( err => {

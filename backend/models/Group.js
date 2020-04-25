@@ -21,10 +21,10 @@ const GroupSchema = new mongoose.Schema({
        type: Number,
        required: true
    },
-   users: {
-       type: [String],
-       required: true
-   }
+   users: [{
+        type: [Object],
+        required: true
+    }]
 })
 
 module.exports = mongoose.model("group", GroupSchema)

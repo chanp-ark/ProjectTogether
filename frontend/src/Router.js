@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Switch, Route} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import Home from "./client/HomePage/home";
 import About from "./client/About/about";
 import Groups from "./client/Groups/groups"
-import GroupDetails from './client/GroupDetails/groupDetails.component'
+import GroupDetails from "./client/GroupDetails/groupDetails.component"
 import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 
 
-const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {
-
+const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {    
     // all users
         // sort users by created date, most recent first, **do this later
     const [allUsers, setAllUsers] = useState([])
@@ -30,9 +29,10 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
     }, [userId, refresh]) 
     
     
+    
     // all groups
     const [ groups, setGroups ] = useState([])
-            
+
     useEffect( () => {
         const result = () => {
             fetch("http://localhost:5000/groups", {method: "GET"})
@@ -45,6 +45,17 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
             result()
     }, [groupId, refresh])
     
+    // const findOne = (arr, targetKey, targetVal) => {
+    //     arr.map(obj => {
+    //         for (let key in obj) {
+    //             if (key === targetKey && obj[key] === targetVal) {
+    //                 console.log(obj)
+    //                 return obj
+    //             }
+    //         }
+    //     })
+    // }
+        
     // Validation
     const validate = (obj) => {
         for (let i in obj) {
@@ -103,13 +114,14 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                   
                 <Route 
                     exact 
-                    path={`/groups/:slug`} 
-                    render={routeProps => 
+                    path={`/groups/:group`} 
+                    render={ routeProps => 
                         <GroupDetails 
-                        groupId={groupId} 
-                        routeProps={routeProps} 
-                        userId={userId} 
-                        token={token} />} 
+                            groupId={groupId} 
+                            routeProps={routeProps} 
+                            userId={userId} 
+                            token={token}
+                    />  }
                 />
                 
                 <Route 
@@ -124,7 +136,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                 
                 <Route 
                     exact 
-                    path={`/users/:slug`}
+                    path={`/users/:user`}
                     render={ routeProps => 
                         <Profile 
                             reactProps={routeProps} 
@@ -132,7 +144,8 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                             setUserId={setUserId} 
                             token={token} 
                             refresh={refresh} 
-                            setRefresh={setRefresh} /> }
+                            setRefresh={setRefresh}
+                            allUsers={allUsers} /> }
                 />
                 
             </Switch>

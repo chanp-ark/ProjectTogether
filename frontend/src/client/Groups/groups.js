@@ -36,7 +36,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                     setRefresh={setRefresh}/> }
             <div className={multi ? "no-groups":"groups"}>
                 {groups.map( (group, i) => {
-                    const {name, skills, description, curCap, maxCap, users} = group
+                    const { name } = group
                     const handleJoin = e => {
 
                         console.log(token, userId)
@@ -64,12 +64,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                     return(
                         <Thumbnail
                             key={i}
-                            name={name}
-                            skills={skills}
-                            description={description}
-                            curCap={curCap}
-                            maxCap={maxCap}
-                            users={users}
+                            group={group}
                             token={token}
                             userId={userId}
                             routeProps={routeProps}

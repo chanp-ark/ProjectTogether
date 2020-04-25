@@ -1,14 +1,16 @@
 import React, {useState} from 'react'
 
+import { Link } from "react-router-dom"
+
 import ChatRoom from "../ChatRoom/chatroom.component"
 
 import "./groupDetails.styles.css"
 
 const GroupDetails = ({routeProps, userId }) => {
-    
-    console.log("group detail passed state", routeProps.location.state)
-    
+
     const { name, skills, description, curCap, maxCap, users } = routeProps.location.state
+    
+    console.log(users)
     
     const [ chat, setChat ] = useState(false)
 
@@ -36,7 +38,15 @@ const GroupDetails = ({routeProps, userId }) => {
                     {curCap} / {maxCap}
                 </div>
                 <div className="details-content">
-                    All Users: {users}
+                    All Users: 
+                        {users.map((user, i) => {
+                            
+                            return (
+                                <div key={i} className="link-to-user">
+                                    <Link to={`/users/${user}`}>{user}</Link>
+                                </div>
+                            )
+                            })}
                 </div>
                 {
                     users.includes(userId) && (
