@@ -6,12 +6,10 @@ import ChatRoom from "../ChatRoom/chatroom.component"
 
 import "./groupDetails.styles.css"
 
-const GroupDetails = ({routeProps, userId }) => {
+const GroupDetails = ({routeProps, user }) => {
 
     const { name, skills, description, curCap, maxCap, users } = routeProps.location.state
-    
-    console.log(users)
-    
+    console.log("USERS IN STATE", users)
     const [ chat, setChat ] = useState(false)
 
     const openChat = e => {
@@ -39,17 +37,19 @@ const GroupDetails = ({routeProps, userId }) => {
                 </div>
                 <div className="details-content">
                     All Users: 
-                        {users.map((user, i) => {
-                            
+                        {users.map((curUser, i) => {
                             return (
                                 <div key={i} className="link-to-user">
-                                    <Link to={`/users/${user}`}>{user}</Link>
+                                    <Link to={{
+                                        pathname: `/users/${curUser.username}`,
+                                        state: { curUser }
+                                        }}>{curUser.username}</Link>
                                 </div>
                             )
-                            })}
+                        })}
                 </div>
                 {
-                    users.includes(userId) && (
+                    users.includes(user.username) && (
                         <div className="details-content">
                             <button onClick={openChat}>Open Chat</button>
                         </div>
@@ -60,7 +60,7 @@ const GroupDetails = ({routeProps, userId }) => {
     } else {
         return (
             <ChatRoom 
-                userId={userId}
+                user={user}
                 groupName={name}
                 users={users}
                 closeChat={closeChat}

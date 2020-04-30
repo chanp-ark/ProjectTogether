@@ -9,7 +9,7 @@ import User from './client/User/user.component';
 import Profile from './client/User/Profile/profile.component';
 
 
-const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh, setRefresh }) => {    
+const Main = ({token, setToken, user, setUser, groupId, setGroupId, refresh, setRefresh }) => {    
     // all users
         // sort users by created date, most recent first, **do this later
     const [allUsers, setAllUsers] = useState([])
@@ -22,11 +22,11 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
             .then(response => response.json())
             .then(data => data.profile)
             .then(users => {
-                if(users.username !== userId) setAllUsers(users)})
+                if(users.username !== user) setAllUsers(users)})
             .catch(err=> {
                 console.error(err)
             })
-    }, [userId, refresh]) 
+    }, [user, refresh]) 
     
     
     
@@ -84,9 +84,9 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                      <Home 
                         routeProps={routeProps} 
                         token={token} 
-                        userId={userId} 
+                        user={user} 
                         setToken={setToken} 
-                        setUserId={setUserId} 
+                        setUser={setUser} 
                         validate={validate} /> } 
                 />
 
@@ -106,7 +106,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                             validate={validate}
                             groups={groups}
                             token={token}
-                            userId={userId}
+                            user={user}
                             groupId={groupId}
                             setGroupId={setGroupId}
                             setRefresh={setRefresh} /> } 
@@ -119,7 +119,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                         <GroupDetails 
                             groupId={groupId} 
                             routeProps={routeProps} 
-                            userId={userId} 
+                            user={user} 
                             token={token}
                     />  }
                 />
@@ -129,7 +129,7 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                     path='/users' 
                     render={ routeProps => 
                         <User 
-                            userId={userId} 
+                            user={user} 
                             token={token} 
                             allUsers={allUsers} /> } 
                 />
@@ -140,8 +140,8 @@ const Main = ({token, setToken, userId, setUserId, groupId, setGroupId, refresh,
                     render={ routeProps => 
                         <Profile 
                             reactProps={routeProps} 
-                            userId={userId} 
-                            setUserId={setUserId} 
+                            user={user} 
+                            setUser={setUser} 
                             token={token} 
                             refresh={refresh} 
                             setRefresh={setRefresh}

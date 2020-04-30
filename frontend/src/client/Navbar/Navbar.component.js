@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import "./navbar.styles.css"
 
-const Navbar = ({token, setToken, userId, setUserId, refresh}) => {
+const Navbar = ({token, setToken, user, setUser, refresh}) => {
 
   const [toggle, setToggle] = React.useState(true)
   
@@ -19,33 +19,33 @@ const Navbar = ({token, setToken, userId, setUserId, refresh}) => {
     
   const logout = () => {
     localStorage.removeItem("token")
-    localStorage.removeItem("userId")
+    localStorage.removeItem("user")
     setToken(false)
-    setUserId(false)
+    setUser(false)
     setLoggedInUser('')
     toggleToTrue()
   }
   
   // logged in user Profile Info
   const [ loggedInUser, setLoggedInUser ] = useState('')
-  // get userId profile Info
+  // get user profile Info
   useEffect( () => {
-    if (userId) {fetch(`http://localhost:5000/users/${userId}`, { method: "GET",})
+    if (user) {fetch(`http://localhost:5000/users/${user.username}`, { method: "GET",})
       .then(response => response.json())
       .then(data => {
           setLoggedInUser(data)})
       .catch(err=> {
         console.error("Error in Navbar: ", err)
       })}
-  }, [userId, refresh])
-    
+  }, [user, refresh])
+      
   const loggedInTabs = [
     <li key="logout" ><Link onClick={logout} to='/'>Log Out</Link></li>, 
     <li key="profile">
       <Link onClick={toggleToTrue} 
         to={{
-          pathname: `/users/${userId}`,
-          state: {user: loggedInUser}
+          pathname: `/users/${user.username}`,
+          state: {curUser: loggedInUser}
           }} >
         Profile
       </Link>

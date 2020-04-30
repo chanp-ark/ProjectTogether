@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import "./multistep-form.styles.css"
 
-const MultiStepForm = ({token, userId, validate, setMulti, setRefresh, refresh}) => {
+const MultiStepForm = ({token, user, validate, setMulti, setRefresh, refresh}) => {
 
     const initialState = {
         name: '',
@@ -10,9 +10,8 @@ const MultiStepForm = ({token, userId, validate, setMulti, setRefresh, refresh})
         description: '',
         curCap: 1,
         maxCap: 2,
-        users: [userId],
+        users: [user],
     }
-
     const [ groupInfo, setGroupInfo ] = useState(initialState)
     
     const { name, skills, description, maxCap} = groupInfo

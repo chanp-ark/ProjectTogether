@@ -4,7 +4,7 @@ import FormInput from "../Form/FormInput/formInput.component"
 
 import "./sign_up.styles.css"
 
-const SignUp = ({setToken, setUserId, validate}) => {
+const SignUp = ({setToken, setUser, validate}) => {
     
     const initialState = {
         username: '',
@@ -46,9 +46,9 @@ const SignUp = ({setToken, setUserId, validate}) => {
                         } else {
                             const {token, userProfile} = data
                             localStorage.setItem("token", token)
-                            localStorage.setItem("userId", userProfile.username)
+                            localStorage.setItem("user", JSON.stringify(userProfile))
                             setToken(token)
-                            setUserId(userProfile.username)
+                            setUser(userProfile)
                         }
                     })
                     .catch((err) => console.error(err))

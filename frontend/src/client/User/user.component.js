@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 
 import "./user.styles.css"
 
-const User = ({allUsers, profileId, userId }) => {
-    
+const User = ({allUsers, user }) => {
+
     return (
         <div>
             <div className="user-title">
@@ -12,14 +12,15 @@ const User = ({allUsers, profileId, userId }) => {
                 <div className="subtitle">Curious about who is interested in building something with you?</div>
             </div>
             <div className="user-container">
-                { allUsers.map( (user, i) => {
+                { allUsers.map( (curUser, i) => {
                     return(
-                        <div key={i} className="user-content">
-                            {profileId !== userId && <Link to={{
-                                pathname: `/users/${user.username}`,
-                                state: { user }
-                                }}>{user.username}</Link>}    
-                        </div>  
+                        curUser.username !== user.username && 
+                            <div key={i} className="user-content">
+                                <Link to={{
+                                    pathname: `/users/${curUser.username}`,
+                                    state: { curUser }
+                                    }}>{curUser.username}</Link>
+                            </div>  
                         
                     )
                 } )}

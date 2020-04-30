@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef } from 'react'
 
 import "./chatroom.styles.css"
 
-const ChatRoom = ({ userId, groupName, users, closeChat }) => {
+const ChatRoom = ({ user, groupName, users, closeChat }) => {
     
     // fetch chats from db for initial state
     const initialState = [
@@ -35,7 +35,7 @@ const ChatRoom = ({ userId, groupName, users, closeChat }) => {
         if (!message) {
             return null
         } else {
-            setChats(chats.concat({[userId]: message}))
+            setChats(chats.concat({[user.username]: message}))
             setMessage('')
         }
     }

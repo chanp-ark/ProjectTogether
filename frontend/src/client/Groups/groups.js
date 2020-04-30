@@ -5,13 +5,13 @@ import MultiStepForm from "./CreateGroup/multistep-form.component"
 import Thumbnail from "./Thumbnails/thumbnail.component"
 import "./groups.css"
 
-const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupId, refresh, setRefresh}) => {
+const Groups = ({groups, token, user, routeProps, validate, groupId, setGroupId, refresh, setRefresh}) => {
     
     const [ multi, setMulti ] = useState(false)
-
+    
     const createGroup= e => {
         e.preventDefault()
-        if (!token || !userId) {
+        if (!token || !user) {
             return alert("You must be logged in to create a group")
         }
         setMulti(true)
@@ -31,7 +31,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                     token={token} 
                     setMulti={setMulti} 
                     validate={validate} 
-                    userId={userId}
+                    user={user}
                     refresh={refresh}
                     setRefresh={setRefresh}/> }
             <div className={multi ? "no-groups":"groups"}>
@@ -39,8 +39,8 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                     const { name } = group
                     const handleJoin = e => {
 
-                        console.log(token, userId)
-                        if (!token || !userId) {
+                        console.log(token, user)
+                        if (!token || !user) {
                             alert("You must log in to join a group")
                         } else {
                             fetch ("http://localhost:5000/groups", {
@@ -49,7 +49,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                                     'Authorization': `Bearer ${token}`,
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify({userId, name})
+                                body: JSON.stringify({user, name})
                             })
                                 .then(response => response.json())
                                 .then(() => {
@@ -66,7 +66,7 @@ const Groups = ({groups, token, userId, routeProps, validate, groupId, setGroupI
                             key={i}
                             group={group}
                             token={token}
-                            userId={userId}
+                            user={user}
                             routeProps={routeProps}
                             groupId={groupId}
                             setGroupId={setGroupId}

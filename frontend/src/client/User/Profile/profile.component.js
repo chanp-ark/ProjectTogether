@@ -1,26 +1,13 @@
 import React, {useState} from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import CustomForm from "../../Form/customForm.component"
 
 import "./profile.styles.css"
 
 
-const Profile = ({reactProps, userId, token, refresh, setRefresh, allUsers}) => {
+const Profile = ({reactProps, user, token, refresh, setRefresh, allUsers}) => {
     
-    let { user } = useParams()
-    
-    const curUser = allUsers.filter(findUser => {
-        for (let key in findUser) {
-            if (key === 'username' && findUser[key] === user ) return true
-        }
-        return false
-    })
-    console.log("allUsers: ", allUsers)
-    console.log("curUser", curUser)
-    
-    const [ profileState, setProfileState ] = useState(curUser[0])
-    console.log("profileState", profileState)
-    console.log("reactProp location", reactProps.location.state)
+    const [ profileState, setProfileState ] = useState(reactProps.location.state.curUser)
     
     const { username, groups, skills, iAm, iLike, iAppreciate } = profileState
     //console.log(profileState)
@@ -30,12 +17,12 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh, allUsers}) => 
         // modify initital state to be just what can be edited
             // for example, updating group should be in the group itself (can leave)
     const [ arrProp, setArrProp ] = useState([ {username}, {skills}, {iAm}, {iLike}, {iAppreciate}, {groups} ])
-    
+        
     const editProfile = e => {
         e.preventDefault();
         setToggleEdit(!toggleEdit)
     }
-    // useEffect, if username changes, update userId in App.js
+    // useEffect, if username changes, update user in App.js
 
     const saveProfile = async (state) => {
         // modify the array of objects, into one object
@@ -50,7 +37,7 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh, allUsers}) => 
         console.log("STATE IN FETCH", state.username)
         // setSaved(true)
         // fetch request
-        fetch(`http://localhost:5000/users/${userId}`, {
+        fetch(`http://localhost:5000/users/${user.username}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -78,7 +65,7 @@ const Profile = ({reactProps, userId, token, refresh, setRefresh, allUsers}) => 
             </div>
             {/* Edit button only shows if profile username matches the logged in user */}
             <div className="edit-button">
-            { userId === username && <Link onClick={editProfile} to={`/`}>EDIT</Link> }
+            { user.username === username && <Link onClick={editProfile} to={`/`}>EDIT</Link> }
             </div>
                 {arrProp.map(info => {
                     for (let key in info) {

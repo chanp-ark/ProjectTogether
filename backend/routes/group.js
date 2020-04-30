@@ -31,7 +31,7 @@ router.post("/", auth, async(req, res) => {
         let group = await Group.findOne({name})
         if (group) return res.status.json({failure: "Group name already in use"})
         let foundUser = await User.findOneAndUpdate(
-            {'profile.username': users}, 
+            {'profile.username': users[0].username}, 
             {$addToSet: {'profile.groups': req.body} },
             { returnNewDocument: true})
         group = new Group({name, skills, description, curCap, maxCap, users})
@@ -52,25 +52,17 @@ router.post("/", auth, async(req, res) => {
 // @ desc: add user into group
 router.put("/", auth, async(req, res) => {
     try {
-        console.log(req.body)
-
         const foundGroup = await Group.findOneAndUpdate(
             { name: req.body.name}, 
-            {   $addToSet: {users : req.body.userId},
+            {   $addToSet: {users : req.body.user},
                 $inc: {curCap: 1}
             },
             { returnNewDocument: true}
         )
-        
         const foundUser = await User.findOneAndUpdate(
-            { 'profile.username': req.body.userId }, 
+            { 'profile.username': req.body.user.username }, 
             { $addToSet: {'profile.groups':foundGroup} },
             { returnNewDocument: true})
-            
-        console.log("foundGroup: ", foundGroup)
-        console.log("foundUser: ", foundUser)
-
-        
         res.status(200).json({user: foundUser.profile, group: foundGroup})
     } catch {
         res.status(500).json({failure:"PUT request failed"})

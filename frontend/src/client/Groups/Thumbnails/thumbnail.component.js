@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./thumbnail.styles.css"
 
-const Thumbnail = ( {userId, group, handleJoin} ) => {
+const Thumbnail = ( {user, group, handleJoin} ) => {
         
     const {name, skills, description, curCap, maxCap, users} = group
 
@@ -29,7 +29,7 @@ const Thumbnail = ( {userId, group, handleJoin} ) => {
                 
             </div>
             
-             {(curCap < maxCap && !users.includes(userId)) ? 
+             {(curCap < maxCap && !users.includes(user)) ? 
                 <Link onClick={handleJoin} className="join-group" to={{
                         pathname: `/groups`,
                         state: {name, skills, description, curCap, maxCap, users}
